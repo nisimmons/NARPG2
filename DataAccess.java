@@ -14,6 +14,13 @@ public class DataAccess {
         return null;
     }
 
+    /**
+     * Gets a player from the playerData file
+     *
+     * @param id username of user
+     * @return player object
+     * @throws FileNotFoundException if filenotfound
+     */
     public static Player getPlayer(String id) throws FileNotFoundException {
         //return null if not found
         Scanner scr = new Scanner(new File("playerData.txt"));

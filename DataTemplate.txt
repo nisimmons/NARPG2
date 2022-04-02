@@ -1,6 +1,5 @@
 //***********************************
 //Player
-<int id>
 <String username>
 <int Level>/<OtherStats>/...
 <int equippedArmorID>
