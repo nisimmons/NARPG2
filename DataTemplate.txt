@@ -1,0 +1,41 @@
+//***********************************
+//Player
+<int id>
+<String username>
+<int Level>/<OtherStats>/...
+<int equippedArmorID>
+<int equippedWeaponID>
+<int[0] inventoryItemIDs>/<[1]>/<[2]>/...
+
+
+//***********************************
+//Map
+<int id> 			//allows multiple maps for dungeons etc
+<String name>
+<rows>/<columns>
+<[0][0] LocationID>/<[0][1]>/...
+<[1][0] LocationID>/<[1][1]>/...
+...
+
+//***********************************
+//Location
+<int id>
+<String name>
+<town/wilderness/dungeon>/<dungeon id/town id>
+
+
+//***********************************
+//Item
+<int id>
+<String name>
+<weapon/armor/spell>
+<weapon dmg/armor health/spell dmg>
+<weapon durability/armor durability/ spell mana cost>
+<spell details>
+
+//***********************************
+//Enemy
+<int id>
+<String name>
+<weapon/spell>
+<armor>
