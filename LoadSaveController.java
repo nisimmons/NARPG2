@@ -1,5 +1,7 @@
+import java.io.FileNotFoundException;
+
 public class LoadSaveController {
-    public static Player loadPlayer(String id){
+    public static Player loadPlayer(String id) throws FileNotFoundException {
         //request player data from DAO
         return DataAccess.getPlayer(id);
     }

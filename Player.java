@@ -1,3 +1,5 @@
-public class Player {
+public class Player extends Character{
+    public Player(){
 
+    }
 }

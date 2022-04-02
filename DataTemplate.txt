@@ -30,7 +30,7 @@
 <String name>
 <weapon/armor/spell>
 <weapon dmg/armor health/spell dmg>
-<weapon durability/armor durability/ spell mana cost>
+<spell mana cost>
 <spell details>
 
 //***********************************

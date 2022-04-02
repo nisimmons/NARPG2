@@ -1,3 +1,7 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 public class DataAccess {
 
     public static Item getItem(int id) {
@@ -10,8 +14,13 @@ public class DataAccess {
         return null;
     }
 
-    public static Player getPlayer(String id) {
+    public static Player getPlayer(String id) throws FileNotFoundException {
         //return null if not found
+        Scanner scr = new Scanner(new File("playerData.txt"));
+        String s = scr.nextLine();
+        //find the player's name, enter all their info into stats and a player and return that
+
+
         return null;
     }
 
