@@ -1,22 +1,21 @@
-public class DataAccess implements DataAccessInterface {
+public class DataAccess {
 
-    @Override
-    public Item getItem(int id) {
+    public static Item getItem(int id) {
         return null;
     }
 
-    @Override
-    public Map getMap(int id) {
+    public static Map getMap(int id) {
         return null;
     }
 
-    @Override
-    public Player getPlayer(int id) {
+    public static Player getPlayer(String id) {
         return null;
     }
 
-    @Override
-    public Character getEntity(int id) {
+    public static Character getEntity(int id) {
         return null;
+    }
+    public static void savePlayer(Player p) {
+
     }
 }
