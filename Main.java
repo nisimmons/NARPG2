@@ -6,26 +6,16 @@ public class Main {
         Player p;
         do {
             System.out.println("Enter playername: ");
-            p = loadPlayer(scr.nextLine());
+            p = LoadSaveController.loadPlayer(scr.nextLine());
         } while (p == null);
-        Map m = loadMap(0);
-        playGame(p, m);
+        Map m = LoadSaveController.loadMap(0);
+        playGame(new PlayController(p,m));
+        LoadSaveController.savePlayer(p);
+        LoadSaveController.saveMap(m);
     }
-    public static void playGame(Player p, Map m){
+    public static void playGame(PlayController pc){
+        //interact with user and call pc to do stuff
 
+    }
 
-        save(p);
-    }
-    public static void save(Player p){
-        //request DAO to save player data
-        DataAccess.savePlayer(p);
-    }
-    public static Player loadPlayer(String id){
-        //request player data from DAO
-        return DataAccess.getPlayer(id);
-    }
-    public static Map loadMap(int id){
-        //request map data from DAO
-        return DataAccess.getMap(id);
-    }
 }
