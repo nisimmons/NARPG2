@@ -6,23 +6,36 @@ public class PlayController {
         this.map = m;
     }
 
+    /**
+     * moves the player in a direction, checking the map for null
+     * @param d direction to move
+     */
     public void move(Direction d){
         //move one unit in direction d
-        Position p;
-        switch (d){
-            case NORTH:
-                p = new Position(player.getPosition().getX(), player.getPosition().getY() + 1);
-                if (map.getLocation(p) != null)
-                    player.setPosition(p);
-                break;
-            case EAST:
-                break;
-            case SOUTH:
-                break;
-            case WEST:
-                break;
-            default:
-                break;
+        Position old = player.getPosition(), next;
+        switch (d) {
+            case NORTH -> {
+                next = new Position(old.getX(), old.getY() + 1);
+                if (map.getLocation(next) != null)
+                    player.setPosition(next);
+            }
+            case EAST -> {
+                next = new Position(old.getX() + 1, old.getY());
+                if (map.getLocation(next) != null)
+                    player.setPosition(next);
+            }
+            case SOUTH -> {
+                next = new Position(old.getX(), old.getY() - 1);
+                if (map.getLocation(next) != null)
+                    player.setPosition(next);
+            }
+            case WEST -> {
+                next = new Position(old.getX() - 1, old.getY());
+                if (map.getLocation(next) != null)
+                    player.setPosition(next);
+            }
+            default -> {
+            }
         }
     }
 

@@ -1,5 +1,11 @@
 public class Player extends Character{
-    public Inventory getInventory() {
+    Inventory inventory;
+    Position position;
+    public Player(){
+
+    }
+
+    Inventory getInventory() {
         return inventory;
     }
 
@@ -14,10 +20,9 @@ public class Player extends Character{
     public void setPosition(Position position) {
         this.position = position;
     }
-
-    Inventory inventory;
-    Position position;
-    public Player(){
-
+    public void setPosition(int x, int y) {
+        position = new Position(x,y);
     }
+
+
 }
