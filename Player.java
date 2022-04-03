@@ -1,8 +1,10 @@
 public class Player extends Character{
     Inventory inventory;
     Position position;
-    public Player(){
 
+    public Player() {
+        this.inventory = new Inventory();
+        this.position = new Position();
     }
 
     Inventory getInventory() {

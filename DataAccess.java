@@ -24,8 +24,19 @@ public class DataAccess {
     public static Player getPlayer(String id) throws FileNotFoundException {
         //return null if not found
         Scanner scr = new Scanner(new File("playerData.txt"));
-        String s = scr.nextLine();
         //find the player's name, enter all their info into stats and a player and return that
+        String username = scr.nextLine();
+        // level, will use regex for more variables
+        int level = Integer.parseInt(scr.nextLine());
+        // Armor ID
+        int armorID = Integer.parseInt(scr.nextLine());
+        // Weapon ID
+        int weaponID = Integer.parseInt(scr.nextLine());
+
+        // Inventory
+
+        String[] InventoryArray = scr.nextLine().split("/");
+
 
 
         return null;
