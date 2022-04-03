@@ -20,7 +20,9 @@ public class Map {
     }
 
     public Location getLocation(int x, int y) {
-        return map[x][y];
+        return map[y][x];
     }
-
+    public void setLocation(int x, int y, Location l){
+        map[y][x] = l;
+    }
 }

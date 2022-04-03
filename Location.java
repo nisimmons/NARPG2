@@ -1,2 +1,3 @@
-public interface Location {
+abstract class Location {
+
 }
