@@ -26,5 +26,13 @@ public class Player extends Character{
         position = new Position(x,y);
     }
 
-
+    public String toString(){
+        String s = "Name: ";
+        s += this.name;
+        s += "\nPosition: ";
+        s += this.position;
+        s += "\nLevel: ";
+        s += this.getStats().getLevel();
+        return s;
+    }
 }

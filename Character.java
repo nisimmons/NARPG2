@@ -32,6 +32,8 @@ abstract class Character {
         this.armor = armor;
     }
 
-
+    public String getName() {
+        return name;
+    }
 
 }

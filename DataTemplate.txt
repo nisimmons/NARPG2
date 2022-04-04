@@ -2,6 +2,7 @@
 //Player
 <String username>
 <int Level>/<OtherStats>/...
+<xLocation>/<yLocation>
 <int equippedArmorID>
 <int equippedWeaponID>
 <int[0] inventoryItemIDs>/<[1]>/<[2]>/...
