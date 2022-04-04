@@ -1,7 +1,7 @@
 public class Map {
     Location[][] map;
     Map(){
-        map = new Location[10][10];
+        this(5,5);
     }
     Map(int r, int c){
         map = new Location[r][c];
