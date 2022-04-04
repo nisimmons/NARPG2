@@ -13,7 +13,7 @@ public class PlayController {
      * @param difficulty 1-100
      * @return the map
      */
-    public Map createRandom(int difficulty){
+    public static Map createRandom(int difficulty){
         int towns = 110 - difficulty;
         int dungeons = difficulty - 10;
         int encounters = (difficulty/5) + 50;
@@ -49,34 +49,64 @@ public class PlayController {
      * moves the player in a direction, checking the map for null
      * @param d direction to move
      */
-    public void move(Direction d){
+    public boolean move(Direction d){
         //move one unit in direction d
         Position old = player.getPosition(), next;
         switch (d) {
             case NORTH -> {
                 next = new Position(old.getX(), old.getY() - 1);
-                if (map.getLocation(next) != null)
+                if (map.getLocation(next) != null){
                     player.setPosition(next);
+                    return true;
+                }
+                else
+                    return false;
             }
             case EAST -> {
                 next = new Position(old.getX() + 1, old.getY());
-                if (map.getLocation(next) != null)
+                if (map.getLocation(next) != null){
                     player.setPosition(next);
+                    return true;
+                }
+                else
+                    return false;
             }
             case SOUTH -> {
                 next = new Position(old.getX(), old.getY() + 1);
-                if (map.getLocation(next) != null)
+                if (map.getLocation(next) != null){
                     player.setPosition(next);
+                    return true;
+                }
+                else
+                    return false;
             }
             case WEST -> {
                 next = new Position(old.getX() - 1, old.getY());
-                if (map.getLocation(next) != null)
+                if (map.getLocation(next) != null){
                     player.setPosition(next);
+                    return true;
+                }
+                else
+                    return false;
             }
-            default -> {
+            default -> { return false;
             }
         }
     }
+    public Player getPlayer() {
+        return player;
+    }
 
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public Map getMap() {
+        return map;
+    }
+
+    public void setMap(Map map) {
+        this.map = map;
+    }
 
 }

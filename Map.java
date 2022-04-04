@@ -16,7 +16,10 @@ public class Map {
      * @return location at p
      */
     public Location getLocation(Position p) {
-        return map[p.getY()][p.getX()];
+        if (p.getY() < 0 || p.getY() > map.length || p.getX() < 0 || p.getX() > map[0].length)
+            return null;
+        else
+            return map[p.getY()][p.getX()];
     }
 
     public Location getLocation(int x, int y) {
