@@ -4,13 +4,25 @@ import java.util.Scanner;
 
 public class DataAccess {
 
+    /**
+     * gets an item from itemData file
+     * @param id item id
+     * @return item
+     */
     public static Item getItem(int id) {
         //return null if not found
+        //TODO
         return null;
     }
 
+    /**
+     * gets a map from mapData file
+     * @param id id of map
+     * @return map
+     */
     public static Map getMap(int id) {
         //return null if not found
+        //TODO
         return null;
     }
 
@@ -71,16 +83,38 @@ public class DataAccess {
         return p;
     }
 
+    /**
+     * find an entity from entityData
+     * @param id id of entity
+     * @return entity
+     */
     public static Character getEntity(int id) {
         //return null if not found
+        //TODO
         return null;
     }
+
+    /**
+     * save all player data to file
+     * @param p player to save
+     */
     public static void savePlayer(Player p) {
         //save all player data
-
+        //TODO find the correct location for this player and overwrite their data
     }
+
+    /**
+     * saves all map data to file
+     * @param m map to save
+     */
     public static void saveMap(Map m) {
         //save all map data
-
+        //TODO find correct location to write this into mapData.txt
+        for(int r = 0; r < m.getMap().length; r++) {
+            for (int c = 0; c < m.getMap()[0].length; c++) {
+                System.out.print(m.getLocation(c, r).toData());
+                System.out.print("\n");
+            }
+        }
     }
 }

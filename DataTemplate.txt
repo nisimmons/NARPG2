@@ -13,8 +13,8 @@
 <int id> 			//allows multiple maps for dungeons etc
 <String name>
 <rows>/<columns>
-<[0][0] LocationID>/<[0][1]>/...
-<[1][0] LocationID>/<[1][1]>/...
+<Location[0][0]>
+<Location[0][1]>
 ...
 
 //***********************************

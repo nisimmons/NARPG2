@@ -13,24 +13,30 @@ public class Main {
                     //new game
                     System.out.println("Enter playername: ");
                     s = scr.nextLine();
+                    //create player and map details
                     p = PlayController.createRandomPlayer(s);
                     m = PlayController.createRandomMap(50);
-                    //m = LoadSaveController.loadMap(0);
+                    //play the game
                     playGame(new PlayController(p, m), scr);
+                    //save the game
                     save(p, m);
                 }
                 case 2 -> {
                     //load game and play
                     do {
+                        //find and load the player
                         System.out.println("Enter playername (or * to return): ");
                         s = scr.nextLine();
                         if (s.compareTo("*") == 0)
                             break;
                         p = LoadSaveController.loadPlayer(s);
                     } while (p == null);
-                    //m = LoadSaveController.loadMap(0);
+                    //load the map
+                    //m = LoadSaveController.loadMap(0); //TODO implement proper map loading
                     m = PlayController.createRandomMap(50);
+                    //play the game
                     playGame(new PlayController(p, m), scr);
+                    //save the game
                     save(p, m);
                 }
                 case 3 -> //quit
@@ -44,8 +50,10 @@ public class Main {
             switch (turnScreen(scr)) {
                 case 1:
                     //move
-                    if (pc.move(moveScreen(scr))) //try to move, print location or error message
+                    if (pc.move(moveScreen(scr))) {//try to move, print location or error message
                         System.out.println(pc.getMap().getLocation(pc.getPlayer().getPosition()));
+                        //TODO interact with the new area
+                    }
                     else
                         System.out.println("Area Impassable");
                     break;
@@ -79,7 +87,6 @@ public class Main {
             default -> Direction.WEST;
         };
     }
-
     public static int turnScreen(Scanner scr){
         int i;
         while(true) {
@@ -95,7 +102,6 @@ public class Main {
         }
         return i;
     }
-
     public static int menuScreen(Scanner scr){
         int i = 0;
         do {
@@ -112,5 +118,4 @@ public class Main {
         LoadSaveController.savePlayer(p);
         LoadSaveController.saveMap(m);
     }
-
 }

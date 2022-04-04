@@ -8,6 +8,11 @@ public class PlayController {
         this.map = m;
     }
 
+    /**
+     * creates a new player
+     * @param name playername
+     * @return player
+     */
     public static Player createRandomPlayer(String name){
         Player p = new Player();
         p.setName(name);
