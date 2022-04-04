@@ -3,7 +3,10 @@ public class Stats implements StatsInterface{
     int maxHP;
     int currHP;
     int maxMana;
+    int currMana;
+    public Stats(){
 
+    }
     public int getLevel() {
         return level;
     }
@@ -44,8 +47,5 @@ public class Stats implements StatsInterface{
         this.currMana = currMana;
     }
 
-    int currMana;
-    public Stats(){
 
-    }
 }

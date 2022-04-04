@@ -8,12 +8,27 @@ public class PlayController {
         this.map = m;
     }
 
+    public static Player createRandomPlayer(String name){
+        Player p = new Player();
+        p.setName(name);
+        p.setPosition(0,0);
+        p.setWeapon(DataAccess.getItem(0));
+        p.setArmor(DataAccess.getItem(1));
+        p.setStats(new Stats());
+        p.getStats().setLevel(1);
+        p.getStats().setCurrHP(10);
+        p.getStats().setMaxHP(10);
+        p.getStats().setCurrMana(10);
+        p.getStats().setMaxMana(10);
+        return p;
+    }
+
     /**
      * sets up a randomized map
      * @param difficulty 1-100
      * @return the map
      */
-    public static Map createRandom(int difficulty){
+    public static Map createRandomMap(int difficulty){
         int towns = 110 - difficulty;
         int dungeons = difficulty - 10;
         int encounters = (difficulty/5) + 50;

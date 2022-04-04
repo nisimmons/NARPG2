@@ -13,10 +13,8 @@ public class Main {
                     //new game
                     System.out.println("Enter playername: ");
                     s = scr.nextLine();
-                    p = new Player();
-                    p.setName(s);
-                    //TODO set default playerInfo
-                    m = PlayController.createRandom(50);
+                    p = PlayController.createRandomPlayer(s);
+                    m = PlayController.createRandomMap(50);
                     //m = LoadSaveController.loadMap(0);
                     playGame(new PlayController(p, m), scr);
                     save(p, m);
@@ -31,7 +29,7 @@ public class Main {
                         p = LoadSaveController.loadPlayer(s);
                     } while (p == null);
                     //m = LoadSaveController.loadMap(0);
-                    m = PlayController.createRandom(50);
+                    m = PlayController.createRandomMap(50);
                     playGame(new PlayController(p, m), scr);
                     save(p, m);
                 }
@@ -53,7 +51,7 @@ public class Main {
                     break;
                 case 2:
                     //investigate area
-
+                    System.out.println(pc.getMap().getLocation(pc.getPlayer().getPosition()));
                     break;
                 case 3:
                     System.out.println(pc.getPlayer());
@@ -83,15 +81,18 @@ public class Main {
     }
 
     public static int turnScreen(Scanner scr){
-        int i = 0;
-        do {
+        int i;
+        while(true) {
             System.out.println("1. Move\n2. Investigate Area\n3. Player info\n4. Quit");
-
             try {
                 i = Integer.parseInt(scr.nextLine());
+                if (i < 1 || i > 4)
+                    throw new Exception();
+                else
+                    break;
             }
             catch(Exception ignored){}
-        } while (i < 1 || i > 3);
+        }
         return i;
     }
 
