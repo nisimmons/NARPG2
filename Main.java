@@ -83,7 +83,7 @@ public class Main {
     public static int turnScreen(Scanner scr){
         int i;
         while(true) {
-            System.out.println("1. Move\n2. Investigate Area\n3. Player info\n4. Quit");
+            System.out.println("1. Move\n2. Investigate Area\n3. Player info\n4. Save + quit");
             try {
                 i = Integer.parseInt(scr.nextLine());
                 if (i < 1 || i > 4)
