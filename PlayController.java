@@ -73,44 +73,36 @@ public class PlayController {
         //move one unit in direction d
         Position old = player.getPosition(), next;
         switch (d) {
-            case NORTH -> {
+            case NORTH:
                 next = new Position(old.getX(), old.getY() - 1);
-                if (map.getLocation(next) != null){
+                if (map.getLocation(next) != null) {
                     player.setPosition(next);
                     return true;
-                }
-                else
+                } else
                     return false;
-            }
-            case EAST -> {
+            case EAST:
                 next = new Position(old.getX() + 1, old.getY());
-                if (map.getLocation(next) != null){
+                if (map.getLocation(next) != null) {
                     player.setPosition(next);
                     return true;
-                }
-                else
+                } else
                     return false;
-            }
-            case SOUTH -> {
+            case SOUTH:
                 next = new Position(old.getX(), old.getY() + 1);
-                if (map.getLocation(next) != null){
+                if (map.getLocation(next) != null) {
                     player.setPosition(next);
                     return true;
-                }
-                else
+                } else
                     return false;
-            }
-            case WEST -> {
+            case WEST:
                 next = new Position(old.getX() - 1, old.getY());
-                if (map.getLocation(next) != null){
+                if (map.getLocation(next) != null) {
                     player.setPosition(next);
                     return true;
-                }
-                else
+                } else
                     return false;
-            }
-            default -> { return false;
-            }
+            default:
+                return false;
         }
     }
     public Player getPlayer() {

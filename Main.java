@@ -8,21 +8,24 @@ public class Main {
         Player p = null;
         Map m;
         while(true) {
-            switch (menuScreen(scr)) {
-                case 1 -> {
-                    //new game
+            switch (menuScreen(scr)) {//new game
+//create player and map details
+//play the game
+//save the game
+                case 1:
                     System.out.println("Enter playername: ");
                     s = scr.nextLine();
-                    //create player and map details
                     p = PlayController.createRandomPlayer(s);
                     m = PlayController.createRandomMap(50);
-                    //play the game
                     playGame(new PlayController(p, m), scr);
-                    //save the game
                     save(p, m);
-                }
-                case 2 -> {
-                    //load game and play
+                    break;
+//load game and play
+//load the map
+//m = LoadSaveController.loadMap(0); //TODO implement proper map loading
+//play the game
+//save the game
+                case 2:
                     do {
                         //find and load the player
                         System.out.println("Enter playername (or * to return): ");
@@ -31,16 +34,13 @@ public class Main {
                             break;
                         p = LoadSaveController.loadPlayer(s);
                     } while (p == null);
-                    //load the map
-                    //m = LoadSaveController.loadMap(0); //TODO implement proper map loading
                     m = PlayController.createRandomMap(50);
-                    //play the game
                     playGame(new PlayController(p, m), scr);
-                    //save the game
                     save(p, m);
-                }
-                case 3 -> //quit
-                        System.exit(0);
+                    break;
+//quit
+                case 3:
+                    System.exit(0);
             }
         }
     }
@@ -80,12 +80,16 @@ public class Main {
             }
             catch(Exception ignored){}
         } while (i < 1 || i > 3);
-        return switch (i) {
-            case 1 -> Direction.NORTH;
-            case 2 -> Direction.EAST;
-            case 3 -> Direction.SOUTH;
-            default -> Direction.WEST;
-        };
+        switch (i) {
+            case 1:
+                return Direction.NORTH;
+            case 2:
+                return Direction.EAST;
+            case 3:
+                return Direction.SOUTH;
+            default:
+                return Direction.WEST;
+        }
     }
     public static int turnScreen(Scanner scr){
         int i;
