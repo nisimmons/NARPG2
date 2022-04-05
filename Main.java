@@ -5,9 +5,10 @@ public class Main {
     public static void main(String[] args) throws FileNotFoundException {
         Scanner scr = new Scanner(System.in);
         String s;
-        Player p = null;
+        Player p;
         Map m;
         while(true) {
+            p = null;
             switch (menuScreen(scr)) {//new game
 //create player and map details
 //play the game
