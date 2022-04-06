@@ -1,8 +1,8 @@
 import java.util.Random;
 
 public class PlayController {
-    Player player;
-    Map map;
+    private Player player;
+    private Map map;
     public PlayController(Player p, Map m){
         this.player = p;
         this.map = m;
@@ -36,30 +36,32 @@ public class PlayController {
     public static Map createRandomMap(int difficulty){
         int towns = 110 - difficulty;
         int dungeons = difficulty - 10;
-        int encounters = (difficulty/5) + 50;
+        int encounters = (difficulty/5) + 70;
         Map m = new Map();
         Random rand = new Random();
         for(int r = 0; r < m.getMap().length; r++){
             for (int c = 0; c < m.getMap()[0].length; c++){
-                //TODO make map setup better
                 if (r == 0 && c == 0)
                     //set spawn
-                    m.setLocation(c,r,new Wilderness());
+                    m.setLocation(c,r,new Wilderness("Spawn"));
 			    else if (r == m.getMap().length-1 && c == m.getMap()[0].length-1)
                     //set end
-                    m.setLocation(c,r,new Dungeon()); //final dungeon
+                    m.setLocation(c,r,new Dungeon("End")); //final dungeon
                 else if(rand.nextInt(100) < towns)
                     //set town
                     m.setLocation(c,r,new Town());
                 else if(rand.nextInt(100) < dungeons)
                     //set dungeon
-                    m.setLocation(c,r,new Dungeon()); //regular dungeon
+                    m.setLocation(c,r,new Dungeon("Dungeon")); //regular dungeon
                 else
                     //set wilderness
-                    if (rand.nextInt(100) < encounters)
-                        m.setLocation(c,r,new Wilderness()); //set enemy encounter
+                    if (rand.nextInt(100) < encounters) {
+                        Wilderness w = new Wilderness();
+                        w.addEnemy(DataAccess.getEnemy(0));
+                        m.setLocation(c, r, w); //set enemy encounter
+                    }
                     else
-                        m.setLocation(c,r,new Wilderness()); //set non enemy encounter
+                        m.setLocation(c,r,new Wilderness("Wilderness")); //set non enemy encounter
             }
         }
         return m;

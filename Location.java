@@ -10,4 +10,10 @@ abstract class Location {
     }
 
     public abstract String toData();
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
 }

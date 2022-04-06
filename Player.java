@@ -1,6 +1,6 @@
 public class Player extends Character{
-    Inventory inventory;
-    Position position;
+    private Inventory inventory;
+    private Position position;
 
     public Player() {
         this.inventory = new Inventory();
@@ -28,7 +28,7 @@ public class Player extends Character{
 
     public String toString(){
         String s = "Name: ";
-        s += this.name;
+        s += this.getName();
         s += "\nPosition: ";
         s += this.position;
         s += "\nLevel: ";

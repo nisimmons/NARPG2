@@ -1,7 +1,7 @@
 public class BattleController {
-    Player p;
-    Character[] allies;
-    Character[] enemies;
+    private Player p;
+    private Character[] allies;
+    private Character[] enemies;
 
     public BattleController(){
 

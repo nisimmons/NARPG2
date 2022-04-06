@@ -1,5 +1,5 @@
 public class Map {
-    Location[][] map;
+    private Location[][] map;
     Map(){
         this(5,5);
     }
@@ -16,7 +16,7 @@ public class Map {
      * @return location at p
      */
     public Location getLocation(Position p) {
-        if (p.getY() < 0 || p.getY() > map.length || p.getX() < 0 || p.getX() > map[0].length)
+        if (p.getY() < 0 || p.getY() >= map.length || p.getX() < 0 || p.getX() >= map[0].length)
             return null;
         else
             return map[p.getY()][p.getX()];
@@ -27,5 +27,15 @@ public class Map {
     }
     public void setLocation(int x, int y, Location l){
         map[y][x] = l;
+    }
+
+    public String toString(){
+        StringBuilder s = new StringBuilder();
+        for (Location[] row : map) {
+            for (Location col : row)
+                s.append(col).append(" ");
+            s.append("\n");
+        }
+        return s.toString();
     }
 }

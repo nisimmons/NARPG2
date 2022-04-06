@@ -1,11 +1,21 @@
-public class Stats implements StatsInterface{
-    int level;
-    int maxHP;
-    int currHP;
-    int maxMana;
-    int currMana;
+public class Stats {
+    private int level;
+    private int maxHP;
+    private int currHP;
+    private int maxMana;
+    private int currMana;
     public Stats(){
 
+    }
+    public Stats(String[] s){
+        setLevel(Integer.parseInt(s[0]));
+        setCurrHP(Integer.parseInt(s[1]));
+        setMaxHP(Integer.parseInt(s[2]));
+        setCurrMana(Integer.parseInt(s[3]));
+        setMaxMana(Integer.parseInt(s[4]));
+    }
+    public String toString(){
+        return "Level: " + level + "\ncurrHP: " + currHP;
     }
     public int getLevel() {
         return level;

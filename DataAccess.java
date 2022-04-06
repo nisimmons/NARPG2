@@ -31,11 +31,15 @@ public class DataAccess {
      *
      * @param id username of user
      * @return player object
-     * @throws FileNotFoundException if filenotfound
      */
-    public static Player getPlayer(String id) throws FileNotFoundException {
+    public static Player getPlayer(String id) {
         //return null if not found
-        Scanner scr = new Scanner(new File("playerData.txt"));
+        Scanner scr = null;
+        try {
+            scr = new Scanner(new File("playerData.txt"));
+        } catch (FileNotFoundException e) {
+            return null;
+        }
         String username = scr.nextLine();
         //find the correct player
         while (id.compareTo(username) != 0) {
@@ -49,13 +53,8 @@ public class DataAccess {
         //now get all the info on the player
 
         // level, will use regex for more variables
-        Stats stats = new Stats();
         String[] s = scr.nextLine().split("/");
-        stats.setLevel(Integer.parseInt(s[0]));
-        stats.setCurrHP(Integer.parseInt(s[1]));
-        stats.setMaxHP(Integer.parseInt(s[2]));
-        stats.setCurrMana(Integer.parseInt(s[3]));
-        stats.setMaxMana(Integer.parseInt(s[4]));
+        Stats stats = new Stats(s);
 
         // Position
         s = scr.nextLine().split("/");
@@ -84,14 +83,31 @@ public class DataAccess {
     }
 
     /**
-     * find an entity from entityData
-     * @param id id of entity
-     * @return entity
+     * find an enemy from enemyData
+     * @param id id of enemy
+     * @return enemy or null if not found
      */
-    public static Character getEntity(int id) {
-        //return null if not found
-        //TODO
-        return null;
+    public static Enemy getEnemy(int id) {
+        Scanner scr = null;
+        try {
+            scr = new Scanner(new File("enemyData.txt"));
+        } catch (FileNotFoundException e) {
+            return null;
+        }
+        int i = Integer.parseInt(scr.nextLine());
+        //find the correct player
+        while (id != i) {
+            for (int j = 0; j < 4; j++) //skip one player
+                scr.nextLine();
+            if (!scr.hasNext())
+                return null;
+            i = Integer.parseInt(scr.nextLine());
+        }
+        String name = scr.nextLine();
+        Stats stats = new Stats(scr.nextLine().split("/"));
+        Armor armor = (Armor) getItem(Integer.parseInt(scr.nextLine()));
+        Weapon wep = (Weapon) getItem(Integer.parseInt(scr.nextLine()));
+        return new Enemy(name,stats,armor,wep);
     }
 
     /**
@@ -112,8 +128,8 @@ public class DataAccess {
         //TODO find correct location to write this into mapData.txt
         for(int r = 0; r < m.getMap().length; r++) {
             for (int c = 0; c < m.getMap()[0].length; c++) {
-                System.out.print(m.getLocation(c, r).toData());
-                System.out.print("\n");
+                //System.out.print(m.getLocation(c, r).toData());
+                //System.out.print("\n");
             }
         }
     }

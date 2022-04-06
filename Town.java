@@ -9,6 +9,10 @@ public class Town extends Location{
      * @return data string
      */
     public String toData(){
+
         return null;
+    }
+    public String toString(){
+        return "T";
     }
 }

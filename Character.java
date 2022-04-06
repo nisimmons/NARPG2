@@ -1,8 +1,22 @@
 abstract class Character {
-    Stats stats;
-    String name;
-    Item armor;
-    Item weapon;
+    private Stats stats;
+    private String name;
+    private Item armor;
+    private Item weapon;
+    public Character() {}
+    public Character(String s) {
+        name = s;
+    }
+    public Character(String s, Stats stats, Item armor, Item wep){
+        this.name = s;
+        this.stats = stats;
+        this.armor = armor;
+        this.weapon = wep;
+    }
+
+    public String toString(){
+        return name + "\n" + stats;
+    }
 
     public void setName(String name) {
         this.name = name;
