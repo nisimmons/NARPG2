@@ -54,6 +54,7 @@ public class Main {
                     if (pc.move(moveScreen(scr))) {//try to move, print location or error message
                         Location loc = pc.getMap().getLocation(pc.getPlayer().getPosition());
                         System.out.println(loc);
+                        loc.setRevealed(true);
                         if (loc instanceof Wilderness){
                             //check for and print enemies
                             if (((Wilderness) loc).getEnemies() != null)

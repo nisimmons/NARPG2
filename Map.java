@@ -34,8 +34,12 @@ public class Map {
     public String toString(){
         StringBuilder s = new StringBuilder();
         for (Location[] row : map) {
-            for (Location col : row)
-                s.append(col).append(" ");
+            for (Location col : row) {
+                if (col.isRevealed())
+                    s.append(col).append(" ");
+                else
+                    s.append(". ");
+            }
             s.append("\n");
         }
         return s.toString();
