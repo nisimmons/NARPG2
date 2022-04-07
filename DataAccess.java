@@ -14,7 +14,7 @@ public class DataAccess {
     public static Item getItem(int id) {
         //return null if not found
 
-        Scanner scr = null;
+        Scanner scr;
         try {
             scr = new Scanner(new File("itemData.txt"));
         } catch (FileNotFoundException e) {
@@ -25,11 +25,23 @@ public class DataAccess {
         int itemId = Integer.parseInt(scr.nextLine());
         //find the correct ID
         while (itemId != id) {
-            for(int i = 0; i < 2; i++) //skip one Item
-                scr.nextLine();
+
+            scr.nextLine();
+            if(scr.nextLine().compareTo("spell") == 0)
+            {
+                for(int i = 0; i < 3; i++) //skip one Item
+                {
+                    scr.nextLine();
+                }
+            }
+            else
+            { scr.nextLine(); }
+
             if (!scr.hasNext())
                 return null;
+
             itemId = Integer.parseInt(scr.nextLine());
+
         }
 
         //Item
@@ -60,8 +72,6 @@ public class DataAccess {
             }
 
         }
-        //<String name>
-
 
         return null;
     }
@@ -85,7 +95,7 @@ public class DataAccess {
      */
     public static Player getPlayer(String id) {
         //return null if not found
-        Scanner scr = null;
+        Scanner scr;
         try {
             scr = new Scanner(new File("playerData.txt"));
         } catch (FileNotFoundException e) {
@@ -139,7 +149,7 @@ public class DataAccess {
      * @return enemy or null if not found
      */
     public static Enemy getEnemy(int id) {
-        Scanner scr = null;
+        Scanner scr;
         try {
             scr = new Scanner(new File("enemyData.txt"));
         } catch (FileNotFoundException e) {
@@ -186,7 +196,7 @@ public class DataAccess {
         while (m.getId() != Integer.parseInt(s))
             s = scr.nextLine();
         */
-        FileWriter out = null;
+        FileWriter out;
         try {
             out = new FileWriter(new File("mapData.txt"));
             out.write(m.getId() + "\n");
