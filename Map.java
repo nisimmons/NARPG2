@@ -1,4 +1,6 @@
 public class Map {
+    private String name;
+    private int id;
     private Location[][] map;
     Map(){
         this(5,5);
@@ -37,5 +39,19 @@ public class Map {
             s.append("\n");
         }
         return s.toString();
+    }
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

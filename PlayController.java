@@ -38,6 +38,8 @@ public class PlayController {
         int dungeons = difficulty - 10;
         int encounters = (difficulty/5) + 70;
         Map m = new Map();
+        m.setName("Overworld");
+        m.setId(0);
         Random rand = new Random();
         for(int r = 0; r < m.getMap().length; r++){
             for (int c = 0; c < m.getMap()[0].length; c++){

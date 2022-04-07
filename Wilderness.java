@@ -22,8 +22,10 @@ public class Wilderness extends Location {
      * @return data string
      */
     public String toData(){
-
-        return null;
+        StringBuilder s = new StringBuilder("W ");
+        for(Enemy e: enemies)
+            s.append(e.getName()).append(" ");
+        return s.toString();
     }
     public String toString(){
         return "W";

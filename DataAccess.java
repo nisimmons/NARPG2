@@ -1,5 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class DataAccess {
@@ -125,12 +127,30 @@ public class DataAccess {
      */
     public static void saveMap(Map m) {
         //save all map data
-        //TODO find correct location to write this into mapData.txt
-        for(int r = 0; r < m.getMap().length; r++) {
-            for (int c = 0; c < m.getMap()[0].length; c++) {
-                //System.out.print(m.getLocation(c, r).toData());
-                //System.out.print("\n");
+        /*
+        Scanner scr = null;
+        try {
+            scr = new Scanner(new File("mapData.txt"));
+        } catch (FileNotFoundException e) {
+        }
+        String s = scr.nextLine();
+        while (m.getId() != Integer.parseInt(s))
+            s = scr.nextLine();
+        */
+        FileWriter out = null;
+        try {
+            out = new FileWriter(new File("mapData.txt"));
+            out.write(m.getId() + "\n");
+            out.write(m.getName() + "\n");
+            for (int r = 0; r < m.getMap().length; r++) {
+                for (int c = 0; c < m.getMap()[0].length; c++) {
+                    out.write(m.getLocation(c, r).toData());
+                    out.write("\n");
+                }
             }
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

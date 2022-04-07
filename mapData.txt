@@ -1,0 +1,27 @@
+0
+Overworld
+W 
+T
+D
+T
+T
+T
+W Imp 
+W Imp 
+T
+T
+T
+W Imp 
+T
+D
+T
+D
+T
+T
+W 
+T
+T
+T
+T
+W Imp 
+D

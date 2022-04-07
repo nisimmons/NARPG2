@@ -7,7 +7,7 @@ public class Dungeon extends Location {
      * @return data string
      */
     public String toData(){
-        return null;
+        return "D";
     }
     public String toString(){
         return "D";

@@ -9,8 +9,8 @@ public class Town extends Location{
      * @return data string
      */
     public String toData(){
-
-        return null;
+        StringBuilder s = new StringBuilder("T");
+        return s.toString();
     }
     public String toString(){
         return "T";
