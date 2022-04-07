@@ -13,7 +13,56 @@ public class DataAccess {
      */
     public static Item getItem(int id) {
         //return null if not found
-        //TODO
+
+        Scanner scr = null;
+        try {
+            scr = new Scanner(new File("itemData.txt"));
+        } catch (FileNotFoundException e) {
+            return null;
+        }
+
+        //<int id>
+        int itemId = Integer.parseInt(scr.nextLine());
+        //find the correct ID
+        while (itemId != id) {
+            for(int i = 0; i < 2; i++) //skip one Item
+                scr.nextLine();
+            if (!scr.hasNext())
+                return null;
+            itemId = Integer.parseInt(scr.nextLine());
+        }
+
+        //Item
+        String itemName = scr.nextLine();
+        //<weapon/armor/spell>
+        String itemCategory = scr.nextLine();
+        //<weapon dmg/armor health/spell dmg>
+        int itemStat = Integer.parseInt(scr.nextLine());
+
+        switch (itemCategory)
+        {
+            case "weapon":
+            {
+                return new Weapon(itemName, id, itemStat);      // returns new weapon object
+            }
+            case "armor":
+            {
+                return new Armor(itemName, id, itemStat);       // returns new armor object
+            }
+            case "spell":
+            {
+                //<spell mana cost>
+                int spellCost = Integer.parseInt(scr.nextLine());
+                //<spell details>
+                String spellKeyword = scr.nextLine();
+
+                return new Spell(itemName, id, itemStat, spellCost, spellKeyword);
+            }
+
+        }
+        //<String name>
+
+
         return null;
     }
 

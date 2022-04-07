@@ -47,12 +47,14 @@ public class Main {
     }
     public static void playGame(PlayController pc, Scanner scr){
         //interact with user and call pc to do stuff
+        Player player = pc.getPlayer();
+        Map map = pc.getMap();
         while(true) {
             switch (turnScreen(scr)) {
                 case 1:
                     //move
                     if (pc.move(moveScreen(scr))) {//try to move, print location or error message
-                        Location loc = pc.getMap().getLocation(pc.getPlayer().getPosition());
+                        Location loc = map.getLocation(player.getPosition());
                         System.out.println(loc);
 
 
@@ -65,7 +67,10 @@ public class Main {
                             }
                         }
                         else if (loc instanceof Town){
-                            //TODO heal player
+                            //Heal player/restore mana
+                            player.getStats().setCurrHP(player.getStats().getMaxHP());
+                            player.getStats().setCurrMana(player.getStats().getMaxMana());
+
                         }
                         else {
                             //it's a dungeon
@@ -78,14 +83,14 @@ public class Main {
                     break;
                 case 2:
                     //investigate area
-                    System.out.println(pc.getMap().getLocation(pc.getPlayer().getPosition()));
+                    System.out.println(map.getLocation(player.getPosition()));
                     break;
                 case 3:
                     //print player info
-                    System.out.println(pc.getPlayer());
+                    System.out.println(player);
                     break;
                 case 4:
-                    System.out.println(pc.getMap());
+                    System.out.println(map);
                     break;
                 default:
                     return;
