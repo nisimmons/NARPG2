@@ -60,9 +60,17 @@ public class Main {
                         if (loc instanceof Wilderness){
                             //check for and print enemies
                             if (((Wilderness) loc).getEnemies() != null) {
-                                //TODO implement battle
-                                for (Enemy e : ((Wilderness) loc).getEnemies())
-                                    System.out.println(e);
+                                BattleController b = new BattleController(player, null, ((Wilderness) loc).getEnemies());
+                                System.out.println(b.battleState());
+                                //TODO battle
+                                switch(battleScreen(scr)){
+                                    case 1:
+                                        //attack
+                                    case 2:
+                                        //spell
+                                    case 3:
+                                        //run
+                                }
                             }
                         }
                         else if (loc instanceof Town){
@@ -97,12 +105,26 @@ public class Main {
         }
     }
 
+    public static int battleScreen(Scanner scr) {
+        int i = 0;
+        do {
+            System.out.println("Fight:");
+            System.out.println("1. Attack");
+            System.out.println("2. Spell");
+            System.out.println("3. Run");
+            try {
+                i = Integer.parseInt(scr.nextLine());
+            } catch (Exception ignored) {
+            }
+        } while (i < 1 || i > 3);
+        return i;
+    }
     public static Direction moveScreen(Scanner scr){
         int i = 0;
         do {
             System.out.println("1. North\n2. East\n3. South\n4. West");
             try {
-                i = Integer.parseInt(scr.nextLine());
+                    i = Integer.parseInt(scr.nextLine());
             }
             catch(Exception ignored){}
         } while (i < 1 || i > 4);

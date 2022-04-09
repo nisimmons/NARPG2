@@ -7,6 +7,9 @@ abstract class Item {
         this.id = id;
     }
 
+    public String toString(){
+        return name;
+    }
     public String getName() {
         return name;
     }

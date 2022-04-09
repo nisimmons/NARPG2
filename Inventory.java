@@ -5,7 +5,7 @@ public class Inventory {
     private int capacity;
 
     public Inventory(int inventorySize) {
-        this.inventory = new ArrayList<Item>();
+        this.inventory = new ArrayList<>();
         capacity = inventorySize;
     }
 
@@ -26,7 +26,7 @@ public class Inventory {
         return inventory.indexOf(i);
     }
 
-    public String inventoryToString()
+    public String toString()
     {
         StringBuilder finalString = new StringBuilder();
 

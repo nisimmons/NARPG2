@@ -17,8 +17,8 @@ public class PlayController {
         Player p = new Player();
         p.setName(name);
         p.setPosition(0,0);
-        p.setWeapon(DataAccess.getItem(1));
-        p.setArmor(DataAccess.getItem(3));
+        p.setWeapon(DataAccess.getItem(101));
+        p.setArmor(DataAccess.getItem(201));
         p.setStats(new Stats());
         p.getStats().setLevel(1);
         p.getStats().setCurrHP(10);
@@ -43,9 +43,12 @@ public class PlayController {
         Random rand = new Random();
         for(int r = 0; r < m.getMap().length; r++){
             for (int c = 0; c < m.getMap()[0].length; c++){
-                if (r == 0 && c == 0)
+                if (r == 0 && c == 0) {
                     //set spawn
-                    m.setLocation(c,r,new Wilderness("Spawn"));
+                    Wilderness w = new Wilderness("Spawn");
+                    w.setRevealed(true);
+                    m.setLocation(c, r, w);
+                }
 			    else if (r == m.getMap().length-1 && c == m.getMap()[0].length-1)
                     //set end
                     m.setLocation(c,r,new Dungeon("End")); //final dungeon
@@ -59,7 +62,8 @@ public class PlayController {
                     //set wilderness
                     if (rand.nextInt(100) < encounters) {
                         Wilderness w = new Wilderness();
-                        w.addEnemy(DataAccess.getEnemy(0));
+                        Enemy e = DataAccess.getEnemy(0);
+                        w.addEnemy(e);
                         m.setLocation(c, r, w); //set enemy encounter
                     }
                     else

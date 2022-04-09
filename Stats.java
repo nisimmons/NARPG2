@@ -15,7 +15,7 @@ public class Stats {
         setMaxMana(Integer.parseInt(s[4]));
     }
     public String toString(){
-        return "Level: " + level + "\ncurrHP: " + currHP;
+        return "Level: " + level + "\ncurrHP: " + currHP + "\ncurrMana: "+currMana;
     }
     public int getLevel() {
         return level;

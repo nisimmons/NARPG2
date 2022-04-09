@@ -31,8 +31,7 @@ public class Player extends Character{
         s += this.getName();
         s += "\nPosition: ";
         s += this.position;
-        s += "\nLevel: ";
-        s += this.getStats().getLevel();
+        s += "\n" + this.getStats().toString();
         return s;
     }
 }

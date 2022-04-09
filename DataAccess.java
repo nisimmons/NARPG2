@@ -107,11 +107,12 @@ public class DataAccess {
         m = new Map(y,x);
         m.setId(id);
         m.setName(name);
+        //TODO add fromData calls
         for(int i = 0; i < y; i++)
             for(int j = 0; j < x; j++){
                 s = scr.nextLine();
                 if (s.charAt(0) == 'W') {
-                    Wilderness w = new Wilderness();//TODO add details to wilderness enemies
+                    Wilderness w = new Wilderness();
                     w.addEnemy(new Enemy(s.substring(2)));
                     m.setLocation(i, j, w);
                 }

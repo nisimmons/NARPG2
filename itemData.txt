@@ -1,14 +1,14 @@
-1
+101
 Iron sword
 weapon
 10
-2
+201
+Leather
+armor
+10
+301
 Fireball
 spell
 10
 5
 attack
-3
-Plate mail
-armor
-10
