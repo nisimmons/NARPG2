@@ -12,6 +12,20 @@ public class Map {
         return map;
     }
 
+    public String toData(){
+        StringBuilder s = new StringBuilder();
+        s.append(id).append("\n");
+        s.append(name).append("\n");
+        s.append(map.length).append("\n");
+        s.append(map[0].length).append("\n");
+        for (int r = 0; r < map.length; r++) {
+            for (int c = 0; c < map[0].length; c++) {
+                s.append(getLocation(c, r).toData());
+                s.append("\n");
+            }
+        }
+        return s.toString();
+    }
     /**
      * returns location under a given position
      * @param p position

@@ -111,7 +111,7 @@ public class DataAccess {
             for(int j = 0; j < x; j++){
                 s = scr.nextLine();
                 if (s.charAt(0) == 'W') {
-                    Wilderness w = new Wilderness();//TODO
+                    Wilderness w = new Wilderness();//TODO add details to wilderness enemies
                     w.addEnemy(new Enemy(s.substring(2)));
                     m.setLocation(i, j, w);
                 }
@@ -217,7 +217,6 @@ public class DataAccess {
      */
     public static void savePlayer(Player p) {
         //save all player data
-        //TODO find the correct location for this player and overwrite their data
         /*Scanner scr;
         try {
             scr = new Scanner(new File("playerData.txt"));
@@ -236,7 +235,7 @@ public class DataAccess {
         */
         FileWriter out;
         try {
-            out = new FileWriter(new File("playerData.txt"));
+            out = new FileWriter("playerData.txt");
             out.write(p.getName() + "\n");
             out.write(p.getStats().toData() + "\n");
             out.write(p.getPosition().toData() + "\n");
@@ -267,17 +266,8 @@ public class DataAccess {
         */
         FileWriter out;
         try {
-            out = new FileWriter(new File("mapData.txt"));
-            out.write(m.getId() + "\n");
-            out.write(m.getName() + "\n");
-            out.write(m.getMap().length + "\n");
-            out.write(m.getMap()[0].length + "\n");
-            for (int r = 0; r < m.getMap().length; r++) {
-                for (int c = 0; c < m.getMap()[0].length; c++) {
-                    out.write(m.getLocation(c, r).toData());
-                    out.write("\n");
-                }
-            }
+            out = new FileWriter("mapData.txt");
+            out.write(m.toData());
             out.close();
         } catch (IOException e) {
             e.printStackTrace();

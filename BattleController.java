@@ -11,13 +11,13 @@ public class BattleController {
      * allows the player to take a turn
      */
     public void playerTurn(){
-        //TODO
+        //TODO playerTurn
     }
 
     /**
      * has entities other than the player take a turn
      */
     public void entityTurn(){
-        //TODO
+        //TODO entityTurn
     }
 }
