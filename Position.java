@@ -29,4 +29,7 @@ public class Position {
         return "(" + x + ", " + y + ")";
     }
 
+    public String toData(){
+        return x + "/" + y;
+    }
 }

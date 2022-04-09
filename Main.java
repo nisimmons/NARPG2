@@ -32,8 +32,7 @@ public class Main {
                         p = LoadSaveController.loadPlayer(s);
                     } while (p == null);
                     //load the map
-                    //m = LoadSaveController.loadMap(0); //TODO implement proper map loading
-                    m = PlayController.createRandomMap(50);
+                    m = LoadSaveController.loadMap(0);
                     //play the game
                     playGame(new PlayController(p, m), scr);
                     //save the game

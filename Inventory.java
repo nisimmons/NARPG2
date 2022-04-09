@@ -35,6 +35,11 @@ public class Inventory {
         }
         return finalString.toString();
     }
-
+    public String toData(){
+        StringBuilder s = new StringBuilder();
+        for (Item i:inventory)
+            s.append(i.getId()).append("/");
+        return s.toString();
+    }
 
 }

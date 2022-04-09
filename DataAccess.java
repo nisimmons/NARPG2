@@ -83,8 +83,46 @@ public class DataAccess {
      */
     public static Map getMap(int id) {
         //return null if not found
-        //TODO
-        return null;
+        Map m;
+        Scanner scr = null;
+        try {
+            scr = new Scanner(new File("mapData.txt"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        assert scr != null;
+        String s;
+        //find the map
+        while(true){
+            try{
+                s = scr.nextLine();
+                if (id == Integer.parseInt(s))
+                    break;
+            }
+            catch(Exception ignored){         }
+        }
+        String name = scr.nextLine();
+        int y = Integer.parseInt(scr.nextLine());
+        int x = Integer.parseInt(scr.nextLine());
+        m = new Map(y,x);
+        m.setId(id);
+        m.setName(name);
+        for(int i = 0; i < y; i++)
+            for(int j = 0; j < x; j++){
+                s = scr.nextLine();
+                if (s.charAt(0) == 'W') {
+                    Wilderness w = new Wilderness();//TODO
+                    w.addEnemy(new Enemy(s.substring(2)));
+                    m.setLocation(i, j, w);
+                }
+                else if (s.charAt(0) == 'T') {
+                    m.setLocation(i, j, new Town());
+                }
+                else if (s.charAt(0) == 'D') {
+                    m.setLocation(i, j, new Dungeon());
+                }
+            }
+        return m;
     }
 
     /**
@@ -129,8 +167,10 @@ public class DataAccess {
         // Inventory
         String[] InventoryArray = scr.nextLine().split("/");
         Inventory inventory = new Inventory();
-        for(String str : InventoryArray)
-            inventory.add(getItem(Integer.parseInt(str)));
+        if (InventoryArray[0].compareTo("") != 0)
+            for(String str : InventoryArray)
+                inventory.add(getItem(Integer.parseInt(str)));
+
 
         //set player info and return
         Player p = new Player();
@@ -166,8 +206,8 @@ public class DataAccess {
         }
         String name = scr.nextLine();
         Stats stats = new Stats(scr.nextLine().split("/"));
-        Armor armor = (Armor) getItem(Integer.parseInt(scr.nextLine()));
         Weapon wep = (Weapon) getItem(Integer.parseInt(scr.nextLine()));
+        Armor armor = (Armor) getItem(Integer.parseInt(scr.nextLine()));
         return new Enemy(name,stats,armor,wep);
     }
 
@@ -178,6 +218,35 @@ public class DataAccess {
     public static void savePlayer(Player p) {
         //save all player data
         //TODO find the correct location for this player and overwrite their data
+        /*Scanner scr;
+        try {
+            scr = new Scanner(new File("playerData.txt"));
+        } catch (FileNotFoundException e) {
+            return;
+        }
+        String username = scr.nextLine();
+        //find the correct player
+        while (p.getName().compareTo(username) != 0) {
+            for(int i = 0; i < 5; i++) //skip one player
+                scr.nextLine();
+            if (!scr.hasNext())
+                return;
+            username = scr.nextLine();
+        }
+        */
+        FileWriter out;
+        try {
+            out = new FileWriter(new File("playerData.txt"));
+            out.write(p.getName() + "\n");
+            out.write(p.getStats().toData() + "\n");
+            out.write(p.getPosition().toData() + "\n");
+            out.write(p.getArmor().getId() + "\n");
+            out.write(p.getWeapon().getId() + "\n");
+            out.write(p.getInventory().toData() + "\n");
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -201,6 +270,8 @@ public class DataAccess {
             out = new FileWriter(new File("mapData.txt"));
             out.write(m.getId() + "\n");
             out.write(m.getName() + "\n");
+            out.write(m.getMap().length + "\n");
+            out.write(m.getMap()[0].length + "\n");
             for (int r = 0; r < m.getMap().length; r++) {
                 for (int c = 0; c < m.getMap()[0].length; c++) {
                     out.write(m.getLocation(c, r).toData());

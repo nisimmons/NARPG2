@@ -1,3 +1,14 @@
 1
-iron sword
-10/5/none/0
+Iron sword
+weapon
+10
+2
+Fireball
+spell
+10
+5
+attack
+3
+Plate mail
+armor
+10

@@ -57,5 +57,8 @@ public class Stats {
         this.currMana = currMana;
     }
 
+    public String toData(){
+        return level+"/"+currHP+"/"+maxHP+"/"+currMana+"/"+maxMana;
+    }
 
 }

@@ -17,8 +17,8 @@ public class PlayController {
         Player p = new Player();
         p.setName(name);
         p.setPosition(0,0);
-        p.setWeapon(DataAccess.getItem(0));
-        p.setArmor(DataAccess.getItem(1));
+        p.setWeapon(DataAccess.getItem(1));
+        p.setArmor(DataAccess.getItem(3));
         p.setStats(new Stats());
         p.getStats().setLevel(1);
         p.getStats().setCurrHP(10);
