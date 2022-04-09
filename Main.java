@@ -101,7 +101,7 @@ public class Main {
                                     //Implement enemy turn
 
                                     if (player.getStats().getCurrHP() <= 0) {
-                                        System.out.println("You Lost!");
+                                        System.out.println("You Suck!");
                                         System.exit(0);
                                     }
                                 }

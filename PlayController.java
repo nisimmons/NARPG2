@@ -34,9 +34,9 @@ public class PlayController {
      * @return the map
      */
     public static Map createRandomMap(int difficulty){
-        int towns = 110 - difficulty;
+        int towns = 100 - difficulty;
         int dungeons = difficulty - 10;
-        int encounters = (difficulty/5) + 70;
+        int encounters = (difficulty/5) + 80;
         Map m = new Map();
         m.setName("Overworld");
         m.setId(0);

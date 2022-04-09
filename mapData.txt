@@ -2,28 +2,28 @@
 Overworld
 5
 5
-W 0 1
+W 1
+D
+W 1
+D
+T 1
+W 1
+T 1
+T 1
+T 1
+T 1
 T 0
 T 0
-W 0 0
 T 0
 T 0
 T 0
 T 0
-W 0 0 Imp
-T 0
-W 0 1 Imp
 T 0
 T 0
-W 0 0 Imp
 T 0
-W 0 0 Imp
+D
 T 0
-T 0
-W 0 0 Imp
-W 0 0 Imp
-T 0
-W 0 0 Imp
-T 0
-W 0 0 Imp
+D
+D
+D
 D
