@@ -178,8 +178,8 @@ public class DataAccess {
         p.setName(username);
         p.setStats(stats);
         p.setPosition(pos);
-        p.setArmor(getItem(armorID));
-        p.setWeapon(getItem(weaponID));
+        p.setArmor((Armor) getItem(armorID));
+        p.setWeapon((Weapon) getItem(weaponID));
         p.setInventory(inventory);
         return p;
     }

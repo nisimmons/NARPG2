@@ -1,4 +1,5 @@
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -59,18 +60,52 @@ public class Main {
 
                         if (loc instanceof Wilderness){
                             //check for and print enemies
-                            if (((Wilderness) loc).getEnemies() != null) {
-                                BattleController b = new BattleController(player, null, ((Wilderness) loc).getEnemies());
-                                System.out.println(b.battleState());
-                                //TODO battle
-                                switch(battleScreen(scr)){
-                                    case 1:
-                                        //attack
-                                    case 2:
-                                        //spell
-                                    case 3:
-                                        //run
+                            if (((Wilderness) loc).getEnemies() != null && !((Wilderness) loc).getEnemies().isEmpty()) {
+                                BattleController b = new BattleController(player, new ArrayList<>(), ((Wilderness) loc).getEnemies());
+                                while(!b.isWon()) {
+                                    System.out.println(b.battleState());
+                                    //TODO battle
+                                    int i;
+                                    switch (battleScreen(scr)) {
+                                        case 1:
+                                            //attack
+                                            while (true) {
+                                                System.out.println("Which will you attack?");
+                                                System.out.println(b.listEntities());
+                                                try {
+                                                    i = Integer.parseInt(scr.nextLine());
+                                                } catch (Exception ignored) {
+                                                    continue;
+                                                }
+                                                System.out.println(b.attack(i));
+                                                break;
+                                            }
+                                            break;
+                                        case 2:
+                                            //spell
+                                            while (true) {
+                                                System.out.println("What spell will you use?");
+                                                System.out.println(player.getInventory());
+                                                i = Integer.parseInt(scr.nextLine());
+                                                if (!(player.getInventory().get(i) instanceof Spell))
+                                                    break;
+                                                else
+                                                    System.out.println("Not a spell");
+                                            }
+                                            //use the spell
+                                            break;
+                                        case 3:
+                                            //run
+                                            break;
+                                    }
+                                    //Implement enemy turn
+
+                                    if (player.getStats().getCurrHP() <= 0) {
+                                        System.out.println("You Lost!");
+                                        System.exit(0);
+                                    }
                                 }
+                                System.out.println("You Won!");
                             }
                         }
                         else if (loc instanceof Town){

@@ -20,7 +20,9 @@ public class Inventory {
             inventory.add(i);
         }
     }
-
+    public Item get(int index){
+        return inventory.get(index);
+    }
     public int indexOf(Item i)
     {
         return inventory.indexOf(i);
@@ -30,8 +32,8 @@ public class Inventory {
     {
         StringBuilder finalString = new StringBuilder();
 
-        for (Item item : inventory) {
-            finalString.append(item.getName()).append(" ");
+        for (int i = 0; i < inventory.size(); i++) {
+            finalString.append(i).append(inventory.get(i).getName()).append("\n");
         }
         return finalString.toString();
     }

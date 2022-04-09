@@ -1,13 +1,13 @@
 abstract class Character {
     private Stats stats;
     private String name;
-    private Item armor;
-    private Item weapon;
+    private Armor armor;
+    private Weapon weapon;
     public Character() {}
     public Character(String s) {
         name = s;
     }
-    public Character(String s, Stats stats, Item armor, Item wep){
+    public Character(String s, Stats stats, Armor armor, Weapon wep){
         this.name = s;
         this.stats = stats;
         this.armor = armor;
@@ -30,19 +30,19 @@ abstract class Character {
         this.stats = stats;
     }
 
-    public Item getWeapon() {
+    public Weapon getWeapon() {
         return weapon;
     }
 
-    public void setWeapon(Item weapon) {
+    public void setWeapon(Weapon weapon) {
         this.weapon = weapon;
     }
 
-    public Item getArmor() {
+    public Armor getArmor() {
         return armor;
     }
 
-    public void setArmor(Item armor) {
+    public void setArmor(Armor armor) {
         this.armor = armor;
     }
 
