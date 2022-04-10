@@ -2,6 +2,7 @@ public class Spell extends Item {
     private int spellDamage;
     private int spellCost;
     private String spellKeyword;
+    private SpellType type;
 
     public Spell(String name, int id, int spellDamage, int spellCost, String spellKeyword) {
         super(name, id);
