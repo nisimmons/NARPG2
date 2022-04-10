@@ -25,6 +25,7 @@ public class PlayController {
         p.getStats().setMaxHP(10);
         p.getStats().setCurrMana(10);
         p.getStats().setMaxMana(10);
+        p.getInventory().add(DataAccess.getItem(301));
         return p;
     }
 

@@ -120,7 +120,7 @@ public class Main {
                         } catch (Exception ignored) {
                             continue;
                         }
-                        System.out.println(b.attack(i));
+                        System.out.println(b.attack(i, player.getWeapon()));
                         break;
                     }
                     break;
@@ -129,19 +129,26 @@ public class Main {
                     while (true) {
                         System.out.println("What spell will you use?");
                         System.out.println(player.getInventory());
-                        i = Integer.parseInt(scr.nextLine());
+                        i = Integer.parseInt(scr.nextLine()) - 1;
                         if (!(player.getInventory().get(i) instanceof Spell))
                             break;
                         else
                             System.out.println("Not a spell");
                     }
                     //use the spell
-                    String type = "Damage";
-                    //if (type.compareTo("Damage") == 0)
-                        //do damage
+
                     Spell sp = (Spell) player.getInventory().get(i);
-                    if (sp.getType() == SpellType.DAMAGE)
-                        //do damage
+
+                    System.out.println("Which will you cast it on?");
+                    System.out.println(b.listEntities());
+                    try {
+                        i = Integer.parseInt(scr.nextLine());
+                    } catch (Exception ignored) {
+                        continue;
+                    }
+                    System.out.println(b.attack(i, sp));
+
+
                     break;
                 case 3:
                     //run

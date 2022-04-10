@@ -66,7 +66,7 @@ public class DataAccess {
                 //<spell mana cost>
                 int spellCost = Integer.parseInt(scr.nextLine());
                 //<spell details>
-                String spellKeyword = scr.nextLine();
+                SpellType spellKeyword = SpellType.valueOf(scr.nextLine());
 
                 return new Spell(itemName, id, itemStat, spellCost, spellKeyword);
             }

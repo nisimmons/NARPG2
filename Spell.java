@@ -1,16 +1,15 @@
 public class Spell extends Item {
     private int spellDamage;
     private int spellCost;
-    private String spellKeyword;
     private SpellType type;
 
-    public Spell(String name, int id, int spellDamage, int spellCost, String spellKeyword) {
+    public Spell(String name, int id, int spellDamage, int spellCost, SpellType spellKeyword) {
         super(name, id);
         setSpellDamage(spellDamage);
         setSpellCost(spellCost);
-        setSpellKeyword(spellKeyword);
+        setType(spellKeyword);
     }
-    public SpellType getType(){return type;}
+
     public int getSpellDamage() {
         return spellDamage;
     }
@@ -19,9 +18,7 @@ public class Spell extends Item {
         return spellCost;
     }
 
-    public String getSpellKeyword() {
-        return spellKeyword;
-    }
+    public SpellType getType(){return type;}
 
     public void setSpellDamage(int spellDamage) {
         this.spellDamage = spellDamage;
@@ -31,7 +28,7 @@ public class Spell extends Item {
         this.spellCost = spellCost;
     }
 
-    public void setSpellKeyword(String spellKeyword) {
-        this.spellKeyword = spellKeyword;
+    public void setType(SpellType spellKeyword) {
+        this.type = spellKeyword;
     }
 }

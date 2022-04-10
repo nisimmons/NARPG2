@@ -11,4 +11,4 @@ Fireball
 spell
 10
 5
-attack
+DAMAGE

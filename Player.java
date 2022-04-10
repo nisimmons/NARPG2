@@ -32,6 +32,7 @@ public class Player extends Character{
         s += "\nPosition: ";
         s += this.position;
         s += "\n" + this.getStats().toString();
+        s += "\n" + inventory.toString();
         return s;
     }
 }

@@ -33,7 +33,7 @@ public class Inventory {
         StringBuilder finalString = new StringBuilder();
 
         for (int i = 0; i < inventory.size(); i++) {
-            finalString.append(i).append(inventory.get(i).getName()).append("\n");
+            finalString.append(i + 1).append(". ").append(inventory.get(i).getName()).append("\n");
         }
         return finalString.toString();
     }

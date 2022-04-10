@@ -50,30 +50,50 @@ public class BattleController {
         return s;
     }
 
-    public String attack(int i){
+    public String attack(int index, Item i){
+        Character c;
         String s = "";
-        if (i == 0) {
-            p.getStats().setCurrHP(p.getStats().getCurrHP() - p.getWeapon().getDamage());
-            s += "You took " + p.getWeapon().getDamage() + " damage!";
+        if (index == 0) {
+            c = p;
         }
-        else if (i > 0 && i < allies.size()) {
-            allies.get(i-1).getStats().setCurrHP(allies.get(i-1).getStats().getCurrHP() - p.getWeapon().getDamage());
-            s += allies.get(i-1).getName() + " took " + p.getWeapon().getDamage() + " damage!";
-            if (allies.get(i-1).getStats().getCurrHP() <= 0)
-                enemies.remove(allies.get(i-1));
+        else if (index > 0 && index < allies.size()) {
+            c = allies.get(index-1);
         }
-        else if (i > 0 && i <= allies.size() + enemies.size()) {
-            enemies.get(i+allies.size()-1).getStats().setCurrHP(enemies.get(i+allies.size()-1).getStats().getCurrHP() - p.getWeapon().getDamage());
-            s += enemies.get(i+allies.size()-1).getName() + " took " + p.getWeapon().getDamage() + " damage!";
-            if (enemies.get(i+allies.size()-1).getStats().getCurrHP() <= 0)
-                enemies.remove(i+allies.size()-1);
-            if (enemies.isEmpty())
-                won = true;
+        else if (index > 0 && index <= allies.size() + enemies.size()) {
+            c = enemies.get(index+allies.size()-1);
         }
         else
-            s += "Miss!";
+            return "Miss!";
+
+        s += c.getName() + " ";
+
+        if (i instanceof Weapon){
+            c.getStats().setCurrHP(c.getStats().getCurrHP() - p.getWeapon().getDamage());
+            s += "was hit for " + p.getWeapon().getDamage() + " damage!";
+        }
+        else if (i instanceof Spell) {
+            switch (((Spell) i).getType()) {
+                case DAMAGE:
+                    //do damage
+                    c.getStats().setCurrHP(c.getStats().getCurrHP() - ((Spell) i).getSpellDamage());
+                    s += "was hit for " + ((Spell) i).getSpellDamage() + " damage!";
+                    break;
+                case HEAL:
+                    //heal
+                    c.getStats().setCurrHP(c.getStats().getCurrHP() + ((Spell) i).getSpellDamage());
+                    s += "was healed for " + ((Spell) i).getSpellDamage() + " damage.";
+                    if (c.getStats().getCurrHP() > c.getStats().getMaxHP())     // in the case of overhealing
+                    {
+                        c.getStats().setCurrHP(c.getStats().getMaxHP());
+                    }
+
+                    break;
+            }
+        }
         return s;
     }
+
+
 
     /**
      * has entities other than the player take a turn
