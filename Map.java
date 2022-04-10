@@ -20,7 +20,7 @@ public class Map {
         s.append(map[0].length).append("\n");
         for (int r = 0; r < map.length; r++) {
             for (int c = 0; c < map[0].length; c++) {
-                s.append(getLocation(c, r).toData());
+                s.append(getLocation(r, c).toData());
                 s.append("\n");
             }
         }

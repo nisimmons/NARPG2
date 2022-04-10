@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Wilderness extends Location {
 
@@ -11,6 +12,14 @@ public class Wilderness extends Location {
         super(s);
         enemies = new ArrayList<>();
     }
+    public Wilderness(String[] s)
+    {
+
+
+
+    }
+
+
     public void addEnemy(Enemy e){enemies.add(e);}
 
     public ArrayList<Enemy> getEnemies() {
@@ -28,16 +37,34 @@ public class Wilderness extends Location {
         else
             s.append("1");
         for(Enemy e: enemies)
-            s.append(" ").append(e.getName());
+            s.append(" ").append(e.toData());
         return s.toString();
     }
 
+    /**
+     * fills this wilderness data with string given
+     * @param s string data
+     */
     public void fromData(String s){
-        // TODO fromData
-        // s will be a string from the data file in the form
-        // take data from string and input it to this object
-        // "W <0/1 revealed> <enemy0Name> <enemy0Stats> <enemy0Armor> <enemy0Weapon> <enemy1Name>..."
-        // there may not be any enemies
+
+        // tile, revealed, name/lvl/currHealth/maxHealth/currMana/maxMana/armorID/weaponID  "        "    "        "
+        String[] subjectGrouping = s.split(" ");
+        if (Integer.parseInt(subjectGrouping[1]) == 1)
+            setRevealed(true);
+
+        for (int x = 3; x <= subjectGrouping.length; x++)
+        {
+            String[] enemy = subjectGrouping[x-1].split("/");
+            String enemyName = enemy[0];
+            Stats stats = new Stats(new String[]{enemy[1], enemy[2],enemy[3],enemy[4],enemy[5]});
+
+            int enemyArmor = Integer.parseInt(enemy[6]);
+            int enemyWeapon = Integer.parseInt(enemy[7]);
+
+            Enemy newEnemy = new Enemy(enemyName, stats, (Armor)DataAccess.getItem(enemyArmor), (Weapon)DataAccess.getItem(enemyWeapon));
+
+            enemies.add(newEnemy);
+        }
 
     }
 

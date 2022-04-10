@@ -18,11 +18,8 @@ public class Town extends Location{
     }
 
     public void fromData(String s){
-        // TODO fromData
-        // s will be a string from the data file in the form
-        // take data from string and input it to this object
-        // "T <0/1 revealed>"
-
+        if (s.charAt(2) == '1')
+            setRevealed(true);
     }
 
     public String toString(){

@@ -107,20 +107,23 @@ public class DataAccess {
         m = new Map(y,x);
         m.setId(id);
         m.setName(name);
-        //TODO add fromData calls
         for(int i = 0; i < y; i++)
             for(int j = 0; j < x; j++){
                 s = scr.nextLine();
                 if (s.charAt(0) == 'W') {
                     Wilderness w = new Wilderness();
-                    w.addEnemy(new Enemy(s.substring(2)));
+                    w.fromData(s);
                     m.setLocation(i, j, w);
                 }
                 else if (s.charAt(0) == 'T') {
-                    m.setLocation(i, j, new Town());
+                    Town t = new Town();
+                    t.fromData(s);
+                    m.setLocation(i, j, t);
                 }
                 else if (s.charAt(0) == 'D') {
-                    m.setLocation(i, j, new Dungeon());
+                    Dungeon d = new Dungeon();
+                    d.fromData(s);
+                    m.setLocation(i, j, d);
                 }
             }
         return m;
