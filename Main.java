@@ -136,6 +136,12 @@ public class Main {
                             System.out.println("Not a spell");
                     }
                     //use the spell
+                    String type = "Damage";
+                    //if (type.compareTo("Damage") == 0)
+                        //do damage
+                    Spell sp = (Spell) player.getInventory().get(i);
+                    if (sp.getType() == SpellType.DAMAGE)
+                        //do damage
                     break;
                 case 3:
                     //run

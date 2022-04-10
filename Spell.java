@@ -10,7 +10,7 @@ public class Spell extends Item {
         setSpellCost(spellCost);
         setSpellKeyword(spellKeyword);
     }
-
+    public SpellType getType(){return type;}
     public int getSpellDamage() {
         return spellDamage;
     }
