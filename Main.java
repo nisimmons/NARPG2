@@ -56,56 +56,22 @@ public class Main {
                     if (pc.move(moveScreen(scr))) {//try to move, print location or error message
                         Location loc = map.getLocation(player.getPosition());
                         System.out.println(loc);
-
-
                         if (loc instanceof Wilderness){
                             //check for and print enemies
                             if (((Wilderness) loc).getEnemies() != null && !((Wilderness) loc).getEnemies().isEmpty()) {
                                 BattleController b = new BattleController(player, new ArrayList<>(), ((Wilderness) loc).getEnemies());
-                                while(!b.isWon()) {
-                                    System.out.println(b.battleState());
-                                    //TODO battle
-                                    int i;
-                                    switch (battleScreen(scr)) {
-                                        case 1:
-                                            //attack
-                                            while (true) {
-                                                System.out.println("Which will you attack?");
-                                                System.out.println(b.listEntities());
-                                                try {
-                                                    i = Integer.parseInt(scr.nextLine());
-                                                } catch (Exception ignored) {
-                                                    continue;
-                                                }
-                                                System.out.println(b.attack(i));
-                                                break;
-                                            }
-                                            break;
-                                        case 2:
-                                            //spell
-                                            while (true) {
-                                                System.out.println("What spell will you use?");
-                                                System.out.println(player.getInventory());
-                                                i = Integer.parseInt(scr.nextLine());
-                                                if (!(player.getInventory().get(i) instanceof Spell))
-                                                    break;
-                                                else
-                                                    System.out.println("Not a spell");
-                                            }
-                                            //use the spell
-                                            break;
-                                        case 3:
-                                            //run
-                                            break;
-                                    }
-                                    //Implement enemy turn
-
-                                    if (player.getStats().getCurrHP() <= 0) {
+                                switch(battle(scr, player, b)){
+                                    case 1:
                                         System.out.println("You Suck!");
-                                        System.exit(0);
-                                    }
+                                        break;
+                                    case 2:
+                                        System.out.println("You Won!");
+                                        break;
+                                    case 3:
+                                        System.out.println("You ran away...");
+                                        break;
                                 }
-                                System.out.println("You Won!");
+
                             }
                         }
                         else if (loc instanceof Town){
@@ -139,7 +105,49 @@ public class Main {
             }
         }
     }
+    public static int battle(Scanner scr, Player player, BattleController b){
+        while(!b.isWon()) {
+            System.out.println(b.battleState());
+            int i;
+            switch (battleScreen(scr)) {
+                case 1:
+                    //attack
+                    while (true) {
+                        System.out.println("Which will you attack?");
+                        System.out.println(b.listEntities());
+                        try {
+                            i = Integer.parseInt(scr.nextLine());
+                        } catch (Exception ignored) {
+                            continue;
+                        }
+                        System.out.println(b.attack(i));
+                        break;
+                    }
+                    break;
+                case 2:
+                    //TODO implement spells
+                    while (true) {
+                        System.out.println("What spell will you use?");
+                        System.out.println(player.getInventory());
+                        i = Integer.parseInt(scr.nextLine());
+                        if (!(player.getInventory().get(i) instanceof Spell))
+                            break;
+                        else
+                            System.out.println("Not a spell");
+                    }
+                    //use the spell
+                    break;
+                case 3:
+                    //run
+                    return 3;
+            }
+            // TODO implement enemy turns
+            if (player.getStats().getCurrHP() <= 0)
+                return 1;
 
+        }
+        return 2;
+    }
     public static int battleScreen(Scanner scr) {
         int i = 0;
         do {

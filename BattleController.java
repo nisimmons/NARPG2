@@ -53,18 +53,18 @@ public class BattleController {
     public String attack(int i){
         String s = "";
         if (i == 0) {
-            p.getStats().setCurrHP(p.getStats().getCurrHP() - p.getWeapon().getWeaponDamage());
-            s += "You took " + p.getWeapon().getWeaponDamage() + " damage!";
+            p.getStats().setCurrHP(p.getStats().getCurrHP() - p.getWeapon().getDamage());
+            s += "You took " + p.getWeapon().getDamage() + " damage!";
         }
         else if (i > 0 && i < allies.size()) {
-            allies.get(i-1).getStats().setCurrHP(allies.get(i-1).getStats().getCurrHP() - p.getWeapon().getWeaponDamage());
-            s += allies.get(i-1).getName() + " took " + p.getWeapon().getWeaponDamage() + " damage!";
+            allies.get(i-1).getStats().setCurrHP(allies.get(i-1).getStats().getCurrHP() - p.getWeapon().getDamage());
+            s += allies.get(i-1).getName() + " took " + p.getWeapon().getDamage() + " damage!";
             if (allies.get(i-1).getStats().getCurrHP() <= 0)
                 enemies.remove(allies.get(i-1));
         }
         else if (i > 0 && i <= allies.size() + enemies.size()) {
-            enemies.get(i+allies.size()-1).getStats().setCurrHP(enemies.get(i+allies.size()-1).getStats().getCurrHP() - p.getWeapon().getWeaponDamage());
-            s += enemies.get(i+allies.size()-1).getName() + " took " + p.getWeapon().getWeaponDamage() + " damage!";
+            enemies.get(i+allies.size()-1).getStats().setCurrHP(enemies.get(i+allies.size()-1).getStats().getCurrHP() - p.getWeapon().getDamage());
+            s += enemies.get(i+allies.size()-1).getName() + " took " + p.getWeapon().getDamage() + " damage!";
             if (enemies.get(i+allies.size()-1).getStats().getCurrHP() <= 0)
                 enemies.remove(i+allies.size()-1);
             if (enemies.isEmpty())
@@ -73,15 +73,6 @@ public class BattleController {
         else
             s += "Miss!";
         return s;
-    }
-
-    /**
-     * allow the player to take a turn
-     * @return output
-     */
-    public String playerTurn(){
-        //TODO playerTurn
-        return null;
     }
 
     /**
