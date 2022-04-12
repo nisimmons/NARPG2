@@ -76,9 +76,11 @@ public class Main {
                         }
                         else if (loc instanceof Town){
                             //Heal player/restore mana
-                            System.out.println("You've rested in this town");
-                            player.getStats().setCurrHP(player.getStats().getMaxHP());
-                            player.getStats().setCurrMana(player.getStats().getMaxMana());
+                            if (!loc.isRevealed()) {
+                                System.out.println("You've rested in this town");
+                                player.getStats().setCurrHP(player.getStats().getMaxHP());
+                                player.getStats().setCurrMana(player.getStats().getMaxMana());
+                            }
                             System.out.println("Would you like to purchase anything");
                             System.out.println(((Town) loc).getMerchant());
                             //TODO take user input and purchase items
@@ -97,10 +99,12 @@ public class Main {
                                         break; //continue playing
                                     case 3:
                                         System.out.println("You ran away...");
+                                        i = ((Dungeon) loc).battleCount();
                                         break;
                                 }
                             }
                             System.out.println("You conquered the Dungeon!");
+                            //TODO implement player winning stuff from the dungeon
                         }
                         loc.setRevealed(true);
                     }

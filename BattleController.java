@@ -122,13 +122,14 @@ public class BattleController {
 
 
     public void cleanUp(){
-        if (!enemies.isEmpty()) //TODO debug
-            for (Enemy e : enemies)
-                if (e.getStats().getCurrHP() <= 0)
-                    enemies.remove(e);
-        if (!allies.isEmpty())
-            for (Enemy e : allies)
-                if (e.getStats().getCurrHP() <= 0)
-                    allies.remove(e);
+
+        for (int i = 0; i < enemies.size(); i++)
+            if (enemies.get(i).getStats().getCurrHP() <= 0)
+                enemies.remove(i);
+        for (int i = 0; i < allies.size(); i++)
+                if (allies.get(i).getStats().getCurrHP() <= 0)
+                    allies.remove(i);
+        if (enemies.size() == 0)
+            won = true;
     }
 }

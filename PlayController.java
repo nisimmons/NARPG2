@@ -22,22 +22,24 @@ public class PlayController {
         p.setArmor((Armor) DataAccess.getItem(201));
         p.setStats(new Stats());
         p.getStats().setLevel(1);
-        p.getStats().setCurrHP(10);
-        p.getStats().setMaxHP(10);
+        p.getStats().setCurrHP(15);
+        p.getStats().setMaxHP(15);
         p.getStats().setCurrMana(10);
         p.getStats().setMaxMana(10);
         p.getInventory().add(DataAccess.getItem(301));
         return p;
     }
 
+    public static Map createRandomMap(){return createRandomMap(50);}
     /**
      * sets up a randomized map
      * @param difficulty 1-100
      * @return the map
      */
     public static Map createRandomMap(int difficulty){
-        int towns = 100 - difficulty;
-        int dungeons = difficulty - 10;
+        //default difficulty is 50
+        int towns = 85 - difficulty;
+        int dungeons = difficulty;
         int encounters = (difficulty/5) + 80;
         Map m = new Map();
         m.setName("Overworld");
@@ -64,7 +66,10 @@ public class PlayController {
                     e.add(DataAccess.getEnemy(0));
                     e.add(DataAccess.getEnemy(0));
                     d.addBattle(e);
-                    d.addBattle(e);
+                    ArrayList<Enemy> e2 = new ArrayList<>();
+                    e2.add(DataAccess.getEnemy(0));
+                    e2.add(DataAccess.getEnemy(0));
+                    d.addBattle(e2);
                     m.setLocation(c, r, d); //regular dungeon
                 }
                 else
