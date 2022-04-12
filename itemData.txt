@@ -2,6 +2,10 @@
 Iron sword
 weapon
 10
+102
+Imp Claws
+weapon
+3
 201
 Leather
 armor

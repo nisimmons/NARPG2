@@ -1,7 +1,9 @@
 public class Town extends Location{
+    private Inventory merchant;
     public Town(){this("Town");}
     public Town(String s){
         super(s);
+        merchant = new Inventory();
     }
 
     /**
@@ -24,5 +26,12 @@ public class Town extends Location{
 
     public String toString(){
         return "T";
+    }
+    public Inventory getMerchant() {
+        return merchant;
+    }
+
+    public void setMerchant(Inventory merchant) {
+        this.merchant = merchant;
     }
 }

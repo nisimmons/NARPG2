@@ -23,13 +23,13 @@ public class BattleController {
         s += "Current HP: " + p.getStats().getCurrHP() + "\n";
         s += "Current Mana: " + p.getStats().getCurrMana() + "\n";
         if (allies != null){
-            s += "Allies\n";
+            s += "Allies";
             for(Enemy a: allies)
-                s += a.toString();
+                s += "\n" + a.toString();
         }
-        s += "\nEnemies:\n";
+        s += "\nEnemies:";
         for(Enemy e: enemies)
-            s += e.toString();
+            s += "\n" + e.toString();
         return s;
     }
     public boolean isWon() {
@@ -53,7 +53,7 @@ public class BattleController {
 
     public String attack(int index, Item i){
         Character c;
-        String s = "You cast " + i.getName() + "!\n";
+        String s = "You use " + i.getName() + "!\n";
         if (index == 0) {
             c = p;
         }
@@ -90,8 +90,7 @@ public class BattleController {
                     break;
             }
         }
-        if (c.getStats().getCurrHP() <= 0)
-            won = true;
+        cleanUp();
         return s;
     }
 
@@ -108,6 +107,7 @@ public class BattleController {
             int i = rand.nextInt(1 + allies.size());
             if (i == 0) {
                 //attack the player
+                //attack(i, e.getWeapon()); ?
                 p.getStats().setCurrHP(p.getStats().getCurrHP() - e.getWeapon().getDamage());
                 s += "\n" + e.getName() + " attacked you for " + e.getWeapon().getDamage() + " damage";
             }
@@ -116,16 +116,19 @@ public class BattleController {
                 s += "\n" + e.getName() + " attacked " + allies.get(i).getName() + " for " + e.getWeapon().getDamage() + " damage";
             }
         }
+        cleanUp();
         return s;
     }
 
 
     public void cleanUp(){
-        for (Enemy e : enemies)
-            if (e.getStats().getCurrHP() <= 0)
-                enemies.remove(e);
-        for (Enemy e : allies)
-            if (e.getStats().getCurrHP() <= 0)
-                allies.remove(e);
+        if (!enemies.isEmpty()) //TODO debug
+            for (Enemy e : enemies)
+                if (e.getStats().getCurrHP() <= 0)
+                    enemies.remove(e);
+        if (!allies.isEmpty())
+            for (Enemy e : allies)
+                if (e.getStats().getCurrHP() <= 0)
+                    allies.remove(e);
     }
 }

@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 
 public class PlayController {
@@ -56,9 +57,16 @@ public class PlayController {
                 else if(rand.nextInt(100) < towns)
                     //set town
                     m.setLocation(c,r,new Town());
-                else if(rand.nextInt(100) < dungeons)
+                else if(rand.nextInt(100) < dungeons) {
                     //set dungeon
-                    m.setLocation(c,r,new Dungeon("Dungeon")); //regular dungeon
+                    Dungeon d = new Dungeon("Dungeon");
+                    ArrayList<Enemy> e = new ArrayList<>();
+                    e.add(DataAccess.getEnemy(0));
+                    e.add(DataAccess.getEnemy(0));
+                    d.addBattle(e);
+                    d.addBattle(e);
+                    m.setLocation(c, r, d); //regular dungeon
+                }
                 else
                     //set wilderness
                     if (rand.nextInt(100) < encounters) {

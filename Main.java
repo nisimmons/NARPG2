@@ -79,12 +79,29 @@ public class Main {
                             System.out.println("You've rested in this town");
                             player.getStats().setCurrHP(player.getStats().getMaxHP());
                             player.getStats().setCurrMana(player.getStats().getMaxMana());
-
+                            System.out.println("Would you like to purchase anything");
+                            System.out.println(((Town) loc).getMerchant());
+                            //TODO take user input and purchase items
                         }
                         else {
                             //it's a dungeon
+                            for (int i = 0; i < ((Dungeon)loc).battleCount(); i++) {
+                                BattleController b = new BattleController(player, new ArrayList<>(), ((Dungeon) loc).getBattle(i));
+                                switch (battle(scr, player, b)) {
+                                    case 1:
+                                        System.out.println("You Suck!");
+                                        return; //return to main screen
+                                    case 2:
+                                        System.out.println("You won this battle");
+                                        //TODO implement player winning stuff from the fight
+                                        break; //continue playing
+                                    case 3:
+                                        System.out.println("You ran away...");
+                                        break;
+                                }
+                            }
+                            System.out.println("You conquered the Dungeon!");
                         }
-
                         loc.setRevealed(true);
                     }
                     else
@@ -150,14 +167,13 @@ public class Main {
                     }
                     System.out.println(b.attack(i, sp));
 
-
                     break;
                 case 3:
                     //run
                     return 3;
             }
             System.out.println(b.entityTurn());
-            b.cleanUp();
+
             if (player.getStats().getCurrHP() <= 0)
                 return 1; //lose
 
