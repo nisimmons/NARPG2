@@ -63,19 +63,20 @@ public class Main {
                                 switch(battle(scr, player, b)){
                                     case 1:
                                         System.out.println("You Suck!");
-                                        break;
+                                        return; //return to main screen
                                     case 2:
                                         System.out.println("You Won!");
-                                        break;
+                                        //TODO implement player winning stuff from the fight
+                                        break; //continue playing
                                     case 3:
                                         System.out.println("You ran away...");
                                         break;
                                 }
-
                             }
                         }
                         else if (loc instanceof Town){
                             //Heal player/restore mana
+                            System.out.println("You've rested in this town");
                             player.getStats().setCurrHP(player.getStats().getMaxHP());
                             player.getStats().setCurrMana(player.getStats().getMaxMana());
 
@@ -118,6 +119,7 @@ public class Main {
                         try {
                             i = Integer.parseInt(scr.nextLine());
                         } catch (Exception ignored) {
+                            System.out.println("Invalid input");
                             continue;
                         }
                         System.out.println(b.attack(i, player.getWeapon()));
@@ -130,7 +132,7 @@ public class Main {
                         System.out.println("What spell will you use?");
                         System.out.println(player.getInventory());
                         i = Integer.parseInt(scr.nextLine()) - 1;
-                        if (!(player.getInventory().get(i) instanceof Spell))
+                        if (player.getInventory().get(i) instanceof Spell)
                             break;
                         else
                             System.out.println("Not a spell");
@@ -154,9 +156,10 @@ public class Main {
                     //run
                     return 3;
             }
-            // TODO implement enemy turns
+            System.out.println(b.entityTurn());
+            b.cleanUp();
             if (player.getStats().getCurrHP() <= 0)
-                return 1;
+                return 1; //lose
 
         }
         return 2;

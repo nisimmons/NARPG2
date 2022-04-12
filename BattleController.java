@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 public class BattleController {
     private final Player p;
@@ -52,7 +53,7 @@ public class BattleController {
 
     public String attack(int index, Item i){
         Character c;
-        String s = "";
+        String s = "You cast " + i.getName() + "!\n";
         if (index == 0) {
             c = p;
         }
@@ -86,13 +87,13 @@ public class BattleController {
                     {
                         c.getStats().setCurrHP(c.getStats().getMaxHP());
                     }
-
                     break;
             }
         }
+        if (c.getStats().getCurrHP() <= 0)
+            won = true;
         return s;
     }
-
 
 
     /**
@@ -100,7 +101,31 @@ public class BattleController {
      * @return output
      */
     public String entityTurn(){
-        //TODO entityTurn
-        return null;
+        String s = "";
+        s += "Enemy Turn";
+        Random rand = new Random();
+        for (Enemy e : enemies) {
+            int i = rand.nextInt(1 + allies.size());
+            if (i == 0) {
+                //attack the player
+                p.getStats().setCurrHP(p.getStats().getCurrHP() - e.getWeapon().getDamage());
+                s += "\n" + e.getName() + " attacked you for " + e.getWeapon().getDamage() + " damage";
+            }
+            else if (i < allies.size()){
+                allies.get(i).getStats().setCurrHP(allies.get(i).getStats().getCurrHP() - e.getWeapon().getDamage());
+                s += "\n" + e.getName() + " attacked " + allies.get(i).getName() + " for " + e.getWeapon().getDamage() + " damage";
+            }
+        }
+        return s;
+    }
+
+
+    public void cleanUp(){
+        for (Enemy e : enemies)
+            if (e.getStats().getCurrHP() <= 0)
+                enemies.remove(e);
+        for (Enemy e : allies)
+            if (e.getStats().getCurrHP() <= 0)
+                allies.remove(e);
     }
 }
