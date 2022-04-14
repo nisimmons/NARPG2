@@ -42,7 +42,7 @@ public class Dungeon extends Location {
         String[] s2 = s.split(" ");
         setRevealed(Integer.parseInt(s2[1]) == 1);
         setFaction(Faction.valueOf(s2[2]));
-        //TODO
+
         StringBuilder s3 = new StringBuilder();
         for (int i = 3; i < s2.length; i++) {
             s3.append(s2[i]);

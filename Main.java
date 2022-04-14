@@ -144,7 +144,6 @@ public class Main {
                     }
                     break;
                 case 2:
-                    //TODO implement spells
                     while (true) {
                         System.out.println("What spell will you use?");
                         System.out.println(player.getInventory());

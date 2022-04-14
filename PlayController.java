@@ -83,7 +83,7 @@ public class PlayController {
                     //set wilderness
                     if (rand.nextInt(100) < encounters) {
                         Wilderness w = new Wilderness();
-                        //TODO set faction and get enemies based on faction
+                        //TODO set faction randomly and get random enemies based on faction and level of area
                         w.setFaction(Faction.FOREST);
                         Enemy e = DataAccess.getEnemy(0);
                         w.addEnemy(e);
@@ -92,6 +92,7 @@ public class PlayController {
                     else {
                         Wilderness w = new Wilderness("Wilderness");
                         w.setFaction(Faction.FOREST);
+                        //TODO set faction randomly
                         m.setLocation(c, r, w); //set non enemy encounter
                     }
             }

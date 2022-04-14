@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class DataAccess {
@@ -215,6 +216,13 @@ public class DataAccess {
         Armor armor = (Armor) getItem(Integer.parseInt(scr.nextLine()));
         return new Enemy(name,stats,armor,wep);
     }
+
+    /**
+     * get an enemy from data from given info
+     * @param faction faction of enemy
+     * @param level approximate level of enemy
+     * @return the enemy
+     */
     public static Enemy getEnemy(Faction faction, int level) {
         Enemy e = new Enemy();
         //go through enemyData.txt, find an enemy near the right level and return it's data
@@ -226,9 +234,10 @@ public class DataAccess {
         }
         scr.nextLine();
         Faction f = Faction.valueOf(scr.nextLine());
-        String name = null;
-        Stats stats = null;
-        while (faction != f) {
+        String name = scr.nextLine();
+        scr.nextLine();
+        Stats stats = new Stats(scr.nextLine().split("/"));
+        while (faction != f || stats.getLevel() > level+5 || stats.getLevel() < level-5 ) {
             for (int j = 0; j < 2; j++) //skip one enemy
                 scr.nextLine();
             if (!scr.hasNext())
@@ -243,6 +252,44 @@ public class DataAccess {
         return new Enemy(name, stats, armor, wep);
     }
 
+    /**
+     * produces an arraylist with all the enemies in a faction
+     * @param faction faction
+     * @return all enemies of the faction
+     */
+    public ArrayList<Enemy> produceFaction(Faction faction){
+        ArrayList<Enemy> enemies = new ArrayList<>();
+        //go through enemyData.txt, find an enemy near the right level and return it's data
+        Scanner scr;
+        try {
+            scr = new Scanner(new File("enemyData.txt"));
+        } catch (FileNotFoundException f) {
+            return null;
+        }
+        scr.nextLine();
+
+        while (scr.hasNext()) {
+            Enemy e = new Enemy();
+            Faction f = Faction.valueOf(scr.nextLine());
+            String name = scr.nextLine();
+            scr.nextLine();
+            Stats stats = new Stats(scr.nextLine().split("/"));
+            while (faction != f) {
+                for (int j = 0; j < 2; j++) //skip one enemy
+                    scr.nextLine();
+                if (!scr.hasNext())
+                    return null;
+                f = Faction.valueOf(scr.nextLine());
+                name = scr.nextLine();
+                scr.nextLine();
+                stats = new Stats(scr.nextLine().split("/"));
+            }
+            Weapon wep = (Weapon) getItem(Integer.parseInt(scr.nextLine()));
+            Armor armor = (Armor) getItem(Integer.parseInt(scr.nextLine()));
+            enemies.add(new Enemy(name, stats, armor, wep));
+        }
+        return enemies;
+    }
     /**
      * save all player data to file
      * @param p player to save
