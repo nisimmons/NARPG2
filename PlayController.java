@@ -20,12 +20,7 @@ public class PlayController {
         p.setPosition(0,0);
         p.setWeapon((Weapon) DataAccess.getItem(101));
         p.setArmor((Armor) DataAccess.getItem(201));
-        p.setStats(new Stats());
-        p.getStats().setLevel(1);
-        p.getStats().setCurrHP(15);
-        p.getStats().setMaxHP(15);
-        p.getStats().setCurrMana(10);
-        p.getStats().setMaxMana(10);
+        p.setStats(new Stats(new String[]{"1","0","15","15","15","10","10"}));
         p.getInventory().add(DataAccess.getItem(301));
         return p;
     }
@@ -51,17 +46,25 @@ public class PlayController {
                     //set spawn
                     Wilderness w = new Wilderness("Spawn");
                     w.setRevealed(true);
+                    w.setFaction(Faction.SPAWN);
                     m.setLocation(c, r, w);
                 }
-			    else if (r == m.getMap().length-1 && c == m.getMap()[0].length-1)
+			    else if (r == m.getMap().length-1 && c == m.getMap()[0].length-1) {
                     //set end
-                    m.setLocation(c,r,new Dungeon("End")); //final dungeon
-                else if(rand.nextInt(100) < towns)
+                    Dungeon d = new Dungeon("End");
+                    d.setFaction(Faction.FINALDUNGEON);
+                    m.setLocation(c, r, d); //final dungeon
+                }
+                else if(rand.nextInt(100) < towns) {
                     //set town
-                    m.setLocation(c,r,new Town());
+                    Town t = new Town();
+                    //TODO set merchant information
+                    m.setLocation(c, r, t);
+                }
                 else if(rand.nextInt(100) < dungeons) {
                     //set dungeon
                     Dungeon d = new Dungeon("Dungeon");
+                    d.setFaction(Faction.DUNGEON);
                     ArrayList<Enemy> e = new ArrayList<>();
                     e.add(DataAccess.getEnemy(0));
                     e.add(DataAccess.getEnemy(0));
@@ -76,6 +79,8 @@ public class PlayController {
                     //set wilderness
                     if (rand.nextInt(100) < encounters) {
                         Wilderness w = new Wilderness();
+                        //TODO set faction and get enemies based on faction
+                        w.setFaction(Faction.FOREST);
                         Enemy e = DataAccess.getEnemy(0);
                         w.addEnemy(e);
                         m.setLocation(c, r, w); //set enemy encounter

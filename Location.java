@@ -1,6 +1,7 @@
 abstract class Location {
     String name;
     boolean revealed;
+    Faction faction;
     public Location(){revealed = false;}
     public Location(String name){
         this.name = name;
@@ -24,5 +25,13 @@ abstract class Location {
 
     public void setRevealed(boolean revealed) {
         this.revealed = revealed;
+    }
+
+    public Faction getFaction() {
+        return faction;
+    }
+
+    public void setFaction(Faction faction) {
+        this.faction = faction;
     }
 }

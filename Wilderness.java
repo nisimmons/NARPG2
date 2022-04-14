@@ -36,6 +36,7 @@ public class Wilderness extends Location {
             s.append("0");
         else
             s.append("1");
+        s.append(" ").append(getFaction());
         for(Enemy e: enemies)
             s.append(" ").append(e.toData());
         return s.toString();
@@ -47,12 +48,12 @@ public class Wilderness extends Location {
      */
     public void fromData(String s){
 
-        // tile, revealed, name/lvl/currHealth/maxHealth/currMana/maxMana/armorID/weaponID  "        "    "        "
+        // tile, revealed, faction, name/lvl/currHealth/maxHealth/currMana/maxMana/armorID/weaponID  "        "    "        "
         String[] subjectGrouping = s.split(" ");
         if (Integer.parseInt(subjectGrouping[1]) == 1)
             setRevealed(true);
-
-        for (int x = 3; x <= subjectGrouping.length; x++)
+        setFaction(Faction.valueOf(subjectGrouping[2]));
+        for (int x = 4; x <= subjectGrouping.length; x++)
         {
             String[] enemy = subjectGrouping[x-1].split("/");
             String enemyName = enemy[0];

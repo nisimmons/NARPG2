@@ -16,17 +16,44 @@ public class Dungeon extends Location {
      * @return data string
      */
     public String toData(){
-        String s = "D ";
+        StringBuilder s = new StringBuilder("D ");
         if (!isRevealed())
-            s += "0";
+            s.append("0 ");
         else
-            s += "1";
-        return s;
+            s.append("1 ");
+        s.append(getFaction());
+        for (int i = 0; i < battles.size(); i++) {
+            ArrayList<Enemy> enemies = battles.get(i);
+            for (Enemy e : enemies)
+                s.append((" ")).append(e.toData());
+            if (i < battles.size() - 1)
+                s.append("//");
+        }
+        return s.toString();
     }
 
     public void fromData(String s){
-        if(s.charAt(2) == '1')
-            setRevealed(true);
+        //D 0 DUNGEON Imp/2/0/5/10/5/15/201/102 Imp/2/0/5/10/5/15/201/102// Imp/2/0/5/10/5/15/201/102 Imp/2/0/5/10/5/15/201/102
+        String[] s2 = s.split(" ");
+        setRevealed(Integer.parseInt(s2[1]) == 1);
+        setFaction(Faction.valueOf(s2[2]));
+        //TODO
+        StringBuilder s3 = new StringBuilder();
+        for (int i = 3; i < s2.length; i++) {
+            s3.append(s2[i]);
+            if (i < s2.length - 1)
+                s3.append(" ");
+        }
+        String [] battleList = s3.toString().split("//");
+        for (int i = 0; i < battleList.length; i++) {
+            battles.add(new ArrayList<Enemy>());
+            String[] enemyList = battleList[i].split(" ");
+            for (int x = 0; x <= enemyList.length; x++) {
+                Enemy e = new Enemy();
+                e.fromData(enemyList[x]);
+                battles.get(i).add(e);//TODO split up battles
+            }
+        }
     }
 
     public String toString(){

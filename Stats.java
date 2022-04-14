@@ -1,5 +1,6 @@
 public class Stats {
     private int level;
+    private int exp;
     private int maxHP;
     private int currHP;
     private int maxMana;
@@ -9,13 +10,14 @@ public class Stats {
     }
     public Stats(String[] s){
         setLevel(Integer.parseInt(s[0]));
-        setCurrHP(Integer.parseInt(s[1]));
-        setMaxHP(Integer.parseInt(s[2]));
-        setCurrMana(Integer.parseInt(s[3]));
-        setMaxMana(Integer.parseInt(s[4]));
+        setExp(Integer.parseInt(s[1]));
+        setCurrHP(Integer.parseInt(s[2]));
+        setMaxHP(Integer.parseInt(s[3]));
+        setCurrMana(Integer.parseInt(s[4]));
+        setMaxMana(Integer.parseInt(s[5]));
     }
     public String toString(){
-        return "Level: " + level + "\ncurrHP: " + currHP + "\ncurrMana: "+currMana;
+        return "Level: " + level + "EXP: " + exp + "\ncurrHP: " + currHP + "\ncurrMana: "+currMana;
     }
     public int getLevel() {
         return level;
@@ -56,9 +58,15 @@ public class Stats {
     public void setCurrMana(int currMana) {
         this.currMana = currMana;
     }
+    public int getExp() {
+        return exp;
+    }
 
+    public void setExp(int exp) {
+        this.exp = exp;
+    }
     public String toData(){
-        return level+"/"+currHP+"/"+maxHP+"/"+currMana+"/"+maxMana;
+        return level+"/"+exp+"/"+currHP+"/"+maxHP+"/"+currMana+"/"+maxMana;
     }
 
 }

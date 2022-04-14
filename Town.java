@@ -4,6 +4,7 @@ public class Town extends Location{
     public Town(String s){
         super(s);
         merchant = new Inventory();
+        setFaction(Faction.TOWN);
     }
 
     /**

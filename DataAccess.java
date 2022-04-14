@@ -214,6 +214,11 @@ public class DataAccess {
         Armor armor = (Armor) getItem(Integer.parseInt(scr.nextLine()));
         return new Enemy(name,stats,armor,wep);
     }
+    public static Enemy getEnemy(Faction faction, int level){
+        Enemy e = new Enemy();
+        //go through enemyData.txt, find an enemy near the right level and return it's data
+        return e;
+    }
 
     /**
      * save all player data to file
