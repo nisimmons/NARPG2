@@ -55,16 +55,19 @@ public class Wilderness extends Location {
         setFaction(Faction.valueOf(subjectGrouping[2]));
         for (int x = 4; x <= subjectGrouping.length; x++)
         {
+            Enemy e = new Enemy();
+            e.fromData(subjectGrouping[x-1]);
+            /*
             String[] enemy = subjectGrouping[x-1].split("/");
             String enemyName = enemy[0];
-            Stats stats = new Stats(new String[]{enemy[1], enemy[2],enemy[3],enemy[4],enemy[5]});
+            Stats stats = new Stats(new String[]{enemy[1], enemy[2],enemy[3],enemy[4],enemy[5], enemy[6]});
 
-            int enemyArmor = Integer.parseInt(enemy[6]);
-            int enemyWeapon = Integer.parseInt(enemy[7]);
+            int enemyArmor = Integer.parseInt(enemy[7]);
+            int enemyWeapon = Integer.parseInt(enemy[8]);
 
             Enemy newEnemy = new Enemy(enemyName, stats, (Armor)DataAccess.getItem(enemyArmor), (Weapon)DataAccess.getItem(enemyWeapon));
-
-            enemies.add(newEnemy);
+*/
+            enemies.add(e);
         }
 
     }

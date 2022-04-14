@@ -40,14 +40,14 @@ public class BattleController {
      */
     public String listEntities(){
         String s = "";
-        s += "0. " + p.getName() + "\n";
+        s += "0. " + p.getName();
         int i = 0,j = 0;
         if (allies != null && !allies.isEmpty())
             for (; i < allies.size(); i++)
-                s += (i+1) + allies.get(i).getName();
+                s += "\n" + (i+1) + allies.get(i).getName();
         if (enemies != null && !enemies.isEmpty())
             for (; j < enemies.size(); j++)
-               s += (i+j+1) + ". " + enemies.get(j).getName();
+               s += "\n" + (i+j+1) + ". " + enemies.get(j).getName();
         return s;
     }
 

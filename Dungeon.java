@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Dungeon extends Location {
     Map m;
     private ArrayList<ArrayList<Enemy>> battles;
-    public Dungeon(){}
+    public Dungeon(){battles = new ArrayList<ArrayList<Enemy>>();}
     public Dungeon(String s){
         super(s);
         battles = new ArrayList<ArrayList<Enemy>>();
@@ -21,11 +21,14 @@ public class Dungeon extends Location {
             s.append("0 ");
         else
             s.append("1 ");
-        s.append(getFaction());
+        s.append(getFaction()).append(" ");
         for (int i = 0; i < battles.size(); i++) {
             ArrayList<Enemy> enemies = battles.get(i);
-            for (Enemy e : enemies)
-                s.append((" ")).append(e.toData());
+            for (int j = 0; j < enemies.size(); j++) {
+                s.append(enemies.get(j).toData());
+                if (j < enemies.size()-1)
+                    s.append(" ");
+            }
             if (i < battles.size() - 1)
                 s.append("//");
         }
@@ -48,10 +51,12 @@ public class Dungeon extends Location {
         for (int i = 0; i < battleList.length; i++) {
             battles.add(new ArrayList<Enemy>());
             String[] enemyList = battleList[i].split(" ");
-            for (int x = 0; x <= enemyList.length; x++) {
-                Enemy e = new Enemy();
-                e.fromData(enemyList[x]);
-                battles.get(i).add(e);//TODO split up battles
+            for (String value : enemyList) {
+                if (value.compareTo("") != 0) {
+                    Enemy e = new Enemy();
+                    e.fromData(value);
+                    battles.get(i).add(e);
+                }
             }
         }
     }
