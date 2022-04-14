@@ -24,6 +24,8 @@ public class Dungeon extends Location {
         s.append(getFaction()).append(" ");
         for (int i = 0; i < battles.size(); i++) {
             ArrayList<Enemy> enemies = battles.get(i);
+            if (enemies.isEmpty())
+                continue;
             for (int j = 0; j < enemies.size(); j++) {
                 s.append(enemies.get(j).toData());
                 if (j < enemies.size()-1)

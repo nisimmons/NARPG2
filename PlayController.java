@@ -61,6 +61,7 @@ public class PlayController {
                 else if(rand.nextInt(100) < towns) {
                     //set town
                     Town t = new Town();
+                    t.setFaction(Faction.TOWN);
                     //TODO set merchant information
                     m.setLocation(c, r, t);
                 }
@@ -88,8 +89,11 @@ public class PlayController {
                         w.addEnemy(e);
                         m.setLocation(c, r, w); //set enemy encounter
                     }
-                    else
-                        m.setLocation(c,r,new Wilderness("Wilderness")); //set non enemy encounter
+                    else {
+                        Wilderness w = new Wilderness("Wilderness");
+                        w.setFaction(Faction.FOREST);
+                        m.setLocation(c, r, w); //set non enemy encounter
+                    }
             }
         }
         return m;

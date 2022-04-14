@@ -66,7 +66,7 @@ public class Main {
                                         return; //return to main screen
                                     case 2:
                                         System.out.println("You Won!");
-                                        //TODO implement player winning stuff from the fight
+                                        System.out.println(player.addExp(b.getExpReward()));
                                         break; //continue playing
                                     case 3:
                                         System.out.println("You ran away...");
@@ -76,11 +76,7 @@ public class Main {
                         }
                         else if (loc instanceof Town){
                             //Heal player/restore mana
-                            if (!loc.isRevealed()) {
-                                System.out.println("You've rested in this town");
-                                player.getStats().setCurrHP(player.getStats().getMaxHP());
-                                player.getStats().setCurrMana(player.getStats().getMaxMana());
-                            }
+                            System.out.println(player.rest());
                             System.out.println("Would you like to purchase anything");
                             System.out.println(((Town) loc).getMerchant());
                             //TODO take user input and purchase items
@@ -95,7 +91,7 @@ public class Main {
                                         return; //return to main screen
                                     case 2:
                                         System.out.println("You won this battle");
-                                        //TODO implement player winning stuff from the fight
+                                        System.out.println(player.addExp(b.getExpReward()));
                                         break; //continue playing
                                     case 3:
                                         System.out.println("You ran away...");

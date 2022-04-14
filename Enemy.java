@@ -19,7 +19,7 @@ public class Enemy extends Character {
 
     public String toString(){
         String s = "";
-        s += getName() + "\n";
+        s += getName().replace('-',' ') + "\n";
         s += "Current HP: " + getStats().getCurrHP();
         return s;
     }

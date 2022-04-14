@@ -6,11 +6,13 @@ public class BattleController {
     private ArrayList<Enemy> allies;
     private ArrayList<Enemy> enemies;
     private boolean won;
+    private int expReward;
     public BattleController(Player p, ArrayList<Enemy> allies, ArrayList<Enemy> enemies){
         this.p = p;
         this.allies = allies;
         this.enemies = enemies;
         won = false;
+        expReward = 0;
     }
 
     /**
@@ -32,9 +34,6 @@ public class BattleController {
             s += "\n" + e.toString();
         return s;
     }
-    public boolean isWon() {
-        return won;
-    }
     /**
      * @return a string with a list of entities
      */
@@ -51,44 +50,56 @@ public class BattleController {
         return s;
     }
 
+    /**
+     * player attacks a target index with item i
+     * @param index target
+     * @param i item to attack with
+     * @return string stating what happened
+     */
     public String attack(int index, Item i){
-        Character c;
+        Character target;
         String s = "You use " + i.getName() + "!\n";
         if (index == 0) {
-            c = p;
+            target = p;
         }
         else if (index > 0 && index < allies.size()) {
-            c = allies.get(index-1);
+            target = allies.get(index-1);
         }
         else if (index > 0 && index <= allies.size() + enemies.size()) {
-            c = enemies.get(index+allies.size()-1);
+            target = enemies.get(index+allies.size()-1);
         }
         else
             return "Miss!";
 
-        s += c.getName() + " ";
+        s += target.getName() + " ";
 
         if (i instanceof Weapon){
-            c.getStats().setCurrHP(c.getStats().getCurrHP() - p.getWeapon().getDamage());
+            target.getStats().setCurrHP(target.getStats().getCurrHP() - p.getWeapon().getDamage());
             s += "was hit for " + p.getWeapon().getDamage() + " damage!";
         }
         else if (i instanceof Spell) {
-            switch (((Spell) i).getType()) {
-                case DAMAGE:
-                    //do damage
-                    c.getStats().setCurrHP(c.getStats().getCurrHP() - ((Spell) i).getSpellDamage());
-                    s += "was hit for " + ((Spell) i).getSpellDamage() + " damage!";
-                    break;
-                case HEAL:
-                    //heal
-                    c.getStats().setCurrHP(c.getStats().getCurrHP() + ((Spell) i).getSpellDamage());
-                    s += "was healed for " + ((Spell) i).getSpellDamage() + " damage.";
-                    if (c.getStats().getCurrHP() > c.getStats().getMaxHP())     // in the case of overhealing
-                    {
-                        c.getStats().setCurrHP(c.getStats().getMaxHP());
-                    }
-                    break;
+            if (p.getStats().getCurrMana() >= ((Spell) i).getSpellCost()){ //if player has enough mana
+                //spend the mana
+                p.getStats().setCurrMana(p.getStats().getCurrMana() - ((Spell) i).getSpellCost());
+                switch (((Spell) i).getType()) {
+                    case DAMAGE:
+                        //do damage
+                        target.getStats().setCurrHP(target.getStats().getCurrHP() - ((Spell) i).getSpellDamage());
+                        s += "was hit for " + ((Spell) i).getSpellDamage() + " damage!";
+                        break;
+                    case HEAL:
+                        //heal
+                        target.getStats().setCurrHP(target.getStats().getCurrHP() + ((Spell) i).getSpellDamage());
+                        s += "was healed for " + ((Spell) i).getSpellDamage() + " damage.";
+                        if (target.getStats().getCurrHP() > target.getStats().getMaxHP())     // in the case of overhealing
+                        {
+                            target.getStats().setCurrHP(target.getStats().getMaxHP());
+                        }
+                        break;
+                }
             }
+            else
+                s += "Insufficient Mana";
         }
         cleanUp();
         return s;
@@ -96,7 +107,7 @@ public class BattleController {
 
 
     /**
-     * has entities other than the player take a turn
+     * have entities other than the player take a turn
      * @return output
      */
     public String entityTurn(){
@@ -110,6 +121,7 @@ public class BattleController {
                 //attack(i, e.getWeapon()); ?
                 p.getStats().setCurrHP(p.getStats().getCurrHP() - e.getWeapon().getDamage());
                 s += "\n" + e.getName() + " attacked you for " + e.getWeapon().getDamage() + " damage";
+                expReward += e.getWeapon().getDamage();
             }
             else if (i < allies.size()){
                 allies.get(i).getStats().setCurrHP(allies.get(i).getStats().getCurrHP() - e.getWeapon().getDamage());
@@ -120,16 +132,28 @@ public class BattleController {
         return s;
     }
 
-
+    /**
+     * clean up any corpses, add to player exp, check if battle is won
+     */
     public void cleanUp(){
 
         for (int i = 0; i < enemies.size(); i++)
-            if (enemies.get(i).getStats().getCurrHP() <= 0)
-                enemies.remove(i);
+            if (enemies.get(i).getStats().getCurrHP() <= 0) {
+                expReward += enemies.get(i).getStats().getLevel()*10;
+                enemies.remove(i--);
+            }
         for (int i = 0; i < allies.size(); i++)
                 if (allies.get(i).getStats().getCurrHP() <= 0)
-                    allies.remove(i);
+                    allies.remove(i--);
         if (enemies.size() == 0)
             won = true;
+    }
+
+
+    public int getExpReward() {
+        return expReward;
+    }
+    public boolean isWon() {
+        return won;
     }
 }
