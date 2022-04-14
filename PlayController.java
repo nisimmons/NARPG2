@@ -51,8 +51,11 @@ public class PlayController {
                 }
 			    else if (r == m.getMap().length-1 && c == m.getMap()[0].length-1) {
                     //set end
-                    Dungeon d = new Dungeon("End");
+                    Dungeon d = new Dungeon("Demon King's Fortress");
                     d.setFaction(Faction.FINALDUNGEON);
+                    ArrayList<Enemy> e = new ArrayList<>();
+                    e.add(DataAccess.getEnemy(1));
+                    d.addBattle(e);
                     m.setLocation(c, r, d); //final dungeon
                 }
                 else if(rand.nextInt(100) < towns) {
