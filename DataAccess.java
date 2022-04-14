@@ -200,24 +200,47 @@ public class DataAccess {
             return null;
         }
         int i = Integer.parseInt(scr.nextLine());
-        //find the correct player
+        //find the correct enemy
         while (id != i) {
-            for (int j = 0; j < 4; j++) //skip one player
+            for (int j = 0; j < 5; j++) //skip one enemy
                 scr.nextLine();
             if (!scr.hasNext())
                 return null;
             i = Integer.parseInt(scr.nextLine());
         }
+        scr.nextLine();
         String name = scr.nextLine();
         Stats stats = new Stats(scr.nextLine().split("/"));
         Weapon wep = (Weapon) getItem(Integer.parseInt(scr.nextLine()));
         Armor armor = (Armor) getItem(Integer.parseInt(scr.nextLine()));
         return new Enemy(name,stats,armor,wep);
     }
-    public static Enemy getEnemy(Faction faction, int level){
+    public static Enemy getEnemy(Faction faction, int level) {
         Enemy e = new Enemy();
         //go through enemyData.txt, find an enemy near the right level and return it's data
-        return e;
+        Scanner scr;
+        try {
+            scr = new Scanner(new File("enemyData.txt"));
+        } catch (FileNotFoundException f) {
+            return null;
+        }
+        scr.nextLine();
+        Faction f = Faction.valueOf(scr.nextLine());
+        String name = null;
+        Stats stats = null;
+        while (faction != f) {
+            for (int j = 0; j < 2; j++) //skip one enemy
+                scr.nextLine();
+            if (!scr.hasNext())
+                return null;
+            f = Faction.valueOf(scr.nextLine());
+            name = scr.nextLine();
+            scr.nextLine();
+            stats = new Stats(scr.nextLine().split("/"));
+        }
+        Weapon wep = (Weapon) getItem(Integer.parseInt(scr.nextLine()));
+        Armor armor = (Armor) getItem(Integer.parseInt(scr.nextLine()));
+        return new Enemy(name, stats, armor, wep);
     }
 
     /**

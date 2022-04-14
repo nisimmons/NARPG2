@@ -3,6 +3,7 @@ abstract class Character {
     private String name;
     private Armor armor;
     private Weapon weapon;
+
     public Character() {}
     public Character(String s) {
         name = s;
