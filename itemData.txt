@@ -6,13 +6,26 @@ weapon
 Imp Claws
 weapon
 3
+199
+Dark Greatsword
+weapon
+30
 201
 Leather
 armor
 10
+299
+Dark Armor
+armor
+40
 301
 Fireball
 spell
 10
 5
 DAMAGE
+399
+Demonic Blast
+spell
+40
+30
