@@ -352,4 +352,22 @@ public class DataAccess {
             e.printStackTrace();
         }
     }
+
+    public void saveStuff(String s, int line){
+        Scanner scr = new Scanner("mapData.txt");
+        FileWriter out;
+        try {
+            out = new FileWriter("mapData2.txt");
+            for (int i = 0; i < line; i++) {
+                out.write(scr.nextLine());
+            }
+            out.write(s);
+            while(scr.hasNext())
+                out.write(scr.nextLine());
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
