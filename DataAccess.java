@@ -3,6 +3,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class DataAccess {
@@ -82,7 +83,7 @@ public class DataAccess {
      * @param id id of map
      * @return map
      */
-    public static Map getMap(int id) {
+    public static Map getMap(String id) {
         //return null if not found
         Map m;
         Scanner scr = null;
@@ -97,7 +98,7 @@ public class DataAccess {
         while(true){
             try{
                 s = scr.nextLine();
-                if (id == Integer.parseInt(s))
+                if (Objects.equals(id, s))
                     break;
             }
             catch(Exception ignored){         }
@@ -331,7 +332,7 @@ public class DataAccess {
      * saves all map data to file
      * @param m map to save
      */
-    public static void saveMap(Map m) {
+    public static void saveMap(Map m, int asdf) {
         //save all map data
         /*
         Scanner scr = null;
@@ -353,21 +354,84 @@ public class DataAccess {
         }
     }
 
-    public void saveStuff(String s, int line){
-        Scanner scr = new Scanner("mapData.txt");
+    public static void saveMap(Map m){
+        File data = new File("mapData.txt");
+        File temp = new File("mapData2.txt");
+        Scanner scr;
         FileWriter out;
+        int r, c;
+        String id;
+        //open the data file, and if it does not exist simply create and write to it
         try {
-            out = new FileWriter("mapData2.txt");
-            for (int i = 0; i < line; i++) {
+            scr = new Scanner(data);
+        } catch (Exception e) {
+            try {
+                out = new FileWriter(data);
+                out.write(m.toData());
+                out.close();
+                return;
+            }
+            catch(IOException e2){
+                return;
+            }
+        }
+        //read through the existing data file to find the map for overwrite
+        try {
+            out = new FileWriter(temp);
+            //find the right map
+            id = "-1";
+            if (scr.hasNext())
+                id = scr.nextLine();
+            //copy other maps until we find this one or get to the end
+            while(scr.hasNext() && m.getId().compareTo(id) != 0) {
+                out.write(id+"\n");
+                out.write(scr.nextLine()+"\n");
+                r = Integer.parseInt(scr.nextLine());
+                c = Integer.parseInt(scr.nextLine());
+                out.write(r + "\n");
+                out.write(c + "\n");
+                for (int i = 0; i < r*c; i++)
+                    out.write(scr.nextLine()+"\n");
+                if (scr.hasNext())
+                    id = scr.nextLine();
+            }
+
+            //skip reading this map
+            if (scr.hasNext()) {
+                scr.nextLine();
+                r = Integer.parseInt(scr.nextLine());
+                c = Integer.parseInt(scr.nextLine());
+                for (int i = 0; i < r * c; i++)
+                    scr.nextLine();
+            }
+            //write this map
+            out.write(m.toData());
+            //write any more maps
+            while(scr.hasNext()) {
+                out.write("\n");
                 out.write(scr.nextLine());
             }
-            out.write(s);
-            while(scr.hasNext())
-                out.write(scr.nextLine());
             out.close();
+            scr.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        //copy from temp file back to data
+        try {
+            data.delete();
+            scr = new Scanner(temp);
+            out = new FileWriter(data);
+            while (scr.hasNext()) {
+                out.write(scr.nextLine());
+                if (scr.hasNext())
+                    out.write("\n");
+            }
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        scr.close();
+        //delete temp file
+        temp.delete();
     }
-
 }

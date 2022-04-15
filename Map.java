@@ -1,6 +1,6 @@
 public class Map {
     private String name;
-    private int id;
+    private String id;
     private Location[][] map;
     Map(){
         this(5,5);
@@ -21,7 +21,8 @@ public class Map {
         for (int r = 0; r < map.length; r++) {
             for (int c = 0; c < map[0].length; c++) {
                 s.append(getLocation(r, c).toData());
-                s.append("\n");
+                if (r < map[0].length-1 || c < map[0].length-1)
+                    s.append("\n");
             }
         }
         return s.toString();
@@ -58,11 +59,11 @@ public class Map {
         }
         return s.toString();
     }
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
     public String getName() {

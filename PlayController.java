@@ -25,20 +25,20 @@ public class PlayController {
         return p;
     }
 
-    public static Map createRandomMap(){return createRandomMap(50);}
+    public static Map createRandomMap(String s){return createRandomMap(50, s);}
     /**
      * sets up a randomized map
      * @param difficulty 1-100
      * @return the map
      */
-    public static Map createRandomMap(int difficulty){
+    public static Map createRandomMap(int difficulty, String name){
         //default difficulty is 50
         int towns = 85 - difficulty;
         int dungeons = difficulty;
         int encounters = (difficulty/5) + 80;
         Map m = new Map();
         m.setName("Overworld");
-        m.setId(0);
+        m.setId(name);
         Random rand = new Random();
         for(int r = 0; r < m.getMap().length; r++){
             for (int c = 0; c < m.getMap()[0].length; c++){

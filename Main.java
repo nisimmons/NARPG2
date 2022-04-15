@@ -16,7 +16,7 @@ public class Main {
                     s = scr.nextLine();
                     //create player and map details
                     p = PlayController.createRandomPlayer(s);
-                    m = PlayController.createRandomMap(50);
+                    m = PlayController.createRandomMap(50, s);
                     //play the game
                     playGame(new PlayController(p, m), scr);
                     //save the game
@@ -33,7 +33,7 @@ public class Main {
                         p = LoadSaveController.loadPlayer(s);
                     } while (p == null);
                     //load the map
-                    m = LoadSaveController.loadMap(0);
+                    m = LoadSaveController.loadMap(s);
                     //play the game
                     playGame(new PlayController(p, m), scr);
                     //save the game

@@ -1,11 +1,11 @@
 import java.io.FileNotFoundException;
 
 public class LoadSaveController {
-    public static Player loadPlayer(String id) throws FileNotFoundException {
+    public static Player loadPlayer(String id) {
         //request player data from DAO
         return DataAccess.getPlayer(id);
     }
-    public static Map loadMap(int id){
+    public static Map loadMap(String id){
         //request map data from DAO
         return DataAccess.getMap(id);
     }
