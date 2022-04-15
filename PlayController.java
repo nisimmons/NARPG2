@@ -79,22 +79,31 @@ public class PlayController {
                     d.addBattle(e2);
                     m.setLocation(c, r, d); //regular dungeon
                 }
-                else
+                else {
                     //set wilderness
                     if (rand.nextInt(100) < encounters) {
                         Wilderness w = new Wilderness();
-                        //TODO set faction randomly and get random enemies based on faction and level of area
-                        w.setFaction(Faction.FOREST);
-                        Enemy e = DataAccess.getEnemy(0);
-                        w.addEnemy(e);
+                        w.setFaction(randomFaction());
+                        ArrayList<Enemy> enemies = DataAccess.produceFaction(w.getFaction());
+                        //get enemies of this faction within 5 levels of the area level
+                        if (enemies != null && !enemies.isEmpty()){
+                            for (int i = 0; i < enemies.size(); i++)
+                                if(enemies.get(i).getStats().getLevel() > (r*3)+(c*3) || enemies.get(i).getStats().getLevel() < (r*3)+(c*3)-7)
+                                    enemies.remove(i--);
+                            if(!enemies.isEmpty()) {
+                                //add up to 3 enemies to this location
+                                int j = rand.nextInt(3) + 1;
+                                for (int i = 0; i < j; i++)
+                                    w.addEnemy(enemies.get(rand.nextInt(enemies.size())));
+                            }
+                        }
                         m.setLocation(c, r, w); //set enemy encounter
-                    }
-                    else {
+                    } else {
                         Wilderness w = new Wilderness("Wilderness");
-                        w.setFaction(Faction.FOREST);
-                        //TODO set faction randomly
+                        w.setFaction(Faction.WILDERNESS);
                         m.setLocation(c, r, w); //set non enemy encounter
                     }
+                }
             }
         }
         return m;
@@ -155,5 +164,23 @@ public class PlayController {
     public void setMap(Map map) {
         this.map = map;
     }
-
+    public static Faction randomFaction(){
+        Random rand = new Random();
+        switch(rand.nextInt(6)){
+            case 0:
+                return Faction.FOREST;
+            case 1:
+                return Faction.DESERT;
+            case 2:
+                return Faction.PLAINS;
+            case 3:
+                return Faction.BEACH;
+            case 4:
+                return Faction.RUINS;
+            case 5:
+                return Faction.MOUNTAIN;
+            default:
+                return Faction.WILDERNESS;
+        }
+    }
 }

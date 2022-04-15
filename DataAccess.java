@@ -218,6 +218,30 @@ public class DataAccess {
         return new Enemy(name,stats,armor,wep);
     }
 
+    public static Enemy getEnemy(String id) {
+        Scanner scr;
+        try {
+            scr = new Scanner(new File("enemyData.txt"));
+        } catch (FileNotFoundException e) {
+            return null;
+        }
+        String i = scr.nextLine();
+        //find the correct enemy
+        while (id.compareTo(i) != 0) {
+            for (int j = 0; j < 5; j++) //skip one enemy
+                scr.nextLine();
+            if (!scr.hasNext())
+                return null;
+            i = scr.nextLine();
+        }
+        scr.nextLine();
+        String name = scr.nextLine();
+        Stats stats = new Stats(scr.nextLine().split("/"));
+        Weapon wep = (Weapon) getItem(Integer.parseInt(scr.nextLine()));
+        Armor armor = (Armor) getItem(Integer.parseInt(scr.nextLine()));
+        return new Enemy(name,stats,armor,wep);
+    }
+
     /*
      * get an enemy from data from given info
      * @param faction faction of enemy
@@ -257,7 +281,7 @@ public class DataAccess {
      * @param faction faction
      * @return all enemies of the faction
      */
-    public ArrayList<Enemy> produceFaction(Faction faction){
+    public static ArrayList<Enemy> produceFaction(Faction faction){
         ArrayList<Enemy> enemies = new ArrayList<>();
         //go through enemyData.txt, find an enemy near the right level and return it's data
         Scanner scr;
@@ -266,23 +290,19 @@ public class DataAccess {
         } catch (FileNotFoundException f) {
             return null;
         }
-        scr.nextLine();
-
         while (scr.hasNext()) {
-            Faction f = Faction.valueOf(scr.nextLine());
-            String name = scr.nextLine();
             scr.nextLine();
-            Stats stats = new Stats(scr.nextLine().split("/"));
+            Faction f = Faction.valueOf(scr.nextLine());
             while (faction != f) {
-                for (int j = 0; j < 2; j++) //skip one enemy
+                for (int j = 0; j < 4; j++) //skip one enemy
                     scr.nextLine();
                 if (!scr.hasNext())
-                    return null;
-                f = Faction.valueOf(scr.nextLine());
-                name = scr.nextLine();
+                    return enemies;
                 scr.nextLine();
-                stats = new Stats(scr.nextLine().split("/"));
+                f = Faction.valueOf(scr.nextLine());
             }
+            String name = scr.nextLine();
+            Stats stats = new Stats(scr.nextLine().split("/"));
             Weapon wep = (Weapon) getItem(Integer.parseInt(scr.nextLine()));
             Armor armor = (Armor) getItem(Integer.parseInt(scr.nextLine()));
             enemies.add(new Enemy(name, stats, armor, wep));
