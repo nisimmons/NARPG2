@@ -355,7 +355,7 @@ public class DataAccess {
                 id = scr.nextLine();
             //copy other maps until we find this one or get to the end
             while(scr.hasNext() && p.getName().compareTo(id) != 0) {
-                out.write(id+"\n"); //TODO
+                out.write(id+"\n");
                 for(int i = 0; i < 5; i++)
                     out.write(scr.nextLine()+"\n");
                 if (scr.hasNext())
