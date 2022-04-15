@@ -10,7 +10,7 @@ public class Main {
         Map m;
         while(true) {
             p = null;
-            switch (menuScreen(scr)) {//new game
+            switch (integerInput(scr, 1, 3, "1. New game\n2. Load save\n3. Quit")) {//new game
                 case 1:
                     System.out.println("Enter Playername: ");
                     s = scr.nextLine();
@@ -50,10 +50,25 @@ public class Main {
         Player player = pc.getPlayer();
         Map map = pc.getMap();
         while(true) {
-            switch (turnScreen(scr)) {
+            switch (integerInput(scr, 1, 5, "1. Move\n2. Investigate Area\n3. Player info\n4. Print map\n5. Save + quit")) {
                 case 1:
                     //move
-                    if (pc.move(moveScreen(scr))) {//try to move, print location or error message
+                    Direction d;
+                    switch (integerInput(scr, 1, 4, "1. North\n2. East\n3. South\n4. West")){
+                        case 1:
+                            d = Direction.NORTH;
+                            break;
+                        case 2:
+                            d = Direction.EAST;
+                            break;
+                        case 3:
+                            d = Direction.SOUTH;
+                            break;
+                        default:
+                            d = Direction.WEST;
+                            break;
+                    }
+                    if (pc.move(d)) {//try to move, print location or error message
                         Location loc = map.getLocation(player.getPosition());
                         System.out.println(loc);
                         if (loc instanceof Wilderness){
@@ -97,6 +112,7 @@ public class Main {
                                         case 3:
                                             System.out.println("You ran away...");
                                             i = ((Dungeon) loc).battleCount();
+                                            ((Dungeon) loc).cleanUp();
                                             break;
                                     }
                                 }
@@ -135,7 +151,7 @@ public class Main {
         while(!b.isWon()) {
             System.out.println(b.battleState());
             int i;
-            switch (battleScreen(scr)) {
+            switch (integerInput(scr, 1, 3, "Fight:\n1. Attack\n2. Spell\n3. Run")) {
                 case 1:
                     //attack
                     while (true) {
@@ -187,65 +203,15 @@ public class Main {
         }
         return 2;
     }
-    public static int battleScreen(Scanner scr) {
+    public static int integerInput(Scanner scr, int lower, int upper, String s) {
         int i = 0;
         do {
-            System.out.println("Fight:");
-            System.out.println("1. Attack");
-            System.out.println("2. Spell");
-            System.out.println("3. Run");
+            System.out.println(s);
             try {
                 i = Integer.parseInt(scr.nextLine());
             } catch (Exception ignored) {
             }
-        } while (i < 1 || i > 3);
-        return i;
-    }
-    public static Direction moveScreen(Scanner scr){
-        int i = 0;
-        do {
-            System.out.println("1. North\n2. East\n3. South\n4. West");
-            try {
-                    i = Integer.parseInt(scr.nextLine());
-            }
-            catch(Exception ignored){}
-        } while (i < 1 || i > 4);
-        switch (i) {
-            case 1:
-                return Direction.NORTH;
-            case 2:
-                return Direction.EAST;
-            case 3:
-                return Direction.SOUTH;
-            default:
-                return Direction.WEST;
-        }
-    }
-    public static int turnScreen(Scanner scr){
-        int i;
-        while(true) {
-            System.out.println("1. Move\n2. Investigate Area\n3. Player info\n4. Print map\n5. Save + quit");
-            try {
-                i = Integer.parseInt(scr.nextLine());
-                if (i < 1 || i > 5)
-                    throw new Exception();
-                else
-                    break;
-            }
-            catch(Exception ignored){}
-        }
-        return i;
-    }
-    public static int menuScreen(Scanner scr){
-        int i = 0;
-        do {
-            System.out.println("1. New game\n2. Load save\n3. Quit");
-
-            try {
-                i = Integer.parseInt(scr.nextLine());
-            }
-            catch(Exception ignored){}
-        } while (i < 1 || i > 3);
+        } while (i < lower || i > upper);
         return i;
     }
     public static void save(Player p, Map m){
