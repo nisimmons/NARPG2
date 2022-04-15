@@ -1,5 +1,6 @@
 import org.junit.Before;
 
+import javax.xml.crypto.Data;
 import java.io.FileNotFoundException;
 
 public class TestClass {
@@ -10,9 +11,13 @@ public class TestClass {
 
     @org.junit.Test
     public void testData() {
-        Map m = PlayController.createRandomMap("Nate");
-        DataAccess.saveMap(m);
+        Player p = PlayController.createRandomPlayer("Nate");
+        DataAccess.savePlayer(p, 1);
 
+
+
+//        Map m = PlayController.createRandomMap("Nate");
+//        DataAccess.saveMap(m);
 
     }
 

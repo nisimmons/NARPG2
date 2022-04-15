@@ -59,4 +59,14 @@ public class Player extends Character{
         s += "\n" + inventory.toString();
         return s;
     }
+    public String toData(){
+        String s= "";
+        s += getName() + "\n";
+        s += getStats().toData() + "\n";
+        s += getPosition().toData() + "\n";
+        s += getArmor().getId() + "\n";
+        s += getWeapon().getId() + "\n";
+        s += getInventory().toData();
+        return s;
+    }
 }

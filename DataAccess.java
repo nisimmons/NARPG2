@@ -218,14 +218,13 @@ public class DataAccess {
         return new Enemy(name,stats,armor,wep);
     }
 
-    /**
+    /*
      * get an enemy from data from given info
      * @param faction faction of enemy
      * @param level approximate level of enemy
      * @return the enemy
      */
-    public static Enemy getEnemy(Faction faction, int level) {
-        Enemy e = new Enemy();
+    /*public static Enemy getEnemy(Faction faction, int level) {
         //go through enemyData.txt, find an enemy near the right level and return it's data
         Scanner scr;
         try {
@@ -251,7 +250,7 @@ public class DataAccess {
         Weapon wep = (Weapon) getItem(Integer.parseInt(scr.nextLine()));
         Armor armor = (Armor) getItem(Integer.parseInt(scr.nextLine()));
         return new Enemy(name, stats, armor, wep);
-    }
+    }*/
 
     /**
      * produces an arraylist with all the enemies in a faction
@@ -270,7 +269,6 @@ public class DataAccess {
         scr.nextLine();
 
         while (scr.hasNext()) {
-            Enemy e = new Enemy();
             Faction f = Faction.valueOf(scr.nextLine());
             String name = scr.nextLine();
             scr.nextLine();
@@ -328,22 +326,83 @@ public class DataAccess {
         }
     }
 
+    public static void savePlayer(Player p, int iasd){
+        File data = new File("playerData.txt");
+        File temp = new File("playerData2.txt");
+        Scanner scr;
+        FileWriter out;
+        String id;
+        //open the data file, and if it does not exist simply create and write to it
+        try {
+            scr = new Scanner(data);
+        } catch (Exception e) {
+            try {
+                out = new FileWriter(data);
+                out.write(p.toData());
+                out.close();
+                return;
+            }
+            catch(IOException e2){
+                return;
+            }
+        }
+        //read through the existing data file to find the map for overwrite
+        try {
+            out = new FileWriter(temp);
+            //find the right map
+            id = "-1";
+            if (scr.hasNext())
+                id = scr.nextLine();
+            //copy other maps until we find this one or get to the end
+            while(scr.hasNext() && p.getName().compareTo(id) != 0) {
+                out.write(id+"\n"); //TODO
+                for(int i = 0; i < 5; i++)
+                    out.write(scr.nextLine()+"\n");
+                if (scr.hasNext())
+                    id = scr.nextLine();
+            }
+
+            //skip reading this map
+            if (scr.hasNext()) {
+                for (int i = 0; i < 5; i++)
+                    scr.nextLine();
+            }
+            //write this map
+            out.write(p.toData());
+            //write any more maps
+            while(scr.hasNext()) {
+                out.write("\n");
+                out.write(scr.nextLine());
+            }
+            out.close();
+            scr.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //copy from temp file back to data
+        try {
+            data.delete();
+            scr = new Scanner(temp);
+            out = new FileWriter(data);
+            while (scr.hasNext()) {
+                out.write(scr.nextLine());
+                if (scr.hasNext())
+                    out.write("\n");
+            }
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        scr.close();
+        //delete temp file
+        temp.delete();
+    }
     /**
      * saves all map data to file
      * @param m map to save
      */
-    public static void saveMap(Map m, int asdf) {
+    /*public static void saveMap(Map m, int asdf) {
         //save all map data
-        /*
-        Scanner scr = null;
-        try {
-            scr = new Scanner(new File("mapData.txt"));
-        } catch (FileNotFoundException e) {
-        }
-        String s = scr.nextLine();
-        while (m.getId() != Integer.parseInt(s))
-            s = scr.nextLine();
-        */
         FileWriter out;
         try {
             out = new FileWriter("mapData.txt");
@@ -352,7 +411,7 @@ public class DataAccess {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     public static void saveMap(Map m){
         File data = new File("mapData.txt");
