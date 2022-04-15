@@ -88,7 +88,7 @@ public class DataAccess {
             return null;
         }
 
-        //<int id>
+
         int id = Integer.parseInt(scr.nextLine());
         String itemName = scr.nextLine();
         //find the correct ID
