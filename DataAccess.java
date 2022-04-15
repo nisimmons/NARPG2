@@ -78,6 +78,66 @@ public class DataAccess {
         return null;
     }
 
+    public static Item getItem(String name) {
+        //return null if not found
+
+        Scanner scr;
+        try {
+            scr = new Scanner(new File("itemData.txt"));
+        } catch (FileNotFoundException e) {
+            return null;
+        }
+
+        //<int id>
+        int id = Integer.parseInt(scr.nextLine());
+        String itemName = scr.nextLine();
+        //find the correct ID
+        while (!Objects.equals(itemName, name)) {
+            if(scr.nextLine().compareTo("spell") == 0)
+            {
+                for(int i = 0; i < 3; i++) //skip one Item
+                {
+                    scr.nextLine();
+                }
+            }
+            else
+            { scr.nextLine(); }
+
+            if (!scr.hasNext())
+                return null;
+            id = Integer.parseInt(scr.nextLine());
+            itemName = scr.nextLine();
+        }
+
+        //<weapon/armor/spell>
+        String itemCategory = scr.nextLine();
+        //<weapon dmg/armor health/spell dmg>
+        int itemStat = Integer.parseInt(scr.nextLine());
+
+        switch (itemCategory)
+        {
+            case "weapon":
+            {
+                return new Weapon(itemName, id, itemStat);      // returns new weapon object
+            }
+            case "armor":
+            {
+                return new Armor(itemName, id, itemStat);       // returns new armor object
+            }
+            case "spell":
+            {
+                //<spell mana cost>
+                int spellCost = Integer.parseInt(scr.nextLine());
+                //<spell details>
+                SpellType spellKeyword = SpellType.valueOf(scr.nextLine());
+
+                return new Spell(itemName, id, itemStat, spellCost, spellKeyword);
+            }
+            default:
+                return null;
+        }
+    }
+
     /**
      * gets a map from mapData file
      * @param id id of map

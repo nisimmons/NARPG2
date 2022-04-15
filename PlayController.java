@@ -18,10 +18,11 @@ public class PlayController {
         Player p = new Player();
         p.setName(name);
         p.setPosition(0,0);
-        p.setWeapon((Weapon) DataAccess.getItem(101));
-        p.setArmor((Armor) DataAccess.getItem(201));
+        p.setWeapon((Weapon) DataAccess.getItem("Iron-Sword"));
+        p.setArmor((Armor) DataAccess.getItem("Leather"));
         p.setStats(new Stats(new String[]{"1","0","15","15","15","10","10"}));
-        p.getInventory().add(DataAccess.getItem(301));
+        p.getInventory().add(DataAccess.getItem("Flare"));
+        p.getInventory().add(DataAccess.getItem("Healing"));
         return p;
     }
 

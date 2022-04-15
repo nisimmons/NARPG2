@@ -91,10 +91,22 @@ public class Main {
                         }
                         else if (loc instanceof Town){
                             //Heal player/restore mana
-                            System.out.println(player.rest());
-                            System.out.println("Would you like to purchase anything");
-                            System.out.println(((Town) loc).getMerchant());
-                            //TODO take user input and purchase items
+                            System.out.println("You enter the town.");
+                            switch(integerInput(scr, 1, 3, "1. Inn\n2. Market\n3. Guild Hall")){
+                                //TODO paying for inns, buying at market, quests at guild hall
+                                case 1: //Inn
+                                    System.out.println(player.rest());
+                                    break;
+                                case 2: //Market
+                                    System.out.println("Would you like to purchase anything");
+                                    System.out.println(((Town) loc).getMerchant());
+                                    break;
+                                case 3: //Guild Hall
+                                    System.out.println("There is nothing here yet");
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                         else {
                             //it's a dungeon
