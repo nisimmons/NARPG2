@@ -83,24 +83,32 @@ public class Main {
                         }
                         else {
                             //it's a dungeon
-                            for (int i = 0; i < ((Dungeon)loc).battleCount(); i++) {
-                                BattleController b = new BattleController(player, new ArrayList<>(), ((Dungeon) loc).getBattle(i));
-                                switch (battle(scr, player, b)) {
-                                    case 1:
-                                        System.out.println("You Suck!");
-                                        return; //return to main screen
-                                    case 2:
-                                        System.out.println("You won this battle");
-                                        System.out.println(player.addExp(b.getExpReward()));
-                                        break; //continue playing
-                                    case 3:
-                                        System.out.println("You ran away...");
-                                        i = ((Dungeon) loc).battleCount();
-                                        break;
+                            if (((Dungeon)loc).battleCount() != 0) {
+                                for (int i = 0; i < ((Dungeon) loc).battleCount(); i++) {
+                                    BattleController b = new BattleController(player, new ArrayList<>(), ((Dungeon) loc).getBattle(i));
+                                    switch (battle(scr, player, b)) {
+                                        case 1:
+                                            System.out.println("You Suck!");
+                                            return; //return to main screen
+                                        case 2:
+                                            System.out.println("You won this battle");
+                                            System.out.println(player.addExp(b.getExpReward()));
+                                            break; //continue playing
+                                        case 3:
+                                            System.out.println("You ran away...");
+                                            i = ((Dungeon) loc).battleCount();
+                                            break;
+                                    }
+                                }
+                                if (((Dungeon)loc).battleCount() == 0) {
+                                    System.out.println("You conquered the Dungeon!");
+                                    ((Dungeon) loc).cleanUp();
+                                    //TODO implement player winning stuff from the dungeon
                                 }
                             }
-                            System.out.println("You conquered the Dungeon!");
-                            //TODO implement player winning stuff from the dungeon
+                            else{
+                                System.out.println("You've already conquered this Dungeon");
+                            }
                         }
                         loc.setRevealed(true);
                     }

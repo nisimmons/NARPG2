@@ -119,13 +119,13 @@ public class BattleController {
             if (i == 0) {
                 //attack the player
                 //attack(i, e.getWeapon()); ?
-                p.getStats().setCurrHP(p.getStats().getCurrHP() - e.getWeapon().getDamage());
-                s += "\n" + e.getName() + " attacked you for " + e.getWeapon().getDamage() + " damage";
-                expReward += e.getWeapon().getDamage();
+                p.getStats().setCurrHP(p.getStats().getCurrHP() - e.getDamage());
+                s += "\n" + e.getName() + " attacked you for " + e.getDamage() + " damage";
+                expReward += e.getDamage();
             }
             else if (i < allies.size()){
-                allies.get(i).getStats().setCurrHP(allies.get(i).getStats().getCurrHP() - e.getWeapon().getDamage());
-                s += "\n" + e.getName() + " attacked " + allies.get(i).getName() + " for " + e.getWeapon().getDamage() + " damage";
+                allies.get(i).getStats().setCurrHP(allies.get(i).getStats().getCurrHP() - e.getDamage());
+                s += "\n" + e.getName() + " attacked " + allies.get(i).getName() + " for " + e.getDamage() + " damage";
             }
         }
         cleanUp();

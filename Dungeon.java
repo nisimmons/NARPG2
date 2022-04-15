@@ -36,13 +36,20 @@ public class Dungeon extends Location {
         }
         return s.toString();
     }
-
+    public void cleanUp(){
+        for (int i = 0; i < battles.size(); i++)
+            if (battles.get(i).isEmpty())
+                battles.remove(i--);
+    }
     public void fromData(String s){
         //D 0 DUNGEON Imp/2/0/5/10/5/15/201/102 Imp/2/0/5/10/5/15/201/102// Imp/2/0/5/10/5/15/201/102 Imp/2/0/5/10/5/15/201/102
+
+        //parse initial information
         String[] s2 = s.split(" ");
         setRevealed(Integer.parseInt(s2[1]) == 1);
         setFaction(Faction.valueOf(s2[2]));
 
+        //parse out each battle
         StringBuilder s3 = new StringBuilder();
         for (int i = 3; i < s2.length; i++) {
             s3.append(s2[i]);
@@ -50,6 +57,8 @@ public class Dungeon extends Location {
                 s3.append(" ");
         }
         String [] battleList = s3.toString().split("//");
+
+        //parse out each enemy in each battle
         for (int i = 0; i < battleList.length; i++) {
             battles.add(new ArrayList<Enemy>());
             String[] enemyList = battleList[i].split(" ");
@@ -61,6 +70,7 @@ public class Dungeon extends Location {
                 }
             }
         }
+        cleanUp();
     }
 
     public String toString(){

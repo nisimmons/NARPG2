@@ -213,9 +213,9 @@ public class DataAccess {
         scr.nextLine();
         String name = scr.nextLine();
         Stats stats = new Stats(scr.nextLine().split("/"));
-        Weapon wep = (Weapon) getItem(Integer.parseInt(scr.nextLine()));
-        Armor armor = (Armor) getItem(Integer.parseInt(scr.nextLine()));
-        return new Enemy(name,stats,armor,wep);
+        int damage = Integer.parseInt(scr.nextLine());
+        int armor = Integer.parseInt(scr.nextLine());
+        return new Enemy(name,stats,armor,damage);
     }
 
     public static Enemy getEnemy(String id) {
@@ -237,9 +237,9 @@ public class DataAccess {
         scr.nextLine();
         String name = scr.nextLine();
         Stats stats = new Stats(scr.nextLine().split("/"));
-        Weapon wep = (Weapon) getItem(Integer.parseInt(scr.nextLine()));
-        Armor armor = (Armor) getItem(Integer.parseInt(scr.nextLine()));
-        return new Enemy(name,stats,armor,wep);
+        int damage = Integer.parseInt(scr.nextLine());
+        int armor = Integer.parseInt(scr.nextLine());
+        return new Enemy(name,stats,armor,damage);
     }
 
     /*
@@ -303,9 +303,9 @@ public class DataAccess {
             }
             String name = scr.nextLine();
             Stats stats = new Stats(scr.nextLine().split("/"));
-            Weapon wep = (Weapon) getItem(Integer.parseInt(scr.nextLine()));
-            Armor armor = (Armor) getItem(Integer.parseInt(scr.nextLine()));
-            enemies.add(new Enemy(name, stats, armor, wep));
+            int damage = Integer.parseInt(scr.nextLine());
+            int armor = Integer.parseInt(scr.nextLine());
+            enemies.add(new Enemy(name, stats, armor, damage));
         }
         return enemies;
     }
