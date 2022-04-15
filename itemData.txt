@@ -1,5 +1,5 @@
 101
-Iron-sword
+Iron-Sword
 weapon
 10
 102

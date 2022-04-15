@@ -92,7 +92,7 @@ public class DataAccess {
         int id = Integer.parseInt(scr.nextLine());
         String itemName = scr.nextLine();
         //find the correct ID
-        while (!Objects.equals(itemName, name)) {
+        while (itemName.compareTo(name) != 0) {
             if(scr.nextLine().compareTo("spell") == 0)
             {
                 for(int i = 0; i < 3; i++) //skip one Item
