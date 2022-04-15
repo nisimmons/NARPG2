@@ -68,7 +68,7 @@ public class Main {
                             d = Direction.WEST;
                             break;
                     }
-                    if (pc.move(d)) {//try to move, print location or error message
+                    if (pc.move(d)) {//try to move, print location or error messaged
                         Location loc = map.getLocation(player.getPosition());
                         System.out.println(loc);
                         if (loc instanceof Wilderness){
