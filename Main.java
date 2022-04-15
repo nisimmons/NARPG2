@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 //up to date
 public class Main {
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
         Scanner scr = new Scanner(System.in);
         String s;
         Player p;
