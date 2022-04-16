@@ -95,7 +95,7 @@ public class PlayController {
                                 //TODO fix enemy level zoning
                                 int level = enemies.get(i).getStats().getLevel();
 
-                                if (level < zone-7 || level > zone+7-rand.nextInt(7))
+                                if (level < zone-7 || level > zone+7-rand.nextInt(5))
                                     enemies.remove(i--);
                                 else
                                     System.out.println(zone + " / " + level);
@@ -104,7 +104,7 @@ public class PlayController {
                                 //add up to 3 enemies to this location
                                 //TODO add weight to enemy levels
                                 int j = rand.nextInt(3) + 1;
-                                double totalLevel = (zone * 2)+5;
+                                double totalLevel = (zone * 1.6)+7;
                                 for (int i = 0; i < j; i++) {
                                     int ran = rand.nextInt(enemies.size());
                                     int level = enemies.get(ran).getStats().getLevel();
