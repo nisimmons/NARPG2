@@ -272,7 +272,8 @@ public class DataAccess {
         }
         scr.nextLine();
         String name = scr.nextLine();
-        Stats stats = new Stats(scr.nextLine().split("/"));
+        String [] s = scr.nextLine().split("/");
+        Stats stats = new Stats(new String[]{s[0], "0", s[1], s[1],s[2],s[2]});
         int damage = Integer.parseInt(scr.nextLine());
         int armor = Integer.parseInt(scr.nextLine());
         return new Enemy(name,stats,armor,damage);
@@ -362,10 +363,11 @@ public class DataAccess {
                 f = Faction.valueOf(scr.nextLine());
             }
             String name = scr.nextLine();
-            Stats stats = new Stats(scr.nextLine().split("/"));
+            String [] s = scr.nextLine().split("/");
+            Stats stats = new Stats(new String[]{s[0], "0", s[1], s[1],s[2],s[2]});
             int damage = Integer.parseInt(scr.nextLine());
-            int armor = Integer.parseInt(scr.nextLine());
-            enemies.add(new Enemy(name, stats, armor, damage));
+            int defense = Integer.parseInt(scr.nextLine());
+            enemies.add(new Enemy(name, stats, defense, damage));
         }
         return enemies;
     }

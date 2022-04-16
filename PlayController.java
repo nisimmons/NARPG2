@@ -4,6 +4,7 @@ import java.util.Random;
 public class PlayController {
     private Player player;
     private Map map;
+    private static final Position spawn = new Position(0,0);
     public PlayController(Player p, Map m){
         this.player = p;
         this.map = m;
@@ -33,10 +34,10 @@ public class PlayController {
      * @return the map
      */
     public static Map createRandomMap(int difficulty, String name){
-        //default difficulty is 50
-        int towns = 85 - difficulty;
-        int dungeons = difficulty;
-        int encounters = (difficulty/5) + 80;
+        //default difficulty is 50, higher is more likely
+        int towns = 0;//75 - difficulty;
+        int dungeons = 0;//difficulty;
+        int encounters = 100;//(difficulty/5) + 80;
         Map m = new Map();
         m.setName("Overworld");
         m.setId(name);
@@ -55,7 +56,7 @@ public class PlayController {
                     Dungeon d = new Dungeon("Demon King's Fortress");
                     d.setFaction(Faction.FINALDUNGEON);
                     ArrayList<Enemy> e = new ArrayList<>();
-                    e.add(DataAccess.getEnemy(1));
+                    e.add(DataAccess.getEnemy(66));
                     d.addBattle(e);
                     m.setLocation(c, r, d); //final dungeon
                 }
@@ -88,14 +89,30 @@ public class PlayController {
                         ArrayList<Enemy> enemies = DataAccess.produceFaction(w.getFaction());
                         //get enemies of this faction within 5 levels of the area level
                         if (enemies != null && !enemies.isEmpty()){
-                            for (int i = 0; i < enemies.size(); i++)
-                                if(enemies.get(i).getStats().getLevel() > (r*3)+(c*3) || enemies.get(i).getStats().getLevel() < (r*3)+(c*3)-7)
+                            double distance = Math.sqrt(Math.pow(Math.abs(spawn.getY()-r),2) + Math.pow(Math.abs(spawn.getX()-c),2));
+                            int zone = (int) Math.floor((distance-1)*12.5); //find proportion of level(max 50) compared to distance(max 5), 50/5=10
+                            for (int i = 0; i < enemies.size(); i++) {
+                                //TODO fix enemy level zoning
+                                int level = enemies.get(i).getStats().getLevel();
+
+                                if (level < zone-7 || level > zone+7-rand.nextInt(7))
                                     enemies.remove(i--);
+                                else
+                                    System.out.println(zone + " / " + level);
+                            }
                             if(!enemies.isEmpty()) {
                                 //add up to 3 enemies to this location
+                                //TODO add weight to enemy levels
                                 int j = rand.nextInt(3) + 1;
-                                for (int i = 0; i < j; i++)
-                                    w.addEnemy(enemies.get(rand.nextInt(enemies.size())));
+                                double totalLevel = (zone * 2)+5;
+                                for (int i = 0; i < j; i++) {
+                                    int ran = rand.nextInt(enemies.size());
+                                    int level = enemies.get(ran).getStats().getLevel();
+                                    if (level <= totalLevel) {
+                                        w.addEnemy(enemies.get(ran));
+                                        totalLevel -= level;
+                                    }
+                                }
                             }
                         }
                         m.setLocation(c, r, w); //set enemy encounter

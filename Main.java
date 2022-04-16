@@ -96,6 +96,7 @@ public class Main {
                                 //TODO paying for inns, buying at market, quests at guild hall
                                 case 1: //Inn
                                     System.out.println(player.rest());
+                                    //TODO respawn enemies?
                                     break;
                                 case 2: //Market
                                     System.out.println("Would you like to purchase anything");
@@ -132,6 +133,7 @@ public class Main {
                                     System.out.println("You conquered the Dungeon!");
                                     ((Dungeon) loc).cleanUp();
                                     //TODO implement player winning stuff from the dungeon
+
                                 }
                             }
                             else{
@@ -215,6 +217,15 @@ public class Main {
         }
         return 2;
     }
+
+    /**
+     * Prints screen to the player and gets input
+     * @param scr Scanner
+     * @param lower Lower bound (inclusive)
+     * @param upper Upper bound (inclusive)
+     * @param s String to be printed
+     * @return User input
+     */
     public static int integerInput(Scanner scr, int lower, int upper, String s) {
         int i = 0;
         do {
@@ -226,6 +237,12 @@ public class Main {
         } while (i < lower || i > upper);
         return i;
     }
+
+    /**
+     * save player and map data to file
+     * @param p player
+     * @param m map
+     */
     public static void save(Player p, Map m){
         LoadSaveController.savePlayer(p);
         LoadSaveController.saveMap(m);
