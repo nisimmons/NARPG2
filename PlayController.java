@@ -95,7 +95,7 @@ public class PlayController {
                                 //TODO fix enemy level zoning
                                 int level = enemies.get(i).getStats().getLevel();
 
-                                if (level < zone-7 || level > zone+7-rand.nextInt(5))
+                                if (level < zone-7 || level > zone+15-rand.nextInt(10))
                                     enemies.remove(i--);
                                 else
                                     System.out.println(zone + " / " + level);
