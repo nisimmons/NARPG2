@@ -113,6 +113,29 @@ public class PlayController {
                                         totalLevel -= level;
                                     }
                                 }
+
+                                int k = rand.nextInt(100);
+                                if (k < 20){ //three small
+                                    //remove enemies that are too high
+
+
+                                    for (int i = 0; i < 3; i++)
+                                        w.addEnemy(enemies.get(rand.nextInt(enemies.size())));
+                                }
+                                else if (k < 40){ //mini boss
+                                    w.addEnemy(enemies.get(enemies.size()-1));
+                                }
+                                else if (k < 60){
+
+                                }
+                                else if (k < 80){
+
+                                }
+                                else {
+
+                                }
+
+
                             }
                         }
                         m.setLocation(c, r, w); //set enemy encounter
