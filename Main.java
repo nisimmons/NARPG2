@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 //up to date
 public class Main {
+    static final int WAITTIME = 300;
     public static void main(String[] args) {
         Scanner scr = new Scanner(System.in);
         String s;
@@ -35,9 +36,9 @@ public class Main {
                     //load the map
                     m = LoadSaveController.loadMap(s);
                     //play the game
-                    playGame(new PlayController(p, m), scr);
-                    //save the game
-                    save(p, m);
+                    if (playGame(new PlayController(p, m), scr) == 0)
+                        //save the game
+                        save(p, m);
                     break;
                 case 3:
                     //quit
@@ -45,7 +46,7 @@ public class Main {
             }
         }
     }
-    public static void playGame(PlayController pc, Scanner scr){
+    public static int playGame(PlayController pc, Scanner scr){
         //interact with user and call pc to do stuff
         Player player = pc.getPlayer();
         Map map = pc.getMap();
@@ -78,7 +79,7 @@ public class Main {
                                 switch(battle(scr, player, b)){
                                     case 1:
                                         System.out.println("You Suck!");
-                                        return; //return to main screen
+                                        return 1; //return to main screen
                                     case 2:
                                         System.out.println("You Won!");
                                         System.out.println(player.addExp(b.getExpReward()));
@@ -117,9 +118,12 @@ public class Main {
                                     switch (battle(scr, player, b)) {
                                         case 1:
                                             System.out.println("You Suck!");
-                                            return; //return to main screen
+                                            return 1; //return to main screen
                                         case 2:
                                             System.out.println("You won this battle");
+                                            try {
+                                                Thread.sleep(WAITTIME);
+                                            } catch (InterruptedException ignored) {}
                                             System.out.println(player.addExp(b.getExpReward()));
                                             break; //continue playing
                                         case 3:
@@ -131,6 +135,9 @@ public class Main {
                                 }
                                 if (((Dungeon)loc).battleCount() == 0) {
                                     System.out.println("You conquered the Dungeon!");
+                                    try {
+                                        Thread.sleep(WAITTIME);
+                                    } catch (InterruptedException ignored) {}
                                     ((Dungeon) loc).cleanUp();
                                     //TODO implement player winning stuff from the dungeon
 
@@ -157,7 +164,7 @@ public class Main {
                     System.out.println(map);
                     break;
                 default:
-                    return;
+                    return 0;
             }
         }
     }
@@ -170,7 +177,7 @@ public class Main {
                     //attack
                     while (true) {
                         System.out.println("Which will you attack?");
-                        System.out.println(b.listEntities());
+                        System.out.println(b.listEntities()); //TODO print slowly
                         try {
                             i = Integer.parseInt(scr.nextLine());
                         } catch (Exception ignored) {
@@ -184,7 +191,7 @@ public class Main {
                 case 2:
                     while (true) {
                         System.out.println("What spell will you use?");
-                        System.out.println(player.getInventory());
+                        System.out.println(player.getInventory()); //TODO print slowly
                         i = Integer.parseInt(scr.nextLine()) - 1;
                         if (player.getInventory().get(i) instanceof Spell)
                             break;
@@ -196,24 +203,33 @@ public class Main {
                     Spell sp = (Spell) player.getInventory().get(i);
 
                     System.out.println("Which will you cast it on?");
-                    System.out.println(b.listEntities());
+                    try {
+                        Thread.sleep(WAITTIME);
+                    } catch (InterruptedException ignored) {}
+                    System.out.println(b.listEntities()); //TODO print slowly
                     try {
                         i = Integer.parseInt(scr.nextLine());
                     } catch (Exception ignored) {
                         continue;
                     }
                     System.out.println(b.attack(i, sp));
-
+                    try {
+                        Thread.sleep(WAITTIME);
+                    } catch (InterruptedException ignored) {}
                     break;
                 case 3:
                     //run
                     return 3;
             }
-            System.out.println(b.entityTurn());
-
+            try {
+                Thread.sleep(WAITTIME);
+            } catch (InterruptedException ignored) {}
+            System.out.println(b.entityTurn()); //TODO print slowly
+            try {
+                Thread.sleep(WAITTIME);
+            } catch (InterruptedException ignored) {}
             if (player.getStats().getCurrHP() <= 0)
                 return 1; //lose
-
         }
         return 2;
     }
