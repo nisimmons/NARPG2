@@ -44,6 +44,8 @@ public class PlayController {
         Random rand = new Random();
         for(int r = 0; r < m.getMap().length; r++){
             for (int c = 0; c < m.getMap()[0].length; c++){
+                double distance = Math.sqrt(Math.pow(Math.abs(spawn.getY()-r),2) + Math.pow(Math.abs(spawn.getX()-c),2));
+
                 if (r == 0 && c == 0) {
                     //set spawn
                     Wilderness w = new Wilderness("Spawn");
@@ -89,54 +91,73 @@ public class PlayController {
                         ArrayList<Enemy> enemies = DataAccess.produceFaction(w.getFaction());
                         //get enemies of this faction within 5 levels of the area level
                         if (enemies != null && !enemies.isEmpty()){
-                            double distance = Math.sqrt(Math.pow(Math.abs(spawn.getY()-r),2) + Math.pow(Math.abs(spawn.getX()-c),2));
                             int zone = (int) Math.floor((distance-1)*12.5); //find proportion of level(max 50) compared to distance(max 5), 50/5=10
-                            for (int i = 0; i < enemies.size(); i++) {
-                                //TODO fix enemy level zoning
-                                int level = enemies.get(i).getStats().getLevel();
+                            int k = rand.nextInt(100);
+                            if (k < 99 ){
+                                //three small enemies
 
-                                if (level < zone-7 || level > zone+15-rand.nextInt(10))
-                                    enemies.remove(i--);
-                                else
-                                    System.out.println(zone + " / " + level);
-                            }
-                            if(!enemies.isEmpty()) {
-                                //add up to 3 enemies to this location
-                                //TODO add weight to enemy levels
-                                int j = rand.nextInt(3) + 1;
-                                double totalLevel = (zone * 1.6)+7;
-                                for (int i = 0; i < j; i++) {
+                                if (zone < 6)
+                                    System.out.print("");
+                                //remove enemies outside bounds
+                                for (int i = 0; i < enemies.size(); i++) {
+                                    int level = enemies.get(i).getStats().getLevel();
+                                    if (level < zone-30 || level > zone+8 || (zone > 10 && level > zone-5) || (zone > 25 && (level < zone-20 || level > zone-15)))
+                                        enemies.remove(i--);
+                                }
+                                double totalLevel = (zone * 2.5)+7;
+
+                                //add three enemies
+                                int count = 0;
+                                for (int i = 0; i < 10; i++) {
                                     int ran = rand.nextInt(enemies.size());
                                     int level = enemies.get(ran).getStats().getLevel();
                                     if (level <= totalLevel) {
                                         w.addEnemy(enemies.get(ran));
                                         totalLevel -= level;
+                                        count++;
+                                        if (count > 2)
+                                            break;
                                     }
                                 }
 
-                                int k = rand.nextInt(100);
-                                if (k < 20){ //three small
-                                    //remove enemies that are too high
+                                ///////////////DEBUG
+                                System.out.print(zone + " / Swarm");
+                                for (Enemy enemy : w.getEnemies())
+                                    System.out.print(" "+enemy.getStats().getLevel());
+                                System.out.println();
+                            }
+                            else if (k < 100){
+                                //mini boss
 
-
-                                    for (int i = 0; i < 3; i++)
-                                        w.addEnemy(enemies.get(rand.nextInt(enemies.size())));
-                                }
-                                else if (k < 40){ //mini boss
-                                    w.addEnemy(enemies.get(enemies.size()-1));
-                                }
-                                else if (k < 60){
-
-                                }
-                                else if (k < 80){
-
-                                }
-                                else {
-
+                                //remove enemies outside bounds
+                                for (int i = 0; i < enemies.size(); i++) {
+                                    int level = enemies.get(i).getStats().getLevel();
+                                    if (level < zone-7 || level > zone+10-rand.nextInt(10))
+                                        enemies.remove(i--);
                                 }
 
+                                //find the strongest enemy remaining
+                                Enemy e = enemies.get(0);
+                                for (Enemy enemy : enemies)
+                                    if (enemy.getStats().getLevel() > e.getStats().getLevel())
+                                        e = enemy;
+                                w.addEnemy(e);
+
+                                ////////////DEBUG
+                                System.out.println(zone + " / MiniBoss " + e.getStats().getLevel());
 
                             }
+                            else if (k < 60){
+
+                            }
+                            else if (k < 80){
+
+                            }
+                            else {
+
+                            }
+
+
                         }
                         m.setLocation(c, r, w); //set enemy encounter
                     } else {
