@@ -93,11 +93,61 @@ public class PlayController {
                         if (enemies != null && !enemies.isEmpty()){
                             int zone = (int) Math.floor((distance-1)*12.5); //find proportion of level(max 50) compared to distance(max 5), 50/5=10
                             int k = rand.nextInt(100);
-                            if (k < 99 ){
+                            if (k < 25){
+                                //mini boss
+
+                                //remove enemies outside bounds
+                                for (int i = 0; i < enemies.size(); i++) {
+                                    int level = enemies.get(i).getStats().getLevel();
+                                    if (level < zone-7 || level > zone+10-rand.nextInt(10))
+                                        enemies.remove(i--);
+                                }
+
+                                //find the strongest enemy remaining
+                                Enemy e = enemies.get(0);
+                                for (Enemy enemy : enemies)
+                                    if (enemy.getStats().getLevel() > e.getStats().getLevel())
+                                        e = enemy;
+                                w.addEnemy(e);
+
+                                ////////////DEBUG
+                                //System.out.println(zone + " / MiniBoss " + e.getStats().getLevel());
+
+                            }
+                            else if (k < 70){
+                                //two enemies
+
+                                //remove enemies outside bounds
+                                for (int i = 0; i < enemies.size(); i++) {
+                                    int level = enemies.get(i).getStats().getLevel();
+                                    if ((level < zone-10-rand.nextInt(5) || level > zone+10+rand.nextInt(5)))
+                                        enemies.remove(i--);
+                                }
+                                double totalLevel = (zone * 2.2)+7;
+
+                                //add three enemies
+                                int count = 0;
+                                for (int i = 0; i < 10; i++) {
+                                    int ran = rand.nextInt(enemies.size());
+                                    int level = enemies.get(ran).getStats().getLevel();
+                                    if (level <= totalLevel) {
+                                        w.addEnemy(enemies.get(ran));
+                                        totalLevel -= level;
+                                        count++;
+                                        if (count > 1)
+                                            break;
+                                    }
+                                }
+
+                                ///////////////DEBUG
+                                /*System.out.print(zone + " / Two");
+                                for (Enemy enemy : w.getEnemies())
+                                    System.out.print(" "+enemy.getStats().getLevel());
+                                System.out.println();*/
+                            }
+                            else {
                                 //three small enemies
 
-                                if (zone < 6)
-                                    System.out.print("");
                                 //remove enemies outside bounds
                                 for (int i = 0; i < enemies.size(); i++) {
                                     int level = enemies.get(i).getStats().getLevel();
@@ -121,43 +171,11 @@ public class PlayController {
                                 }
 
                                 ///////////////DEBUG
-                                System.out.print(zone + " / Swarm");
+                                /*System.out.print(zone + " / Three");
                                 for (Enemy enemy : w.getEnemies())
                                     System.out.print(" "+enemy.getStats().getLevel());
-                                System.out.println();
+                                System.out.println();*/
                             }
-                            else if (k < 100){
-                                //mini boss
-
-                                //remove enemies outside bounds
-                                for (int i = 0; i < enemies.size(); i++) {
-                                    int level = enemies.get(i).getStats().getLevel();
-                                    if (level < zone-7 || level > zone+10-rand.nextInt(10))
-                                        enemies.remove(i--);
-                                }
-
-                                //find the strongest enemy remaining
-                                Enemy e = enemies.get(0);
-                                for (Enemy enemy : enemies)
-                                    if (enemy.getStats().getLevel() > e.getStats().getLevel())
-                                        e = enemy;
-                                w.addEnemy(e);
-
-                                ////////////DEBUG
-                                System.out.println(zone + " / MiniBoss " + e.getStats().getLevel());
-
-                            }
-                            else if (k < 60){
-
-                            }
-                            else if (k < 80){
-
-                            }
-                            else {
-
-                            }
-
-
                         }
                         m.setLocation(c, r, w); //set enemy encounter
                     } else {
