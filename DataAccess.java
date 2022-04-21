@@ -344,7 +344,7 @@ public class DataAccess {
      */
     public static ArrayList<Enemy> produceFaction(Faction faction){
         ArrayList<Enemy> enemies = new ArrayList<>();
-        //go through enemyData.txt, find an enemy near the right level and return it's data
+        //go through enemyData.txt, find an enemy near the right level and return its data
         Scanner scr;
         try {
             scr = new Scanner(new File("enemyData.txt"));

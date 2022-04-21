@@ -1,4 +1,3 @@
-import java.io.FileNotFoundException;
 
 public class LoadSaveController {
     public static Player loadPlayer(String id) {

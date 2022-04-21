@@ -1,24 +1,16 @@
-import org.junit.Before;
-
-import javax.xml.crypto.Data;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class TestClass {
-    @Before
-    public void setUp() {
-
-    }
 
     @org.junit.Test
     public void test1() throws IOException {
         String s;
         Scanner scr = new Scanner(new File("enemyData.txt"));
-        FileWriter out = new FileWriter(new File("enemyData1.txt"));
+        FileWriter out = new FileWriter("enemyData1.txt");
         while(scr.hasNext()){
             for (int i = 0; i < 3; i++) {
                 s = scr.nextLine();

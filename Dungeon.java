@@ -3,10 +3,10 @@ import java.util.ArrayList;
 public class Dungeon extends Location {
     Map m;
     private ArrayList<ArrayList<Enemy>> battles;
-    public Dungeon(){battles = new ArrayList<ArrayList<Enemy>>();}
+    public Dungeon(){battles = new ArrayList<>();}
     public Dungeon(String s){
         super(s);
-        battles = new ArrayList<ArrayList<Enemy>>();
+        battles = new ArrayList<>();
     }
     public int battleCount(){return battles.size();}
     public void addBattle(ArrayList<Enemy> arr){battles.add(arr);}
@@ -60,7 +60,7 @@ public class Dungeon extends Location {
 
         //parse out each enemy in each battle
         for (int i = 0; i < battleList.length; i++) {
-            battles.add(new ArrayList<Enemy>());
+            battles.add(new ArrayList<>());
             String[] enemyList = battleList[i].split(" ");
             for (String value : enemyList) {
                 if (value.compareTo("") != 0) {
