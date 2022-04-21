@@ -332,8 +332,8 @@ public class DataAccess {
             scr.nextLine();
             stats = new Stats(scr.nextLine().split("/"));
         }
-        Weapon wep = (Weapon) getItem(Integer.parseInt(scr.nextLine()));
-        Armor armor = (Armor) getItem(Integer.parseInt(scr.nextLine()));
+        int wep = getItem(Integer.parseInt(scr.nextLine()));
+        int armor = getItem(Integer.parseInt(scr.nextLine()));
         return new Enemy(name, stats, armor, wep);
     }*/
 
@@ -375,40 +375,7 @@ public class DataAccess {
      * save all player data to file
      * @param p player to save
      */
-    public static void savePlayer(Player p) {
-        //save all player data
-        /*Scanner scr;
-        try {
-            scr = new Scanner(new File("playerData.txt"));
-        } catch (FileNotFoundException e) {
-            return;
-        }
-        String username = scr.nextLine();
-        //find the correct player
-        while (p.getName().compareTo(username) != 0) {
-            for(int i = 0; i < 5; i++) //skip one player
-                scr.nextLine();
-            if (!scr.hasNext())
-                return;
-            username = scr.nextLine();
-        }
-        */
-        FileWriter out;
-        try {
-            out = new FileWriter("playerData.txt");
-            out.write(p.getName() + "\n");
-            out.write(p.getStats().toData() + "\n");
-            out.write(p.getPosition().toData() + "\n");
-            out.write(p.getArmor().getId() + "\n");
-            out.write(p.getWeapon().getId() + "\n");
-            out.write(p.getInventory().toData() + "\n");
-            out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void savePlayer(Player p, int iasd){
+    public static void savePlayer(Player p){
         File data = new File("playerData.txt");
         File temp = new File("playerData2.txt");
         Scanner scr;
@@ -428,14 +395,14 @@ public class DataAccess {
                 return;
             }
         }
-        //read through the existing data file to find the map for overwrite
+        //read through the existing data file to find the player for overwrite
         try {
             out = new FileWriter(temp);
-            //find the right map
+            //find the right player
             id = "-1";
             if (scr.hasNext())
                 id = scr.nextLine();
-            //copy other maps until we find this one or get to the end
+            //copy other players until we find this one or get to the end
             while(scr.hasNext() && p.getName().compareTo(id) != 0) {
                 out.write(id+"\n");
                 for(int i = 0; i < 5; i++)
@@ -444,14 +411,14 @@ public class DataAccess {
                     id = scr.nextLine();
             }
 
-            //skip reading this map
+            //skip reading this player
             if (scr.hasNext()) {
                 for (int i = 0; i < 5; i++)
                     scr.nextLine();
             }
-            //write this map
+            //write this player
             out.write(p.toData());
-            //write any more maps
+            //write any more players
             while(scr.hasNext()) {
                 out.write("\n");
                 out.write(scr.nextLine());
@@ -483,18 +450,6 @@ public class DataAccess {
      * saves all map data to file
      * @param m map to save
      */
-    /*public static void saveMap(Map m, int asdf) {
-        //save all map data
-        FileWriter out;
-        try {
-            out = new FileWriter("mapData.txt");
-            out.write(m.toData());
-            out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
-
     public static void saveMap(Map m){
         File data = new File("mapData.txt");
         File temp = new File("mapData2.txt");
