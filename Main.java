@@ -169,21 +169,38 @@ public class Main {
     }
     public static int battle(Scanner scr, Player player, BattleController b){
         while(!b.isWon()) {
-            System.out.println(b.battleState());
+            for (String s :b.battleState()) {
+                System.out.println(s);
+                try {
+                    Thread.sleep(WAITTIME);
+                } catch (InterruptedException ignored) {}
+            }
+            //System.out.println(b.battleState());
             int i;
             switch (integerInput(scr, 1, 3, "Fight:\n1. Attack\n2. Spell\n3. Run")) {
                 case 1:
                     //attack
                     while (true) {
                         System.out.println("Which will you attack?");
-                        System.out.println(b.listEntities()); //TODO print slowly
+                        for (String s :b.listEntities()) {
+                            System.out.println(s);
+                            try {
+                                Thread.sleep(WAITTIME);
+                            } catch (InterruptedException ignored) {}
+                        }
                         try {
                             i = Integer.parseInt(scr.nextLine());
                         } catch (Exception ignored) {
                             System.out.println("Invalid input");
                             continue;
                         }
-                        System.out.println(b.attack(i, player.getWeapon()));
+                        for (String s :b.attack(i,player.getWeapon())) {
+                            System.out.println(s);
+                            try {
+                                Thread.sleep(WAITTIME);
+                            } catch (InterruptedException ignored) {}
+                        }
+                        //System.out.println(b.attack(i, player.getWeapon()));
                         break;
                     }
                     break;
@@ -205,16 +222,24 @@ public class Main {
                     try {
                         Thread.sleep(WAITTIME);
                     } catch (InterruptedException ignored) {}
-                    System.out.println(b.listEntities()); //TODO print slowly
+                    for (String s :b.listEntities()) {
+                        System.out.println(s);
+                        try {
+                            Thread.sleep(WAITTIME);
+                        } catch (InterruptedException ignored) {}
+                    }
                     try {
                         i = Integer.parseInt(scr.nextLine());
                     } catch (Exception ignored) {
                         continue;
                     }
-                    System.out.println(b.attack(i, sp));
-                    try {
-                        Thread.sleep(WAITTIME);
-                    } catch (InterruptedException ignored) {}
+                    for (String s :b.attack(i,sp)) {
+                        System.out.println(s);
+                        try {
+                            Thread.sleep(WAITTIME);
+                        } catch (InterruptedException ignored) {}
+                    }
+                    //System.out.println(b.attack(i, sp));
                     break;
                 case 3:
                     //run
@@ -223,10 +248,13 @@ public class Main {
             try {
                 Thread.sleep(WAITTIME);
             } catch (InterruptedException ignored) {}
-            System.out.println(b.entityTurn()); //TODO print slowly
-            try {
-                Thread.sleep(WAITTIME);
-            } catch (InterruptedException ignored) {}
+            for(String s:b.entityTurn()) {
+                System.out.println(s);
+                try {
+                    Thread.sleep(WAITTIME);
+                } catch (InterruptedException ignored) {
+                }
+            }
             if (player.getStats().getCurrHP() <= 0)
                 return 1; //lose
         }
