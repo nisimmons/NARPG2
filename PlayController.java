@@ -110,9 +110,6 @@ public class PlayController {
                                         e = enemy;
                                 w.addEnemy(e);
 
-                                ////////////DEBUG
-                                //System.out.println(zone + " / MiniBoss " + e.getStats().getLevel());
-
                             }
                             else if (k < 70){
                                 //two enemies
@@ -128,7 +125,7 @@ public class PlayController {
                                 //add three enemies
                                 int count = 0;
                                 for (int i = 0; i < 10; i++) {
-                                    int ran = rand.nextInt(enemies.size());
+                                    int ran = rand.nextInt(enemies.size()); //TODO elusive bug here
                                     int level = enemies.get(ran).getStats().getLevel();
                                     if (level <= totalLevel) {
                                         w.addEnemy(enemies.get(ran));
@@ -139,11 +136,6 @@ public class PlayController {
                                     }
                                 }
 
-                                ///////////////DEBUG
-                                /*System.out.print(zone + " / Two");
-                                for (Enemy enemy : w.getEnemies())
-                                    System.out.print(" "+enemy.getStats().getLevel());
-                                System.out.println();*/
                             }
                             else {
                                 //three small enemies
@@ -170,11 +162,6 @@ public class PlayController {
                                     }
                                 }
 
-                                ///////////////DEBUG
-                                /*System.out.print(zone + " / Three");
-                                for (Enemy enemy : w.getEnemies())
-                                    System.out.print(" "+enemy.getStats().getLevel());
-                                System.out.println();*/
                             }
                         }
                         m.setLocation(c, r, w); //set enemy encounter
