@@ -158,6 +158,13 @@ public class Main {
                 case 3:
                     //print player info
                     System.out.println(player);
+                    System.out.println("Inventory");
+                    for (String s : player.getInventory().toString().split("\n")) {
+                        System.out.println(s);
+                        try {
+                            Thread.sleep(WAITTIME*2/3);
+                        } catch (InterruptedException ignored) {}
+                    }
                     break;
                 case 4:
                     System.out.println(map);
@@ -207,7 +214,12 @@ public class Main {
                 case 2:
                     while (true) {
                         System.out.println("What spell will you use?");
-                        System.out.println(player.getInventory()); //TODO print slowly
+                        for (String s : player.getInventory().toString().split("\n")) {
+                            System.out.println(s);
+                            try {
+                                Thread.sleep(WAITTIME);
+                            } catch (InterruptedException ignored) {}
+                        }
                         i = Integer.parseInt(scr.nextLine()) - 1;
                         if (player.getInventory().get(i) instanceof Spell)
                             break;
