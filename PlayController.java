@@ -35,9 +35,9 @@ public class PlayController {
      */
     public static Map createRandomMap(int difficulty, String name){
         //default difficulty is 50, higher is more likely
-        int towns = 0;//75 - difficulty;
-        int dungeons = 0;//difficulty;
-        int encounters = 100;//(difficulty/5) + 80;
+        int towns = 75 - difficulty;
+        int dungeons = difficulty + 10;
+        int encounters = (difficulty/5) + 80;
         Map m = new Map();
         m.setName("Overworld");
         m.setId(name);
