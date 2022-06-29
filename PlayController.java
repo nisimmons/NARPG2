@@ -49,6 +49,7 @@ public class PlayController {
                 if (r == 0 && c == 0) {
                     //set spawn
                     Wilderness w = new Wilderness("Spawn");
+                    w.setLevel(0);
                     w.setRevealed(true);
                     w.setFaction(Faction.SPAWN);
                     m.setLocation(c, r, w);
@@ -56,6 +57,7 @@ public class PlayController {
 			    else if (r == m.getMap().length-1 && c == m.getMap()[0].length-1) {
                     //set end
                     Dungeon d = new Dungeon("Demon King's Fortress");
+                    d.setLevel(50);
                     d.setFaction(Faction.FINALDUNGEON);
                     ArrayList<Enemy> e = new ArrayList<>();
                     e.add(DataAccess.getEnemy(66));
@@ -65,6 +67,7 @@ public class PlayController {
                 else if(rand.nextInt(100) < towns) {
                     //set town
                     Town t = new Town();
+                    t.setLevel((int) Math.floor((distance-1)*12.5));
                     t.setFaction(Faction.TOWN);
                     //TODO set merchant information
                     m.setLocation(c, r, t);
@@ -72,6 +75,7 @@ public class PlayController {
                 else if(rand.nextInt(100) < dungeons) {
                     //set dungeon
                     Dungeon d = new Dungeon("Dungeon");
+                    d.setLevel((int) Math.floor((distance-1)*12.5));
                     d.setFaction(Faction.DUNGEON);
                     ArrayList<Enemy> e = new ArrayList<>();
                     e.add(DataAccess.getEnemy(0));
@@ -87,11 +91,12 @@ public class PlayController {
                     //set wilderness
                     if (rand.nextInt(100) < encounters) {
                         Wilderness w = new Wilderness();
+                        w.setLevel((int) Math.floor((distance-1)*12.5));
                         w.setFaction(randomFaction());
                         ArrayList<Enemy> enemies = DataAccess.produceFaction(w.getFaction());
                         //get enemies of this faction within 5 levels of the area level
                         if (enemies != null && !enemies.isEmpty()){
-                            int zone = (int) Math.floor((distance-1)*12.5); //find proportion of level(max 50) compared to distance(max 5), 50/5=10
+                            int areaLevel = w.getLevel(); //find proportion of level(max 50) compared to distance(max 5), 50/5=10
                             int k = rand.nextInt(100);
                             if (k < 25){
                                 //mini boss
@@ -99,7 +104,7 @@ public class PlayController {
                                 //remove enemies outside bounds
                                 for (int i = 0; i < enemies.size(); i++) {
                                     int level = enemies.get(i).getStats().getLevel();
-                                    if (level < zone-7 || level > zone+10-rand.nextInt(10))
+                                    if (level < areaLevel-7 || level > areaLevel+10-rand.nextInt(10))
                                         enemies.remove(i--);
                                 }
 
@@ -117,10 +122,10 @@ public class PlayController {
                                 //remove enemies outside bounds
                                 for (int i = 0; i < enemies.size(); i++) {
                                     int level = enemies.get(i).getStats().getLevel();
-                                    if ((level < zone-10-rand.nextInt(5) || level > zone+10+rand.nextInt(5)))
+                                    if ((level < areaLevel-10-rand.nextInt(5) || level > areaLevel+10+rand.nextInt(5)))
                                         enemies.remove(i--);
                                 }
-                                double totalLevel = (zone * 2.2)+7;
+                                double totalLevel = (areaLevel * 2.2)+7;
 
                                 //add three enemies
                                 int count = 0;
@@ -143,10 +148,10 @@ public class PlayController {
                                 //remove enemies outside bounds
                                 for (int i = 0; i < enemies.size(); i++) {
                                     int level = enemies.get(i).getStats().getLevel();
-                                    if (level < zone-30 || level > zone+8 || (zone > 10 && level > zone-5) || (zone > 25 && (level < zone-20 || level > zone-15)))
+                                    if (level < areaLevel-30 || level > areaLevel+8 || (areaLevel > 10 && level > areaLevel-5) || (areaLevel > 25 && (level < areaLevel-20 || level > areaLevel-15)))
                                         enemies.remove(i--);
                                 }
-                                double totalLevel = (zone * 2.5)+7;
+                                double totalLevel = (areaLevel * 2.5)+7;
 
                                 //add three enemies
                                 int count = 0;
