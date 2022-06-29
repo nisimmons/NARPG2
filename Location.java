@@ -2,6 +2,7 @@ abstract class Location {
     String name;
     boolean revealed;
     Faction faction;
+    int level;
     public Location(){revealed = false;}
     public Location(String name){
         this.name = name;
@@ -33,5 +34,12 @@ abstract class Location {
 
     public void setFaction(Faction faction) {
         this.faction = faction;
+    }
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 }
