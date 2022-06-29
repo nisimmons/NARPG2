@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+
 //up to date
 public class Main {
     static final int WAITTIME = 300;
@@ -165,6 +166,7 @@ public class Main {
                             Thread.sleep(WAITTIME*2/3);
                         } catch (InterruptedException ignored) {}
                     }
+                    System.out.println();
                     break;
                 case 4:
                     System.out.println(map);

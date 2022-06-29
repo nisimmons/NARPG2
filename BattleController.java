@@ -59,7 +59,7 @@ public class BattleController {
     public ArrayList<String> attack(int index, Item i){
         Character target;
         ArrayList<String> s = new ArrayList<>();
-        s.add("You use " + i.getName() + "!");
+        s.add("You use " + i.getName() + "!"); //TODO correct line printing
         if (index == 0) {
             target = p;
         }
@@ -115,6 +115,8 @@ public class BattleController {
      */
     public ArrayList<String> entityTurn(){
         ArrayList<String> s = new ArrayList<>();
+        if (won) //TODO Check
+            return s;
         s.add("Enemy Turn");
         Random rand = new Random();
         for (Enemy e : enemies) {
