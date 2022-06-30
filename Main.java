@@ -79,6 +79,7 @@ public class Main {
                                 switch(battle(scr, player, b)){
                                     case 1:
                                         System.out.println("You Suck!");
+                                        //TODO: implement delete of save or return to town
                                         return 1; //return to main screen
                                     case 2:
                                         System.out.println("You Won!");
