@@ -10,6 +10,7 @@ public class Dungeon extends Location {
     }
     public int battleCount(){return battles.size();}
     public void addBattle(ArrayList<Enemy> arr){battles.add(arr);}
+    public void resetBattles(){battles = new ArrayList<>();}
     public ArrayList<Enemy> getBattle(int i){return battles.get(i);}
     /**
      * finds the data entry for this location

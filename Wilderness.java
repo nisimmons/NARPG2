@@ -74,4 +74,6 @@ public class Wilderness extends Location {
     public String toString(){
         return "W";
     }
+
+    public void resetBattles() {enemies = new ArrayList<>();}
 }
