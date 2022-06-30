@@ -95,7 +95,7 @@ public class Main {
                             //Heal player/restore mana
                             System.out.println("You enter the town.");
                             switch(integerInput(scr, 1, 3, "1. Inn\n2. Market\n3. Guild Hall")){
-                                //TODO paying for inns, buying at market, quests at guild hall
+                                //TODO paying for inns, buying at market, quests at guild hall.
                                 case 1: //Inn
                                     System.out.println(player.rest());
                                     //TODO respawn enemies?
