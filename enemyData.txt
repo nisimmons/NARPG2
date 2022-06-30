@@ -391,7 +391,7 @@ Wyrm
 65
 MOUNTAIN
 Living-Mountain
-50/5/10
+50/70/10
 5
 10
 66
