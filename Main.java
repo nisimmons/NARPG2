@@ -17,7 +17,7 @@ public class Main {
                     s = scr.nextLine();
                     //create player and map details
                     p = PlayController.createRandomPlayer(s);
-                    m = PlayController.createRandomMap(50, s);
+                    m = PlayController.createRandomMap(s);
                     //play the game
                     playGame(new PlayController(p, m), scr);
                     //save the game
@@ -98,7 +98,7 @@ public class Main {
                                 //TODO paying for inns, buying at market, quests at guild hall.
                                 case 1: //Inn
                                     System.out.println(player.rest());
-                                    //TODO respawn enemies?
+                                    pc.respawn(); //TODO Check
                                     break;
                                 case 2: //Market
                                     System.out.println("Would you like to purchase anything");
