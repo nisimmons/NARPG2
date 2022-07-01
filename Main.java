@@ -22,7 +22,7 @@ public class Main {
                     m = new Map(s);
                     m.randomize();
                     PlayController pc = new PlayController(p, m);
-                    pc.respawn();
+                    pc.respawn(true);
 
                     //play the game
                     if(playGame(pc, scr) == 0)

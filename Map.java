@@ -13,7 +13,6 @@ public class Map {
         this.name = name;
     }
     public void randomize(){
-        this.setName("Overworld");
         this.setId(name);
         Random rand = new Random();
         for(int r = 0; r < this.getMap().length; r++){

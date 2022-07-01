@@ -13,7 +13,10 @@ public class Inventory {
     {
         this(20);
     }
-
+    public Inventory(ArrayList<Item> arr){
+        this.inventory = arr;
+        capacity = arr.size() + 10;
+    }
     public void add(Item i)
     {
         if (inventory.size() < capacity) {

@@ -6,7 +6,7 @@ public class PlayController {
     private final Map map;
     public static final Position spawn = new Position(0,0);
     public static final int difficulty = 50;
-    public static final int towns = 65 - difficulty;
+    public static final int towns = 75 - difficulty;
     public static final int dungeons = difficulty - 20;
     public static final int encounters = (difficulty/5) + 80;
     public PlayController(Player p, Map m){
@@ -15,9 +15,12 @@ public class PlayController {
     }
 
     public void respawn(){
+        respawn(false);
+    }
+    public void respawn(boolean spawnAll){
         for(int r = 0; r < map.getMap().length; r++)
             for (int c = 0; c < map.getMap()[0].length; c++)
-                if(map.getLocation(c,r).isRevealed())
+                if(map.getLocation(c,r).isRevealed() || spawnAll)
                     spawn(r, c);
     }
     private void spawn(int r, int c){
@@ -27,9 +30,13 @@ public class PlayController {
             //set town
             Town t = (Town) map.getLocation(c,r);
             //TODO set merchant information
-
+            ArrayList<Item> arr = DataAccess.produceItemList(t.getLevel() - 30, t.getLevel() + 30);
+            if (arr != null)
+                t.setMerchant(new Inventory(arr));
+            else
+                t.setMerchant(new Inventory());
         }
-        else if(map.getLocation(c,r) instanceof Dungeon) {
+        else if(map.getLocation(c,r) instanceof Dungeon && map.getLocation(c,r).getFaction() != Faction.FINALDUNGEON) {
             //set dungeon
             Dungeon d = (Dungeon) map.getLocation(c,r);
             d.resetBattles();
