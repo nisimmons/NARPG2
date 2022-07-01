@@ -19,8 +19,8 @@ public class Town extends Location{
             s += "0 ";
         else
             s += "1 ";
-        s += this.getLevel();
-        //TODO set merchant
+        s += this.getLevel() + " ";
+        s += getMerchant().toData();
         return s;
     }
 
@@ -29,8 +29,10 @@ public class Town extends Location{
         scr.next();
         if (scr.nextInt() == '1')
             setRevealed(true);
-        this.setLevel(Integer.parseInt(scr.next()));
-        //TODO set merchant
+        setLevel(Integer.parseInt(scr.next()));
+        String[]arr = scr.next().split("/");
+        for (String st : arr)
+            getMerchant().add(DataAccess.getItem(Integer.parseInt(st)));
     }
 
     public String toString(){
