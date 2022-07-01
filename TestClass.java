@@ -7,8 +7,18 @@ import java.util.Scanner;
 public class TestClass {
 
     @org.junit.Test
-    public void test1() throws IOException {
-        String s;
+    public void test1() {
+
+    }
+
+    @org.junit.Test
+    public void test2()   {
+
+    }
+
+}
+
+/*String s;
         Scanner scr = new Scanner(new File("enemyData.txt"));
         FileWriter out = new FileWriter("enemyData1.txt");
         while(scr.hasNext()){
@@ -23,16 +33,7 @@ public class TestClass {
             scr.nextLine();
         }
         out.close();
-        scr.close();
-
-        /*
-        <ID>
-        <FACTION>
-        <Name>
-        <LVL>/0/<HP>/<HP>/<MANA>/<MANA>
-        <DMG>
-        <DEFENSE>
-         */
+        scr.close();      */
         /*FileWriter out = new FileWriter(new File("enemyData1.txt"));
         int id = 0;
         Faction fac = null;
@@ -66,25 +67,3 @@ public class TestClass {
             }
         }
         out.close();*/
-
-        /*Player p = PlayController.createRandomPlayer("Nate");
-        DataAccess.savePlayer(p, 1);*/
-
-
-
-//        Map m = PlayController.createRandomMap("Nate");
-//        DataAccess.saveMap(m);
-
-    }
-
-    @org.junit.Test
-    public void test2()   {
-        Map m = PlayController.createRandomMap("Nate");
-        ArrayList<Integer> arr = new ArrayList<>();
-//        for (Location[] locations : m.getMap())
-//            for (Location l: locations)
-
-        LoadSaveController.saveMap(m);
-    }
-
-}
