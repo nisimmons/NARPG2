@@ -35,6 +35,7 @@ public class Wilderness extends Location {
             s.append("0");
         else
             s.append("1");
+        s.append(" ").append(getLevel());
         s.append(" ").append(getFaction());
         for(Enemy e: enemies)
             s.append(" ").append(e.toData());
@@ -51,8 +52,9 @@ public class Wilderness extends Location {
         String[] subjectGrouping = s.split(" ");
         if (Integer.parseInt(subjectGrouping[1]) == 1)
             setRevealed(true);
-        setFaction(Faction.valueOf(subjectGrouping[2]));
-        for (int x = 4; x <= subjectGrouping.length; x++)
+        setLevel(Integer.parseInt(subjectGrouping[2]));
+        setFaction(Faction.valueOf(subjectGrouping[3]));
+        for (int x = 5; x <= subjectGrouping.length; x++)
         {
             Enemy e = new Enemy();
             e.fromData(subjectGrouping[x-1]);

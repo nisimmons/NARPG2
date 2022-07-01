@@ -22,6 +22,7 @@ public class Dungeon extends Location {
             s.append("0 ");
         else
             s.append("1 ");
+        s.append(this.getLevel()).append(" ");
         s.append(getFaction()).append(" ");
         for (int i = 0; i < battles.size(); i++) {
             ArrayList<Enemy> enemies = battles.get(i);
@@ -48,11 +49,12 @@ public class Dungeon extends Location {
         //parse initial information
         String[] s2 = s.split(" ");
         setRevealed(Integer.parseInt(s2[1]) == 1);
-        setFaction(Faction.valueOf(s2[2]));
+        setLevel(Integer.parseInt(s2[2]));
+        setFaction(Faction.valueOf(s2[3]));
 
         //parse out each battle
         StringBuilder s3 = new StringBuilder();
-        for (int i = 3; i < s2.length; i++) {
+        for (int i = 4; i < s2.length; i++) {
             s3.append(s2[i]);
             if (i < s2.length - 1)
                 s3.append(" ");

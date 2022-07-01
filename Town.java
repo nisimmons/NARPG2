@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Town extends Location{
     private Inventory merchant;
     public Town(){this("Town");}
@@ -14,15 +16,21 @@ public class Town extends Location{
     public String toData(){
         String s = "T ";
         if (!isRevealed())
-            s += "0";
+            s += "0 ";
         else
-            s += "1";
+            s += "1 ";
+        s += this.getLevel();
+        //TODO set merchant
         return s;
     }
 
     public void fromData(String s){
-        if (s.charAt(2) == '1')
+        Scanner scr = new Scanner(s);
+        scr.next();
+        if (scr.nextInt() == '1')
             setRevealed(true);
+        this.setLevel(Integer.parseInt(scr.next()));
+        //TODO set merchant
     }
 
     public String toString(){
