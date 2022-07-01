@@ -130,7 +130,7 @@ public class DataAccess {
             while (level > high || level < low) {
                 while (scr.nextLine().charAt(0) != '*') {
                     if (!scr.hasNext())
-                        return null;
+                        return arr;
                 }
                 id = Integer.parseInt(scr.nextLine());
                 itemName = scr.nextLine();
