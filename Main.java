@@ -15,29 +15,28 @@ public class Main {
                 case 1:
                     System.out.println("Enter Playername: ");
                     s = scr.nextLine();
+
                     //create player and map details
                     p = PlayController.createRandomPlayer(s);
                     m = PlayController.createRandomMap(s);
+
                     //play the game
-                    playGame(new PlayController(p, m), scr);
-                    //save the game
-                    save(p, m);
+                    if(playGame(new PlayController(p, m), scr) == 0)
+                        save(p, m);
                     break;
                 case 2:
+                    //find and load the player and map
                     do {
-                        //load game and play
-                        //find and load the player
                         System.out.println("Enter playername (or * to return): ");
                         s = scr.nextLine();
                         if (s.compareTo("*") == 0)
                             break;
                         p = LoadSaveController.loadPlayer(s);
                     } while (p == null);
-                    //load the map
                     m = LoadSaveController.loadMap(s);
+
                     //play the game
                     if (playGame(new PlayController(p, m), scr) == 0)
-                        //save the game
                         save(p, m);
                     break;
                 case 3:
@@ -79,7 +78,6 @@ public class Main {
                                 switch(battle(scr, player, b)){
                                     case 1:
                                         System.out.println("You Suck!");
-                                        //TODO: implement delete of save or return to town
                                         return 1; //return to main screen
                                     case 2:
                                         System.out.println("You Won!");
@@ -160,11 +158,12 @@ public class Main {
                 case 3:
                     //print player info
                     System.out.println(player);
+                    System.out.println();
                     System.out.println("Inventory");
                     for (String s : player.getInventory().toString().split("\n")) {
                         System.out.println(s);
                         try {
-                            Thread.sleep(WAITTIME*2/3);
+                            Thread.sleep(WAITTIME /2);
                         } catch (InterruptedException ignored) {}
                     }
                     System.out.println();
@@ -173,7 +172,7 @@ public class Main {
                     System.out.println(map);
                     break;
                 default:
-                    return 0;
+                    return 0; //save + quit
             }
         }
     }
