@@ -97,14 +97,18 @@ public class Main {
                             //Heal player/restore mana
                             System.out.println("You enter the town.");
                             switch(integerInput(scr, 1, 3, "1. Inn\n2. Market\n3. Guild Hall")){
-                                //TODO paying for inns, buying at market, quests at guild hall.
                                 case 1: //Inn
                                     System.out.println(player.rest());
                                     pc.respawn(); //TODO Check
                                     break;
                                 case 2: //Market
-                                    System.out.println("Would you like to purchase anything");
-                                    System.out.println(((Town) loc).getMerchant());
+                                    System.out.println("Would you like to purchase anything?");
+                                    int i = integerInput(scr, 1, ((Town) loc).getMerchant().size(), ((Town) loc).getMerchant().toString());
+                                    //TODO implement gold purchases
+                                    if (i != -1) {
+                                        System.out.println("You Purchased " + ((Town) loc).getMerchant().get(i-1));
+                                        player.getInventory().add(((Town) loc).getMerchant().take(i-1));
+                                    }
                                     break;
                                 case 3: //Guild Hall
                                     System.out.println("There is nothing here yet");
@@ -294,7 +298,8 @@ public class Main {
             System.out.println(s);
             try {
                 i = Integer.parseInt(scr.nextLine());
-            } catch (Exception ignored) {
+            } catch (Exception e) {
+                return -1;
             }
         } while (i < lower || i > upper);
         return i;

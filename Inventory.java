@@ -23,6 +23,12 @@ public class Inventory {
             inventory.add(i);
         }
     }
+    public int size(){return inventory.size();}
+    public Item take(int index){
+        Item i = inventory.get(index);
+        inventory.remove(index);
+        return i;
+    }
     public Item get(int index){
         return inventory.get(index);
     }
