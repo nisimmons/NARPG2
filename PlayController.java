@@ -29,7 +29,7 @@ public class PlayController {
         if(map.getLocation(c,r) instanceof Town) {
             //set town
             Town t = (Town) map.getLocation(c,r);
-            ArrayList<Item> arr = DataAccess.produceItemList(t.getLevel() - 15, t.getLevel() + 15);
+            ArrayList<Item> arr = DataAccess.produceItemList(t.getLevel() - 10, t.getLevel() + 5);
             if (arr != null)
                 t.setMerchant(new Inventory(arr));
             else
@@ -37,7 +37,53 @@ public class PlayController {
         }
         else if(map.getLocation(c,r) instanceof Dungeon && map.getLocation(c,r).getFaction() != Faction.FINALDUNGEON) {
             //set dungeon
+            ArrayList<Enemy> enemies = DataAccess.produceFaction(Faction.RUINS); //TODO add dungeon enemies
+
             Dungeon d = (Dungeon) map.getLocation(c,r);
+            int areaLevel = d.getLevel();
+            d.resetBattles();
+            ArrayList<Enemy> e = new ArrayList<>();
+            {
+                for (int i = 0; i < enemies.size(); i++) {
+                    int level = enemies.get(i).getStats().getLevel();
+                    if ((level < areaLevel-10-rand.nextInt(5) || level > areaLevel+10+rand.nextInt(5)))
+                        enemies.remove(i--);
+                }
+                double totalLevel = (areaLevel * 2.2)+7;
+
+                //add two enemies
+                int count = 0;
+                for (int i = 0; i < 10; i++) {
+                    int ran = rand.nextInt(enemies.size()); //TODO elusive bug here
+                    int level = enemies.get(ran).getStats().getLevel();
+                    if (level <= totalLevel) {
+                        e.add(enemies.get(ran));
+                        totalLevel -= level;
+                        count++;
+                        if (count > 1)
+                            break;
+                    }
+                }
+            }
+            d.addBattle(e);
+
+            ArrayList<Enemy> e2 = new ArrayList<>();
+            enemies = DataAccess.produceFaction(Faction.RUINS);
+            //remove enemies outside bounds
+            for (int i = 0; i < enemies.size(); i++) {
+                int level = enemies.get(i).getStats().getLevel();
+                if (level < areaLevel-7 || level > areaLevel+10-rand.nextInt(10))
+                    enemies.remove(i--);
+            }
+
+            //find the strongest enemy remaining
+            Enemy en = enemies.get(0);
+            for (Enemy enemy : enemies)
+                if (enemy.getStats().getLevel() > en.getStats().getLevel())
+                    en = enemy;
+            e2.add(en);
+            d.addBattle(e2);
+            /*Dungeon d = (Dungeon) map.getLocation(c,r);
             d.resetBattles();
             ArrayList<Enemy> e = new ArrayList<>();
             e.add(DataAccess.getEnemy(0));
@@ -46,7 +92,7 @@ public class PlayController {
             ArrayList<Enemy> e2 = new ArrayList<>();
             e2.add(DataAccess.getEnemy(0));
             e2.add(DataAccess.getEnemy(0));
-            d.addBattle(e2);
+            d.addBattle(e2);*/
         }
         else {
             //set wilderness
@@ -88,7 +134,7 @@ public class PlayController {
                         }
                         double totalLevel = (areaLevel * 2.2)+7;
 
-                        //add three enemies
+                        //add two enemies
                         int count = 0;
                         for (int i = 0; i < 10; i++) {
                             int ran = rand.nextInt(enemies.size()); //TODO elusive bug here
