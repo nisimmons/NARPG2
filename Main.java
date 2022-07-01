@@ -17,11 +17,15 @@ public class Main {
                     s = scr.nextLine();
 
                     //create player and map details
-                    p = PlayController.createRandomPlayer(s);
-                    m = PlayController.createRandomMap(s);
+                    p = new Player(s);
+                    p.randomize();
+                    m = new Map(s);
+                    m.randomize();
+                    PlayController pc = new PlayController(p, m);
+                    pc.respawn();
 
                     //play the game
-                    if(playGame(new PlayController(p, m), scr) == 0)
+                    if(playGame(pc, scr) == 0)
                         save(p, m);
                     break;
                 case 2:
