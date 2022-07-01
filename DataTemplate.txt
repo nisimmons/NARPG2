@@ -26,8 +26,10 @@
 
 //***********************************
 //Item
+<some asterisks>
 <int id>
 <String name>
+<level>
 <weapon/armor/spell>
 <weapon dmg/armor health/spell dmg>
 <spell mana cost>

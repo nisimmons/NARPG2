@@ -11,58 +11,39 @@ public class DataAccess {
     /**
      * gets an item from itemData file
      * @param id item id
-     * @return item
+     * @return item or null if not found
      */
     public static Item getItem(int id) {
-        //return null if not found
-
         Scanner scr;
         try {
             scr = new Scanner(new File("itemData.txt"));
         } catch (FileNotFoundException e) {
             return null;
         }
-
+        scr.nextLine();
         //<int id>
         int itemId = Integer.parseInt(scr.nextLine());
         //find the correct ID
         while (itemId != id) {
-
-            scr.nextLine();
-            if(scr.nextLine().compareTo("spell") == 0)
-            {
-                for(int i = 0; i < 3; i++) //skip one Item
-                {
-                    scr.nextLine();
-                }
+            //skip one item
+            while(scr.nextLine().charAt(0) != '*') {
+                if (!scr.hasNext())
+                    return null;
             }
-            else
-            { scr.nextLine(); }
-
-            if (!scr.hasNext())
-                return null;
-
             itemId = Integer.parseInt(scr.nextLine());
 
         }
-
-        //Item
         String itemName = scr.nextLine();
-        //<weapon/armor/spell>
+        int level = Integer.parseInt(scr.nextLine());
         String itemCategory = scr.nextLine();
-        //<weapon dmg/armor health/spell dmg>
         int itemStat = Integer.parseInt(scr.nextLine());
 
         switch (itemCategory)
         {
-            case "weapon":
-            {
-                return new Weapon(itemName, id, itemStat);      // returns new weapon object
-            }
-            case "armor":
-            {
-                return new Armor(itemName, id, itemStat);       // returns new armor object
-            }
+            case "weapon": {
+                return new Weapon(itemName, id, itemStat);}
+            case "armor": {
+                return new Armor(itemName, id, itemStat);}
             case "spell":
             {
                 //<spell mana cost>
@@ -88,25 +69,68 @@ public class DataAccess {
             return null;
         }
 
-
+        scr.nextLine();
         int id = Integer.parseInt(scr.nextLine());
         String itemName = scr.nextLine();
         //find the correct ID
         while (itemName.compareTo(name) != 0) {
-            if(scr.nextLine().compareTo("spell") == 0)
-            {
-                for(int i = 0; i < 3; i++) //skip one Item
-                {
-                    scr.nextLine();
-                }
+            while(scr.nextLine().charAt(0) != '*') {
+                if (!scr.hasNext())
+                    return null;
             }
-            else
-            { scr.nextLine(); }
+            id = Integer.parseInt(scr.nextLine());
+            itemName = scr.nextLine();
+        }
+
+        int level = Integer.parseInt(scr.nextLine());
+        String itemCategory = scr.nextLine();
+        int itemStat = Integer.parseInt(scr.nextLine());
+
+        switch (itemCategory)
+        {
+            case "weapon": {
+                return new Weapon(itemName, id, itemStat);      // returns new weapon object
+            }
+            case "armor": {
+                return new Armor(itemName, id, itemStat);       // returns new armor object
+            }
+            case "spell": {
+                int spellCost = Integer.parseInt(scr.nextLine());
+                SpellType spellKeyword = SpellType.valueOf(scr.nextLine());
+                return new Spell(itemName, id, itemStat, spellCost, spellKeyword);
+            }
+            default:
+                return null;
+        }
+    }
+
+    public static ArrayList<Item> produceItemList(int low, int high){
+        ArrayList<Item> arr = new ArrayList<>();
+        Scanner scr;
+        try {
+            scr = new Scanner(new File("itemData.txt"));
+        } catch (FileNotFoundException e) {
+            return null;
+        }
+        scr.nextLine();
+        int id = Integer.parseInt(scr.nextLine());
+        String itemName = scr.nextLine();
+        int level = Integer.parseInt(scr.nextLine());
+        //find the correct ID
+        while (level > high || level < low) {
+
+            if(scr.nextLine().compareTo("spell") == 0) {
+                for(int i = 0; i < 3; i++) //skip one Item
+                    scr.nextLine();
+            }
+            else { scr.nextLine(); }
 
             if (!scr.hasNext())
                 return null;
+            scr.nextLine();
             id = Integer.parseInt(scr.nextLine());
             itemName = scr.nextLine();
+            level = Integer.parseInt(scr.nextLine());
         }
 
         //<weapon/armor/spell>
@@ -116,26 +140,27 @@ public class DataAccess {
 
         switch (itemCategory)
         {
-            case "weapon":
-            {
-                return new Weapon(itemName, id, itemStat);      // returns new weapon object
+            case "weapon": {
+                arr.add(new Weapon(itemName, id, itemStat));      // returns new weapon object
+                break;
             }
-            case "armor":
-            {
-                return new Armor(itemName, id, itemStat);       // returns new armor object
+            case "armor": {
+                arr.add(new Armor(itemName, id, itemStat));       // returns new armor object
+                break;
             }
-            case "spell":
-            {
+            case "spell": {
                 //<spell mana cost>
                 int spellCost = Integer.parseInt(scr.nextLine());
                 //<spell details>
                 SpellType spellKeyword = SpellType.valueOf(scr.nextLine());
 
-                return new Spell(itemName, id, itemStat, spellCost, spellKeyword);
+                arr.add(new Spell(itemName, id, itemStat, spellCost, spellKeyword));
+                break;
             }
             default:
-                return null;
+                break;
         }
+        return arr;
     }
 
     /**
