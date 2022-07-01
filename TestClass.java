@@ -1,3 +1,4 @@
+import javax.xml.crypto.Data;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -7,13 +8,54 @@ import java.util.Scanner;
 public class TestClass {
 
     @org.junit.Test
-    public void test1() {
+    public void test1() throws IOException {
+        FileWriter out = new FileWriter(new File("AAA.txt"));
+        int id = 0;
+        for (int i = 1; i < 11; i++) {
+            out.write("***********" + "\n");
+            out.write((100+i) + "\n");
+            out.write("WEP" + i + "\n");
+            out.write(i*5 + "\n"); //level
+            out.write("weapon" + "\n");
+            out.write(i*10 + "\n"); //damage
+        }
+        for (int i = 1; i < 11; i++) {
+            out.write("***********" + "\n");
+            out.write((200+i) + "\n");
+            out.write("ARMOR" + i + "\n");
+            out.write(i*5 + "\n"); //level
+            out.write("armor" + "\n");
+            out.write(i*10 + "\n"); //damage
+        }
+        for (int i = 1; i < 11; i+=2) {
+            out.write("***********" + "\n");
+            out.write((300+i) + "\n");
+            out.write("DAMAGESPELL" + i + "\n");
+            out.write(i*5 + "\n"); //level
+            out.write("spell" + "\n");
+            out.write(i*10 + "\n"); //damage
+            out.write(i*5 + "\n"); //cost
+            out.write("DAMAGE" + "\n");
+        }
+        for (int i = 1; i < 11; i+=2) {
+            out.write("***********" + "\n");
+            out.write((400+i) + "\n");
+            out.write("HEALSPELL" + i + "\n");
+            out.write(i*5 + "\n"); //level
+            out.write("spell" + "\n");
+            out.write(i*10 + "\n"); //damage
+            out.write(i*5 + "\n"); //cost
+            out.write("HEAL" + "\n");
+        }
 
+        out.close();
     }
 
     @org.junit.Test
     public void test2()   {
-
+        ArrayList<Item> arr = DataAccess.produceItemList(20,35);
+        for (Item i : arr)
+            System.out.println(i.getLevel() + "\t" + i.getName());
     }
 
 }
