@@ -6,7 +6,7 @@ public class PlayController {
     private final Map map;
     public static final Position spawn = new Position(0,0);
     public static final int difficulty = 50;
-    public static final int towns = 75 - difficulty;
+    public static final int towns = 80 - difficulty;
     public static final int dungeons = difficulty - 20;
     public static final int encounters = (difficulty/5) + 80;
     public PlayController(Player p, Map m){
@@ -29,8 +29,7 @@ public class PlayController {
         if(map.getLocation(c,r) instanceof Town) {
             //set town
             Town t = (Town) map.getLocation(c,r);
-            //TODO set merchant information
-            ArrayList<Item> arr = DataAccess.produceItemList(t.getLevel() - 30, t.getLevel() + 30);
+            ArrayList<Item> arr = DataAccess.produceItemList(t.getLevel() - 15, t.getLevel() + 15);
             if (arr != null)
                 t.setMerchant(new Inventory(arr));
             else

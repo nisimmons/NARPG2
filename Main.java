@@ -161,9 +161,10 @@ public class Main {
                     break;
                 case 3:
                     //print player info
+                    System.out.println("**** Player Status ****");
                     System.out.println(player);
                     System.out.println();
-                    System.out.println("Inventory");
+                    System.out.println("  **** Inventory ****");
                     for (String s : player.getInventory().toString().split("\n")) {
                         System.out.println(s);
                         try {

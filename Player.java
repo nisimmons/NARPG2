@@ -13,11 +13,11 @@ public class Player extends Character{
     }
     public void randomize(){
         this.setPosition(0,0);
-        this.setWeapon((Weapon) DataAccess.getItem("Iron-Sword"));
-        this.setArmor((Armor) DataAccess.getItem("Leather"));
-        this.setStats(new Stats(new String[]{"1","0","15","15","15","10","10"}));
+        this.setWeapon((Weapon) DataAccess.getItem("Rusted-Sword"));
+        this.setArmor((Armor) DataAccess.getItem("Ragged-Robes"));
+        this.setStats(new Stats(new String[]{"1","0","15","15","10","10"}));
         this.getInventory().add(DataAccess.getItem("Flare"));
-        this.getInventory().add(DataAccess.getItem("Healing"));
+        this.getInventory().add(DataAccess.getItem("Gentle-Healing"));
     }
     Inventory getInventory() {
         return inventory;
@@ -63,10 +63,11 @@ public class Player extends Character{
     }
 
     public String toString(){
-        String s = "Name: ";
-        s += this.getName();
-        s += "\nPosition: ";
-        s += this.position;
+        String s = "";
+        s +=   "Name:         " + this.getName();
+        s += "\nPosition:     " + this.position;
+        s += "\nWeapon:       " + this.getWeapon();
+        s += "\nArmor:        " + this.getArmor() + "\n";
         s += "\n" + this.getStats().toString();
         return s;
     }
