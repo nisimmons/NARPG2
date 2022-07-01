@@ -6,7 +6,19 @@ public class Player extends Character{
         this.inventory = new Inventory();
         this.position = new Position();
     }
-
+    public Player(String name){
+        super(name);
+        this.inventory = new Inventory();
+        this.position = new Position();
+    }
+    public void randomize(){
+        this.setPosition(0,0);
+        this.setWeapon((Weapon) DataAccess.getItem("Iron-Sword"));
+        this.setArmor((Armor) DataAccess.getItem("Leather"));
+        this.setStats(new Stats(new String[]{"1","0","15","15","15","10","10"}));
+        this.getInventory().add(DataAccess.getItem("Flare"));
+        this.getInventory().add(DataAccess.getItem("Healing"));
+    }
     Inventory getInventory() {
         return inventory;
     }
@@ -56,7 +68,6 @@ public class Player extends Character{
         s += "\nPosition: ";
         s += this.position;
         s += "\n" + this.getStats().toString();
-        //s += "\n" + inventory.toString(); //TODO check
         return s;
     }
     public String toData(){
