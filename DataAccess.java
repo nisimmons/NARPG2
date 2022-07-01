@@ -41,21 +41,24 @@ public class DataAccess {
         switch (itemCategory)
         {
             case "weapon": {
-                return new Weapon(itemName, id, itemStat);}
+                Weapon w = new Weapon(itemName, id, itemStat);
+                w.setLevel(level);
+                return w;}
             case "armor": {
-                return new Armor(itemName, id, itemStat);}
+                Armor a = new Armor(itemName, id, itemStat);
+                a.setLevel(level);
+                return a;}
             case "spell":
             {
                 //<spell mana cost>
                 int spellCost = Integer.parseInt(scr.nextLine());
                 //<spell details>
                 SpellType spellKeyword = SpellType.valueOf(scr.nextLine());
-
-                return new Spell(itemName, id, itemStat, spellCost, spellKeyword);
+                Spell s = new Spell(itemName, id, itemStat, spellCost, spellKeyword);
+                s.setLevel(level);
+                return s;
             }
-
         }
-
         return null;
     }
 
@@ -89,15 +92,21 @@ public class DataAccess {
         switch (itemCategory)
         {
             case "weapon": {
-                return new Weapon(itemName, id, itemStat);      // returns new weapon object
+                Weapon w = new Weapon(itemName, id, itemStat);
+                w.setLevel(level);
+                return w;
             }
             case "armor": {
-                return new Armor(itemName, id, itemStat);       // returns new armor object
+                Armor a = new Armor(itemName, id, itemStat);
+                a.setLevel(level);
+                return a;       // returns new armor object
             }
             case "spell": {
                 int spellCost = Integer.parseInt(scr.nextLine());
                 SpellType spellKeyword = SpellType.valueOf(scr.nextLine());
-                return new Spell(itemName, id, itemStat, spellCost, spellKeyword);
+                Spell s = new Spell(itemName, id, itemStat, spellCost, spellKeyword);
+                s.setLevel(level);
+                return s;
             }
             default:
                 return null;
@@ -112,53 +121,51 @@ public class DataAccess {
         } catch (FileNotFoundException e) {
             return null;
         }
-        scr.nextLine();
-        int id = Integer.parseInt(scr.nextLine());
-        String itemName = scr.nextLine();
-        int level = Integer.parseInt(scr.nextLine());
-        //find the correct ID
-        while (level > high || level < low) {
-
-            if(scr.nextLine().compareTo("spell") == 0) {
-                for(int i = 0; i < 3; i++) //skip one Item
-                    scr.nextLine();
-            }
-            else { scr.nextLine(); }
-
-            if (!scr.hasNext())
-                return null;
+        while (scr.hasNext()) {
             scr.nextLine();
-            id = Integer.parseInt(scr.nextLine());
-            itemName = scr.nextLine();
-            level = Integer.parseInt(scr.nextLine());
-        }
-
-        //<weapon/armor/spell>
-        String itemCategory = scr.nextLine();
-        //<weapon dmg/armor health/spell dmg>
-        int itemStat = Integer.parseInt(scr.nextLine());
-
-        switch (itemCategory)
-        {
-            case "weapon": {
-                arr.add(new Weapon(itemName, id, itemStat));      // returns new weapon object
-                break;
+            int id = Integer.parseInt(scr.nextLine());
+            String itemName = scr.nextLine();
+            int level = Integer.parseInt(scr.nextLine());
+            //find a good level
+            while (level > high || level < low) {
+                while (scr.nextLine().charAt(0) != '*') {
+                    if (!scr.hasNext())
+                        return null;
+                }
+                id = Integer.parseInt(scr.nextLine());
+                itemName = scr.nextLine();
+                level = Integer.parseInt(scr.nextLine());
             }
-            case "armor": {
-                arr.add(new Armor(itemName, id, itemStat));       // returns new armor object
-                break;
-            }
-            case "spell": {
-                //<spell mana cost>
-                int spellCost = Integer.parseInt(scr.nextLine());
-                //<spell details>
-                SpellType spellKeyword = SpellType.valueOf(scr.nextLine());
 
-                arr.add(new Spell(itemName, id, itemStat, spellCost, spellKeyword));
-                break;
+            //<weapon/armor/spell>
+            String itemCategory = scr.nextLine();
+            //<weapon dmg/armor health/spell dmg>
+            int itemStat = Integer.parseInt(scr.nextLine());
+
+            switch (itemCategory) {
+                case "weapon": {
+                    Weapon w = new Weapon(itemName, id, itemStat);
+                    w.setLevel(level);
+                    arr.add(w);      // returns new weapon object
+                    break;
+                }
+                case "armor": {
+                    Armor a = new Armor(itemName, id, itemStat);
+                    a.setLevel(level);
+                    arr.add(a);       // returns new armor object
+                    break;
+                }
+                case "spell": {
+                    int spellCost = Integer.parseInt(scr.nextLine());
+                    SpellType spellKeyword = SpellType.valueOf(scr.nextLine());
+                    Spell s = new Spell(itemName, id, itemStat, spellCost, spellKeyword);
+                    s.setLevel(level);
+                    arr.add(s);
+                    break;
+                }
+                default:
+                    break;
             }
-            default:
-                break;
         }
         return arr;
     }
@@ -191,9 +198,8 @@ public class DataAccess {
         String name = scr.nextLine();
         int y = Integer.parseInt(scr.nextLine());
         int x = Integer.parseInt(scr.nextLine());
-        m = new Map(y,x);
+        m = new Map(name,y,x);
         m.setId(id);
-        m.setName(name);
         for(int i = 0; i < y; i++)
             for(int j = 0; j < x; j++){
                 s = scr.nextLine();
@@ -328,39 +334,6 @@ public class DataAccess {
         return new Enemy(name,stats,armor,damage);
     }
 
-    /*
-     * get an enemy from data from given info
-     * @param faction faction of enemy
-     * @param level approximate level of enemy
-     * @return the enemy
-     */
-    /*public static Enemy getEnemy(Faction faction, int level) {
-        //go through enemyData.txt, find an enemy near the right level and return it's data
-        Scanner scr;
-        try {
-            scr = new Scanner(new File("enemyData.txt"));
-        } catch (FileNotFoundException f) {
-            return null;
-        }
-        scr.nextLine();
-        Faction f = Faction.valueOf(scr.nextLine());
-        String name = scr.nextLine();
-        scr.nextLine();
-        Stats stats = new Stats(scr.nextLine().split("/"));
-        while (faction != f || stats.getLevel() > level+5 || stats.getLevel() < level-5 ) {
-            for (int j = 0; j < 2; j++) //skip one enemy
-                scr.nextLine();
-            if (!scr.hasNext())
-                return null;
-            f = Faction.valueOf(scr.nextLine());
-            name = scr.nextLine();
-            scr.nextLine();
-            stats = new Stats(scr.nextLine().split("/"));
-        }
-        int wep = getItem(Integer.parseInt(scr.nextLine()));
-        int armor = getItem(Integer.parseInt(scr.nextLine()));
-        return new Enemy(name, stats, armor, wep);
-    }*/
 
     /**
      * produces an arraylist with all the enemies in a faction
@@ -555,4 +528,37 @@ public class DataAccess {
         //delete temp file
         temp.delete();
     }
+    /*
+     * get an enemy from data from given info
+     * @param faction faction of enemy
+     * @param level approximate level of enemy
+     * @return the enemy
+     */
+    /*public static Enemy getEnemy(Faction faction, int level) {
+        //go through enemyData.txt, find an enemy near the right level and return its data
+        Scanner scr;
+        try {
+            scr = new Scanner(new File("enemyData.txt"));
+        } catch (FileNotFoundException f) {
+            return null;
+        }
+        scr.nextLine();
+        Faction f = Faction.valueOf(scr.nextLine());
+        String name = scr.nextLine();
+        scr.nextLine();
+        Stats stats = new Stats(scr.nextLine().split("/"));
+        while (faction != f || stats.getLevel() > level+5 || stats.getLevel() < level-5 ) {
+            for (int j = 0; j < 2; j++) //skip one enemy
+                scr.nextLine();
+            if (!scr.hasNext())
+                return null;
+            f = Faction.valueOf(scr.nextLine());
+            name = scr.nextLine();
+            scr.nextLine();
+            stats = new Stats(scr.nextLine().split("/"));
+        }
+        int wep = getItem(Integer.parseInt(scr.nextLine()));
+        int armor = getItem(Integer.parseInt(scr.nextLine()));
+        return new Enemy(name, stats, armor, wep);
+    }*/
 }
