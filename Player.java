@@ -67,7 +67,8 @@ public class Player extends Character{
         s +=   "Name:         " + this.getName();
         s += "\nPosition:     " + this.position;
         s += "\nWeapon:       " + this.getWeapon();
-        s += "\nArmor:        " + this.getArmor() + "\n";
+        s += "\nArmor:        " + this.getArmor();
+        s += "\nGold:         " + getGold() + "\n";
         s += "\n" + this.getStats().toString();
         return s;
     }
@@ -78,7 +79,8 @@ public class Player extends Character{
         s += getPosition().toData() + "\n";
         s += getArmor().getId() + "\n";
         s += getWeapon().getId() + "\n";
-        s += getInventory().toData();
+        s += getInventory().toData() + "\n";
+        s += getGold();
         return s;
     }
     public int getGold() {return gold;}

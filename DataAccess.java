@@ -267,7 +267,7 @@ public class DataAccess {
         if (InventoryArray[0].compareTo("") != 0)
             for(String str : InventoryArray)
                 inventory.add(getItem(Integer.parseInt(str)));
-
+        int gold = scr.nextInt();
 
         //set player info and return
         Player p = new Player();
@@ -277,6 +277,7 @@ public class DataAccess {
         p.setArmor((Armor) getItem(armorID));
         p.setWeapon((Weapon) getItem(weaponID));
         p.setInventory(inventory);
+        p.setGold(gold);
         return p;
     }
 
