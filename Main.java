@@ -103,12 +103,20 @@ public class Main {
                                     pc.respawn();
                                     break;
                                 case 2: //Market
-                                    System.out.println("Would you like to purchase anything?");
-                                    int i = integerInput(scr, 1, ((Town) loc).getMerchant().size(), ((Town) loc).getMerchant().toString());
-                                    //TODO implement gold purchases
+                                    System.out.println("Would you like to purchase anything?\n" +
+                                                        "#\tName\t\t\t\t\tGold");
+                                    Inventory inv = (((Town) loc).getMerchant());
+                                    for (int i = 0; i < inv.size(); i++)
+                                        System.out.printf("%d\t%-20s\t%d\n", i + 1, inv.get(i).getName(), (int)(Math.floor(inv.get(i).getLevel() / 1.2)));
+
+                                    int i = integerInput(scr, 1, ((Town) loc).getMerchant().size(), "");
                                     if (i != -1) {
-                                        System.out.println("You Purchased " + ((Town) loc).getMerchant().get(i-1));
-                                        player.getInventory().add(((Town) loc).getMerchant().take(i-1));
+                                        if (player.getGold() >= inv.get(i-1).getLevel()/1.2) {
+                                            System.out.println("You Purchased " + (inv.get(i - 1)));
+                                            player.getInventory().add(inv.take(i - 1));
+                                        }
+                                        else
+                                            System.out.println("Not enough gold!");
                                     }
                                     break;
                                 case 3: //Guild Hall
@@ -295,7 +303,7 @@ public class Main {
      * @return User input
      */
     public static int integerInput(Scanner scr, int lower, int upper, String s) {
-        int i = 0;
+        int i;
         do {
             System.out.println(s);
             try {
