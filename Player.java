@@ -1,6 +1,7 @@
 public class Player extends Character{
     private Inventory inventory;
     private Position position;
+    private int gold;
 
     public Player() {
         this.inventory = new Inventory();
@@ -22,7 +23,6 @@ public class Player extends Character{
     Inventory getInventory() {
         return inventory;
     }
-
     public void setInventory(Inventory inventory) {
         this.inventory = inventory;
     }
@@ -81,4 +81,7 @@ public class Player extends Character{
         s += getInventory().toData();
         return s;
     }
+    public int getGold() {return gold;}
+    public void setGold(int gold) {this.gold = gold;}
+    public void addGold(int gold) {this.gold += gold;}
 }

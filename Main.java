@@ -86,6 +86,7 @@ public class Main {
                                     case 2:
                                         System.out.println("You Won!");
                                         System.out.println(player.addExp(b.getExpReward()));
+                                        player.addGold(b.getExpReward()/3);
                                         break; //continue playing
                                     case 3:
                                         System.out.println("You ran away...");
@@ -99,7 +100,7 @@ public class Main {
                             switch(integerInput(scr, 1, 3, "1. Inn\n2. Market\n3. Guild Hall")){
                                 case 1: //Inn
                                     System.out.println(player.rest());
-                                    pc.respawn(); //TODO Check
+                                    pc.respawn();
                                     break;
                                 case 2: //Market
                                     System.out.println("Would you like to purchase anything?");
@@ -132,6 +133,7 @@ public class Main {
                                                 Thread.sleep(WAITTIME);
                                             } catch (InterruptedException ignored) {}
                                             System.out.println(player.addExp(b.getExpReward()));
+                                            player.addGold(b.getExpReward()/2);
                                             break; //continue playing
                                         case 3:
                                             System.out.println("You ran away...");
