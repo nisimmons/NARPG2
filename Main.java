@@ -55,8 +55,7 @@ public class Main {
         Map map = pc.getMap();
         while(true) {
             switch (integerInput(scr, 1, 5, "1. Move\n2. Investigate Area\n3. Player info\n4. Print map\n5. Save + quit")) {
-                case 1:
-                    //move
+                case 1: //move
                     Direction d;
                     switch (integerInput(scr, 1, 4, "1. North\n2. East\n3. South\n4. West")){
                         case 1:
@@ -72,106 +71,106 @@ public class Main {
                             d = Direction.WEST;
                             break;
                     }
-                    if (pc.move(d)) {//try to move, print location or error messaged
+                    if (pc.move(d)) {
                         Location loc = map.getLocation(player.getPosition());
                         System.out.println(loc);
-                        if (loc instanceof Wilderness){
-                            //check for and print enemies
-                            if (((Wilderness) loc).getEnemies() != null && !((Wilderness) loc).getEnemies().isEmpty()) {
-                                BattleController b = new BattleController(player, new ArrayList<>(), ((Wilderness) loc).getEnemies());
-                                switch(battle(scr, player, b)){
-                                    case 1:
-                                        System.out.println("You Suck!");
-                                        return 1; //return to main screen
-                                    case 2:
-                                        System.out.println("You Won!");
-                                        System.out.println(player.addExp(b.getExpReward()));
-                                        player.addGold(b.getExpReward()/3);
-                                        break; //continue playing
-                                    case 3:
-                                        System.out.println("You ran away...");
-                                        break;
-                                }
-                            }
-                        }
-                        else if (loc instanceof Town){
-                            //Heal player/restore mana
-                            System.out.println("You enter the town.");
-                            switch(integerInput(scr, 1, 3, "1. Inn\n2. Market\n3. Guild Hall")){
-                                case 1: //Inn
-                                    System.out.println(player.rest());
-                                    pc.respawn();
-                                    break;
-                                case 2: //Market
-                                    System.out.println("Would you like to purchase anything?\n" +
-                                                        "#\tName\t\t\t\t\tGold");
-                                    Inventory inv = (((Town) loc).getMerchant());
-                                    for (int i = 0; i < inv.size(); i++)
-                                        System.out.printf("%d\t%-20s\t%d\n", i + 1, inv.get(i).getName(), (int)(Math.floor(inv.get(i).getLevel() / 1.2)));
-
-                                    int i = integerInput(scr, 1, ((Town) loc).getMerchant().size(), "");
-                                    if (i != -1) {
-                                        if (player.getGold() >= inv.get(i-1).getLevel()/1.2) {
-                                            System.out.println("You Purchased " + (inv.get(i - 1)));
-                                            player.getInventory().add(inv.take(i - 1));
-                                        }
-                                        else
-                                            System.out.println("Not enough gold!");
-                                    }
-                                    break;
-                                case 3: //Guild Hall
-                                    System.out.println("There is nothing here yet");
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                        else {
-                            //it's a dungeon
-                            if (((Dungeon)loc).battleCount() != 0) {
-                                for (int i = 0; i < ((Dungeon) loc).battleCount(); i++) {
-                                    BattleController b = new BattleController(player, new ArrayList<>(), ((Dungeon) loc).getBattle(i));
-                                    switch (battle(scr, player, b)) {
-                                        case 1:
-                                            System.out.println("You Suck!");
-                                            return 1; //return to main screen
-                                        case 2:
-                                            System.out.println("You won this battle");
-                                            try {
-                                                Thread.sleep(WAITTIME);
-                                            } catch (InterruptedException ignored) {}
-                                            System.out.println(player.addExp(b.getExpReward()));
-                                            player.addGold(b.getExpReward()/2);
-                                            break; //continue playing
-                                        case 3:
-                                            System.out.println("You ran away...");
-                                            i = ((Dungeon) loc).battleCount();
-                                            ((Dungeon) loc).cleanUp();
-                                            break;
-                                    }
-                                }
-                                if (((Dungeon)loc).battleCount() == 0) {
-                                    System.out.println("You conquered the Dungeon!");
-                                    try {
-                                        Thread.sleep(WAITTIME);
-                                    } catch (InterruptedException ignored) {}
-                                    ((Dungeon) loc).cleanUp();
-                                    //TODO implement player winning stuff from the dungeon
-
-                                }
-                            }
-                            else{
-                                System.out.println("You've already conquered this Dungeon");
-                            }
-                        }
                         loc.setRevealed(true);
                     }
                     else
                         System.out.println("Area Impassable");
                     break;
-                case 2:
-                    //investigate area
-                    System.out.println(map.getLocation(player.getPosition()));
+                case 2: //investigate area
+                    Location loc = map.getLocation(player.getPosition());
+                    System.out.println(loc);
+                    if (loc instanceof Wilderness){
+                        //check for and print enemies
+                        if (((Wilderness) loc).getEnemies() != null && !((Wilderness) loc).getEnemies().isEmpty()) {
+                            BattleController b = new BattleController(player, new ArrayList<>(), ((Wilderness) loc).getEnemies());
+                            switch(battle(scr, player, b)){
+                                case 1:
+                                    System.out.println("You Suck!");
+                                    return 1; //return to main screen
+                                case 2:
+                                    System.out.println("You Won!");
+                                    System.out.println(player.addExp(b.getExpReward()));
+                                    player.addGold(b.getExpReward()/3);
+                                    break; //continue playing
+                                case 3:
+                                    System.out.println("You ran away...");
+                                    break;
+                            }
+                        }
+                    }
+                    else if (loc instanceof Town){
+                        //Heal player/restore mana
+                        System.out.println("You enter the town.");
+                        switch(integerInput(scr, 1, 3, "1. Inn\n2. Market\n3. Guild Hall")){
+                            case 1: //Inn
+                                System.out.println(player.rest());
+                                pc.respawn();
+                                break;
+                            case 2: //Market
+                                System.out.println("Would you like to purchase anything?\n" +
+                                        "#\tName\t\t\t\t\tGold");
+                                Inventory inv = (((Town) loc).getMerchant()); //TODO ignore items the player already has?
+                                for (int i = 0; i < inv.size(); i++)
+                                    System.out.printf("%d\t%-20s\t%d\n", i + 1, inv.get(i).getName(), (int)(Math.floor(inv.get(i).getLevel() / 1.2)));
+                                System.out.println("\nYour Gold:\t\t\t\t\t" + player.getGold());
+                                int i = integerInput(scr, 1, ((Town) loc).getMerchant().size());
+                                if (i != -1) {
+                                    if (player.getGold() >= inv.get(i-1).getLevel()/1.2) {
+                                        System.out.println("You Purchased " + (inv.get(i - 1)));
+                                        player.getInventory().add(inv.take(i - 1));
+                                    }
+                                    else
+                                        System.out.println("Not enough gold!");
+                                }
+                                break;
+                            case 3: //Guild Hall
+                                System.out.println("There is nothing here yet");
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    else {
+                        //it's a dungeon
+                        if (((Dungeon)loc).battleCount() != 0) {
+                            for (int i = 0; i < ((Dungeon) loc).battleCount(); i++) {
+                                BattleController b = new BattleController(player, new ArrayList<>(), ((Dungeon) loc).getBattle(i));
+                                switch (battle(scr, player, b)) {
+                                    case 1:
+                                        System.out.println("You Suck!");
+                                        return 1; //return to main screen
+                                    case 2:
+                                        System.out.println("You won this battle");
+                                        try {
+                                            Thread.sleep(WAITTIME);
+                                        } catch (InterruptedException ignored) {}
+                                        System.out.println(player.addExp(b.getExpReward()));
+                                        player.addGold(b.getExpReward()/2);
+                                        break; //continue playing
+                                    case 3:
+                                        System.out.println("You ran away...");
+                                        i = ((Dungeon) loc).battleCount();
+                                        ((Dungeon) loc).cleanUp();
+                                        break;
+                                }
+                            }
+                            if (((Dungeon)loc).battleCount() == 0) {
+                                System.out.println("You conquered the Dungeon!");
+                                try {
+                                    Thread.sleep(WAITTIME);
+                                } catch (InterruptedException ignored) {}
+                                ((Dungeon) loc).cleanUp();
+                                //TODO implement player winning stuff from the dungeon
+
+                            }
+                        }
+                        else{
+                            System.out.println("You've already conquered this Dungeon");
+                        }
+                    }
                     break;
                 case 3:
                     //print player info
@@ -294,6 +293,7 @@ public class Main {
         return 2;
     }
 
+    public static int integerInput(Scanner scr, int lower, int upper) {return integerInput(scr, lower, upper, "");}
     /**
      * Prints screen to the player and gets input
      * @param scr Scanner
