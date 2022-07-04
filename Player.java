@@ -41,7 +41,7 @@ public class Player extends Character{
     public String addExp(int exp){
         String s = "You gained " + exp + " EXP.";
         getStats().setExp(getStats().getExp() + exp);
-        if (getStats().getExp() > (getStats().getLevel()+1) * 100) {
+        if (getStats().getExp() > (getStats().getLevel()) * 100) {
             s += "\nYou have enough EXP to level up!";
         }
         return s;
@@ -50,13 +50,16 @@ public class Player extends Character{
     public String rest(){
         String s = "You rest here.";
         if (getStats().getExp() > (getStats().getLevel()) * 100) {
+            int oldLevel = getStats().getLevel(), oldHP = getStats().getMaxHP(), oldMana = getStats().getMaxMana();
             int levelsGained = (getStats().getExp()/100)+1 - getStats().getLevel();
             getStats().setLevel((getStats().getLevel() + levelsGained));
-            s += "\nYou leveled up!\nNew Level: " + getStats().getLevel();
             getStats().setMaxHP(getStats().getLevel()*2 + 15);
-            getStats().setMaxHP(getStats().getLevel()*3 + 10);
+            getStats().setMaxMana(getStats().getLevel()*3 + 10);
+            s += "\nYou leveled up!";
+            s += "\nLevel:   \t" + oldLevel + "\t -> \t" + getStats().getLevel();
+            s += "\nMax HP:  \t" + oldHP + "\t -> \t" + getStats().getMaxHP();
+            s += "\nMax Mana:\t" + oldMana + "\t -> \t" + getStats().getMaxMana();
         }
-
         getStats().setCurrHP(getStats().getMaxHP());
         getStats().setCurrMana(getStats().getMaxMana());
         return s;
