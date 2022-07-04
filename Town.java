@@ -27,7 +27,7 @@ public class Town extends Location{
     public void fromData(String s){
         Scanner scr = new Scanner(s);
         scr.next();
-        if (scr.nextInt() == '1')
+        if (scr.nextInt() == 1)
             setRevealed(true);
         setLevel(Integer.parseInt(scr.next()));
         String[]arr = scr.next().split("/");
