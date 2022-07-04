@@ -22,9 +22,9 @@ public class BattleController {
     public ArrayList<String> battleState(){
         ArrayList<String> s = new ArrayList<>();
         s.add(p.getName());
-        s.add("Current HP: " + p.getStats().getCurrHP());
+        s.add("Current HP:   " + p.getStats().getCurrHP());
         s.add("Current Mana: " + p.getStats().getCurrMana());
-        if (allies != null){
+        if (allies != null && allies.size() > 0){
             s.add("Allies");
             for(Enemy a: allies)
                 s.add(a.toString());
