@@ -348,7 +348,7 @@ public class DataAccess {
         try {
             scr = new Scanner(new File("enemyData.txt"));
         } catch (FileNotFoundException f) {
-            return null;
+            return enemies;
         }
         while (scr.hasNext()) {
             scr.nextLine();
