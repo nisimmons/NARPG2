@@ -73,7 +73,20 @@ public class Main {
                     }
                     if (pc.move(d)) {
                         Location loc = map.getLocation(player.getPosition());
-                        System.out.println(loc);
+                        switch(loc.getFaction()) {
+                            case TOWN:
+                                System.out.println("There is a town nearby");
+                                break;
+                            case DUNGEON:
+                                System.out.println("There is a Dungeon nearby");
+                                break;
+                            case FINALDUNGEON:
+                                System.out.println("The Demon King's Castle is nearby");
+                                break;
+                            default:
+                                System.out.println("There is a " + loc.getFaction().toString().toLowerCase() + " nearby");
+                                break;
+                        }
                         loc.setRevealed(true);
                     }
                     else
@@ -81,7 +94,6 @@ public class Main {
                     break;
                 case 2: //investigate area
                     Location loc = map.getLocation(player.getPosition());
-                    System.out.println(loc);
                     if (loc instanceof Wilderness){
                         //check for and print enemies
                         if (((Wilderness) loc).getEnemies() != null && !((Wilderness) loc).getEnemies().isEmpty()) {
@@ -136,6 +148,7 @@ public class Main {
                     else {
                         //it's a dungeon
                         if (((Dungeon)loc).battleCount() != 0) {
+                            System.out.println("You enter the dungeon...");
                             for (int i = 0; i < ((Dungeon) loc).battleCount(); i++) {
                                 BattleController b = new BattleController(player, new ArrayList<>(), ((Dungeon) loc).getBattle(i));
                                 switch (battle(scr, player, b)) {
@@ -184,6 +197,7 @@ public class Main {
                             Thread.sleep(WAITTIME /2);
                         } catch (InterruptedException ignored) {}
                     }
+                    //TODO ask user to equip items
                     System.out.println();
                     break;
                 case 4:
@@ -195,6 +209,7 @@ public class Main {
         }
     }
     public static int battle(Scanner scr, Player player, BattleController b){
+        System.out.println("**** BATTLE START! ****");
         while(!b.isWon()) {
             for (String s :b.battleState()) {
                 System.out.println(s);
@@ -202,7 +217,7 @@ public class Main {
                     Thread.sleep(WAITTIME);
                 } catch (InterruptedException ignored) {}
             }
-            //System.out.println(b.battleState());
+            System.out.println("*********");
             int i;
             switch (integerInput(scr, 1, 3, "Fight:\n1. Attack\n2. Spell\n3. Run")) {
                 case 1:
@@ -211,23 +226,18 @@ public class Main {
                         System.out.println("Which will you attack?");
                         for (String s :b.listEntities()) {
                             System.out.println(s);
-                            try {
-                                Thread.sleep(WAITTIME);
-                            } catch (InterruptedException ignored) {}
+                            try {Thread.sleep(WAITTIME);} catch (InterruptedException ignored) {}
                         }
                         try {
                             i = Integer.parseInt(scr.nextLine());
-                        } catch (Exception ignored) {
+                        } catch (Exception e) {
                             System.out.println("Invalid input");
                             continue;
                         }
                         for (String s :b.attack(i,player.getWeapon())) {
                             System.out.println(s);
-                            try {
-                                Thread.sleep(WAITTIME);
-                            } catch (InterruptedException ignored) {}
+                            try {Thread.sleep(WAITTIME);} catch (InterruptedException ignored) {}
                         }
-                        //System.out.println(b.attack(i, player.getWeapon()));
                         break;
                     }
                     break;
