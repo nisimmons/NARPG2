@@ -74,11 +74,10 @@ public class BattleController {
             return s;
         }
 
-        s.add(target.getName() + " ");
 
         if (i instanceof Weapon){
             target.getStats().setCurrHP(target.getStats().getCurrHP() - p.getWeapon().getDamage());
-            s.add("was hit for " + p.getWeapon().getDamage() + " damage!");
+            s.add(target.getName() + " was hit for " + p.getWeapon().getDamage() + " damage!");
         }
         else if (i instanceof Spell) {
             if (p.getStats().getCurrMana() >= ((Spell) i).getSpellCost()){ //if player has enough mana
@@ -88,12 +87,12 @@ public class BattleController {
                     case DAMAGE:
                         //do damage
                         target.getStats().setCurrHP(target.getStats().getCurrHP() - ((Spell) i).getSpellDamage());
-                        s.add("was hit for " + ((Spell) i).getSpellDamage() + " damage!");
+                        s.add(target.getName() + " was hit for " + ((Spell) i).getSpellDamage() + " damage!");
                         break;
                     case HEAL:
                         //heal
                         target.getStats().setCurrHP(target.getStats().getCurrHP() + ((Spell) i).getSpellDamage());
-                        s.add("was healed for " + ((Spell) i).getSpellDamage() + " damage.");
+                        s.add(target.getName() + " was healed for " + ((Spell) i).getSpellDamage() + " damage.");
                         if (target.getStats().getCurrHP() > target.getStats().getMaxHP())     // in the case of overhealing
                         {
                             target.getStats().setCurrHP(target.getStats().getMaxHP());
