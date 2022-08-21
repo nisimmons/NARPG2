@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 //up to date
@@ -106,6 +107,12 @@ public class Main {
                                     System.out.println("You Won!");
                                     System.out.println(player.addExp(b.getExpReward()));
                                     player.addGold(b.getExpReward()/3);
+
+                                    Item reward = battleRewards(loc.getLevel(), loc.getFaction());
+                                    if (reward != null) {
+                                        System.out.println("You received a " + reward.getName() + "!");
+                                        player.getInventory().add(reward);
+                                    }
                                     break; //continue playing
                                 case 3:
                                     System.out.println("You ran away...");
@@ -123,11 +130,11 @@ public class Main {
                                 break;
                             case 2: //Market
                                 System.out.println("Would you like to purchase anything?\n" +
-                                        "#\tName\t\t\t\t\tGold");
+                                        "#\tName\t\t\t\t\tGold\n" + "0\tNothing");
                                 Inventory inv = (((Town) loc).getMerchant()); //TODO ignore items the player already has?
                                 for (int i = 0; i < inv.size(); i++)
                                     System.out.printf("%d\t%-20s\t%d\n", i + 1, inv.get(i).getName(), (int)(Math.floor(inv.get(i).getLevel() / 1.2)));
-                                System.out.println("\nYour Gold:\t\t\t\t\t" + player.getGold());
+                                System.out.println("\nYour Gold:\t\t\t\t\t" + player.getGold() + "\nEnter any non-number to leave");
                                 int i = integerInput(scr, 1, ((Town) loc).getMerchant().size());
                                 if (i != -1) {
                                     if (player.getGold() >= inv.get(i-1).getLevel()/1.2) {
@@ -176,7 +183,11 @@ public class Main {
                                     Thread.sleep(WAITTIME);
                                 } catch (InterruptedException ignored) {}
                                 ((Dungeon) loc).cleanUp();
-                                //TODO implement player winning stuff from the dungeon
+                                //TODO Make sure battles are cleaned up
+
+                                Item reward = battleRewards(loc.getLevel(), Faction.DUNGEON);
+                                System.out.println("You received a " + reward.getName() + "!");
+                                player.getInventory().add(reward);
 
                             }
                         }
@@ -301,6 +312,128 @@ public class Main {
                 return 1; //lose
         }
         return 2;
+    }
+
+    /**
+     * Finds Item to be rewarded
+     * @param level Area Level
+     * @return Level Appropriate Item of random type
+     */
+    public static Item battleRewards(int level, Faction faction)
+    {
+        Item itemReward = null;
+        int modifier = 0;
+
+        switch (faction)
+        {
+            case DUNGEON:
+            {
+                modifier = 5;
+                break;
+            }
+            /*
+            case FINALDUNGEON:
+            {
+                // TODO: figure out if there are even items 10 levels above final boss level
+                modifier = 10;
+                break;
+            }
+            */
+        }
+
+        int low = level + modifier;
+        int high = level + 5 + modifier;
+
+        // Get item list for range +=5 of zone (maybe modifier for rewards on dungeon?)
+        ArrayList<Item> arr = DataAccess.produceItemList(low, high);
+
+        Random random = new Random();
+        // Get rand int for type, weapon armor etc, 1-10
+        int rand = (int) (random.nextInt(10)) + 1;
+
+        // Make separate item type arrays
+        ArrayList<Item> weapon = new ArrayList<>();
+        ArrayList<Item> armor = new ArrayList<>();
+        ArrayList<Item> spell = new ArrayList<>();
+
+        // Fill arrays
+        for (int j =0; j < arr.size(); j++)
+        {
+            if (arr.get(j) instanceof Weapon)
+            {
+                weapon.add(arr.get(j));
+            }
+            else if (arr.get(j) instanceof Armor)
+            {
+                armor.add(arr.get(j));
+            }
+            else if (arr.get(j) instanceof Spell)
+            {
+                spell.add(arr.get(j));
+            }
+        }
+
+        if (faction != Faction.DUNGEON) // Faction is overworld
+        {
+            switch (rand)
+            {
+                case 5:
+                case 6:
+                {
+                    rand = (int) (Math.random() * weapon.size());
+                    itemReward = weapon.get(rand);
+                    break;
+                }
+                case 7:
+                case 8:
+                {
+                    rand = (int) (Math.random() * armor.size());
+                    itemReward = armor.get(rand);
+                    break;
+                }
+                case 9:
+                case 10:
+                {
+                    rand = (int) (Math.random() * spell.size());
+                    itemReward = spell.get(rand);
+                    break;
+                }
+            }
+        }
+        else // Faction is dungeon or final dungeon
+        {
+            switch (rand)   //TODO switch to if else
+            {
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                {
+                    rand = (int) (Math.random() * weapon.size());
+                    itemReward = weapon.get(rand);
+                    break;
+                }
+                case 5:
+                case 6:
+                case 7:
+                {
+                    rand = (int) (Math.random() * armor.size());
+                    itemReward = armor.get(rand);
+                    break;
+                }
+                case 8:
+                case 9:
+                case 10:
+                {
+                    rand = (int) (Math.random() * spell.size());
+                    itemReward = spell.get(rand);
+                    break;
+                }
+            }
+
+        }
+
+        return itemReward;
     }
 
     public static int integerInput(Scanner scr, int lower, int upper) {return integerInput(scr, lower, upper, "");}
