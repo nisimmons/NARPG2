@@ -5,6 +5,12 @@ import java.util.Scanner;
 //up to date
 public class Main {
     static final int WAITTIME = 300;
+
+    /**
+     * Main function which allows the player to log in or create new,
+     * play the game, save and quit
+     * @param args None
+     */
     public static void main(String[] args) {
         Scanner scr = new Scanner(System.in);
         String s;
@@ -50,11 +56,36 @@ public class Main {
             }
         }
     }
+
+    /**
+     * Function for the gameplay loop. Lets the player choose what
+     * to do at each location and calls PlayController and BattleController
+     * functions accordingly.
+     * @param pc PlayController object
+     * @param scr Scanner on user input
+     * @return 1 if lost, 0 to save and return to main
+     */
     public static int playGame(PlayController pc, Scanner scr){
         //interact with user and call pc to do stuff
         Player player = pc.getPlayer();
         Map map = pc.getMap();
-        while(true) {
+        while(true) { //main play loop
+            Location loc = map.getLocation(player.getPosition());
+            switch(loc.getFaction()) { //TODO improve location message. Put this switch in location and make it more specific
+                case TOWN:
+                    System.out.println("There is a town nearby");
+                    break;
+                case DUNGEON:
+                    System.out.println("There is a Dungeon nearby");
+                    break;
+                case FINALDUNGEON:
+                    System.out.println("The Demon King's Castle is nearby");
+                    break;
+                default:
+                    System.out.println("There is a " + loc.getFaction().toString().toLowerCase() + " nearby");
+                    break;
+            }
+            loc.setRevealed(true);
             switch (integerInput(scr, 1, 5, "1. Move\n2. Investigate Area\n3. Player info\n4. Print map\n5. Save + quit")) {
                 case 1: //move
                     Direction d;
@@ -72,29 +103,10 @@ public class Main {
                             d = Direction.WEST;
                             break;
                     }
-                    if (pc.move(d)) {
-                        Location loc = map.getLocation(player.getPosition());
-                        switch(loc.getFaction()) {
-                            case TOWN:
-                                System.out.println("There is a town nearby");
-                                break;
-                            case DUNGEON:
-                                System.out.println("There is a Dungeon nearby");
-                                break;
-                            case FINALDUNGEON:
-                                System.out.println("The Demon King's Castle is nearby");
-                                break;
-                            default:
-                                System.out.println("There is a " + loc.getFaction().toString().toLowerCase() + " nearby");
-                                break;
-                        }
-                        loc.setRevealed(true);
-                    }
-                    else
+                    if(!pc.move(d))//try to move
                         System.out.println("Area Impassable");
                     break;
                 case 2: //investigate area
-                    Location loc = map.getLocation(player.getPosition());
                     if (loc instanceof Wilderness){
                         //check for and print enemies
                         if (((Wilderness) loc).getEnemies() != null && !((Wilderness) loc).getEnemies().isEmpty()) {
@@ -120,35 +132,39 @@ public class Main {
                             }
                         }
                     }
-                    else if (loc instanceof Town){
-                        //Heal player/restore mana
+                    else if (loc instanceof Town) {
                         System.out.println("You enter the town.");
-                        switch(integerInput(scr, 1, 3, "1. Inn\n2. Market\n3. Guild Hall")){
-                            case 1: //Inn
-                                System.out.println(player.rest());
-                                pc.respawn();
-                                break;
-                            case 2: //Market
-                                System.out.println("Would you like to purchase anything?\n" +
-                                        "#\tName\t\t\t\t\tGold\n" + "0\tNothing");
-                                Inventory inv = (((Town) loc).getMerchant()); //TODO ignore items the player already has?
-                                for (int i = 0; i < inv.size(); i++)
-                                    System.out.printf("%d\t%-20s\t%d\n", i + 1, inv.get(i).getName(), (int)(Math.floor(inv.get(i).getLevel() / 1.2)));
-                                System.out.println("\nYour Gold:\t\t\t\t\t" + player.getGold() + "\nEnter any non-number to leave");
-                                int i = integerInput(scr, 1, ((Town) loc).getMerchant().size());
-                                if (i != -1) {
-                                    if (player.getGold() >= inv.get(i-1).getLevel()/1.2) {
-                                        System.out.println("You Purchased " + (inv.get(i - 1)));
-                                        player.getInventory().add(inv.take(i - 1));
+                        while(true) {
+                            int choice = integerInput(scr, 1, 4, "1. Inn\n2. Market\n3. Guild Hall\n4. Leave Town");
+                            switch (choice) {
+                                case 1: //Inn
+                                    System.out.println(player.rest());
+                                    pc.respawn();
+                                    break;
+                                case 2: //Market
+                                    System.out.println("\t\t*****MARKET*****\n#\tName\t\t\t\t\tGold\n" + "0\tNothing");
+                                    Inventory inv = (((Town) loc).getMerchant()); //TODO ignore items the player already has. Allow user to sell items
+                                    for (int i = 0; i < inv.size(); i++) {
+                                        pause(WAITTIME/2);
+                                        System.out.printf("%d\t%-20s\t%d\n", i + 1, inv.get(i).getName(), (int) (Math.floor(inv.get(i).getLevel() / 1.2)));
                                     }
-                                    else
-                                        System.out.println("Not enough gold!");
-                                }
-                                break;
-                            case 3: //Guild Hall
-                                System.out.println("There is nothing here yet");
-                                break;
-                            default:
+                                    System.out.print("\nYour Gold:\t\t\t\t\t" + player.getGold() + "\nWould you like to purchase anything?");
+                                    int i = integerInput(scr, 0, ((Town) loc).getMerchant().size());
+                                    if (i != 0) {
+                                        if (player.getGold() >= inv.get(i - 1).getLevel() / 1.2) {
+                                            System.out.println("You Purchased " + (inv.get(i - 1)));
+                                            player.getInventory().add(inv.take(i - 1));
+                                        } else
+                                            System.out.println("Not enough gold!");
+                                    }
+                                    break;
+                                case 3: //Guild Hall
+                                    System.out.println("There is nothing here yet");
+                                    break;
+                                case 4:
+                                    break;
+                            }
+                            if (choice == 4)
                                 break;
                         }
                     }
@@ -204,9 +220,7 @@ public class Main {
                     System.out.println("  **** Inventory ****");
                     for (String s : player.getInventory().toString().split("\n")) {
                         System.out.println(s);
-                        try {
-                            Thread.sleep(WAITTIME /2);
-                        } catch (InterruptedException ignored) {}
+                        pause(WAITTIME/2);
                     }
                     //TODO ask user to equip items
                     System.out.println();
@@ -219,6 +233,14 @@ public class Main {
             }
         }
     }
+
+    /**
+     * Conducts a battle event
+     * @param scr Scanner on user input
+     * @param player Player object
+     * @param b BattleController object
+     * @return 1 if lost, 2 if won, 3 if run
+     */
     public static int battle(Scanner scr, Player player, BattleController b){
         System.out.println("**** BATTLE START! ****");
         while(!b.isWon()) {
@@ -298,9 +320,7 @@ public class Main {
                     //run
                     return 3;
             }
-            try {
-                Thread.sleep(WAITTIME);
-            } catch (InterruptedException ignored) {}
+            try {Thread.sleep(WAITTIME);} catch (InterruptedException ignored) {}
             for(String s:b.entityTurn()) {
                 System.out.println(s);
                 try {
@@ -319,8 +339,7 @@ public class Main {
      * @param level Area Level
      * @return Level Appropriate Item of random type
      */
-    public static Item battleRewards(int level, Faction faction)
-    {
+    public static Item battleRewards(int level, Faction faction) {
         Item itemReward = null;
         int modifier = 0;
 
@@ -448,7 +467,11 @@ public class Main {
     public static int integerInput(Scanner scr, int lower, int upper, String s) {
         int i;
         do {
-            System.out.println(s);
+            //System.out.println(s);
+            for (String st : s.split("\n")) {
+                System.out.println(st);
+                pause(WAITTIME/3);
+            }
             try {
                 i = Integer.parseInt(scr.nextLine());
             } catch (Exception e) {
@@ -467,4 +490,6 @@ public class Main {
         LoadSaveController.savePlayer(p);
         LoadSaveController.saveMap(m);
     }
+    public static void pause(){pause(WAITTIME);}
+    public static void pause(int time){try {Thread.sleep(time);} catch (InterruptedException ignored) {}}
 }
