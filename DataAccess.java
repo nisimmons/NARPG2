@@ -404,7 +404,7 @@ public class DataAccess {
             //copy other players until we find this one or get to the end
             while(scr.hasNext() && p.getName().compareTo(id) != 0) {
                 out.write(id+"\n");
-                for(int i = 0; i < 5; i++)
+                for(int i = 0; i < 6; i++)
                     out.write(scr.nextLine()+"\n");
                 if (scr.hasNext())
                     id = scr.nextLine();
@@ -412,7 +412,7 @@ public class DataAccess {
 
             //skip reading this player
             if (scr.hasNext()) {
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 6; i++)
                     scr.nextLine();
             }
             //write this player
