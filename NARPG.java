@@ -141,7 +141,8 @@ public class NARPG {
                                     break;
                                 case 2: //Market
                                     System.out.println("\t\t*****MARKET*****\n#\tName\t\t\t\t\tGold\n" + "0\tNothing");
-                                    Inventory inv = (((Town) loc).getMerchant()); //TODO ignore items the player already has. Allow user to sell items
+                                    Inventory inv = (((Town) loc).getMerchant()); //TODO Allow user to sell items
+                                    inv.remove(player.getInventory());
                                     for (int i = 0; i < inv.size(); i++) {
                                         pause(WAITTIME/2);
                                         System.out.printf("%d\t%-20s\t%d\n", i + 1, inv.get(i).getName(), (int) (Math.floor(inv.get(i).getLevel() * 15)));

@@ -56,6 +56,14 @@ public class Inventory {
 
     public void remove(String i) { items.remove(i+1); sortNumbers();}
 
+    public void remove(Inventory i)
+    {
+        for (int j = 0; j < i.size(); j++)
+        {
+            items.remove(i.numbers.get(j));
+        }
+    }
+
     public Item take(int index){
         Item i = items.get(numbers.get(index+1));
         remove(index);
@@ -87,6 +95,8 @@ public class Inventory {
     }
 
     public int size() { return items.size(); }
+
+    public boolean contains(String i) { return items.containsKey(i); }
 
 
 }
