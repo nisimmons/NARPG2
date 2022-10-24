@@ -60,8 +60,10 @@ public class Inventory {
     {
         for (int j = 0; j < i.size(); j++)
         {
-            items.remove(i.numbers.get(j));
+            items.remove(i.numbers.get(j+1));
         }
+
+        sortNumbers();
     }
 
     public Item take(int index){

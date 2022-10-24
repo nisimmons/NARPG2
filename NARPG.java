@@ -140,23 +140,43 @@ public class NARPG {
                                     pc.respawn();
                                     break;
                                 case 2: //Market
-                                    System.out.println("\t\t*****MARKET*****\n#\tName\t\t\t\t\tGold\n" + "0\tNothing");
-                                    Inventory inv = (((Town) loc).getMerchant()); //TODO Allow user to sell items
-                                    inv.remove(player.getInventory());
-                                    for (int i = 0; i < inv.size(); i++) {
-                                        pause(WAITTIME/2);
-                                        System.out.printf("%d\t%-20s\t%d\n", i + 1, inv.get(i).getName(), (int) (Math.floor(inv.get(i).getLevel() * 15)));
+                                    int marketChoice = integerInput(1, 2, "1. Buying\n2. Selling\n");
+
+                                    if (marketChoice == 1) {
+                                        System.out.println("\t\t*****MARKET*****\n#\tName\t\t\t\t\tGold\n" + "0\tNothing");
+                                        Inventory inv = (((Town) loc).getMerchant());
+                                        inv.remove(player.getInventory());
+                                        for (int i = 0; i < inv.size(); i++) {
+                                            pause(WAITTIME / 2);
+                                            System.out.printf("%d\t%-20s\t%d\n", i + 1, inv.get(i).getName(), (int) (Math.floor(inv.get(i).getLevel() * 15)));
+                                        }
+                                        System.out.print("\nYour Gold:\t\t\t\t\t" + player.getGold() + "\nWould you like to purchase anything?");
+                                        int i = integerInput(0, ((Town) loc).getMerchant().size());
+                                        if (i != 0) {
+                                            if (player.getGold() >= inv.get(i - 1).getLevel() * 15) {
+                                                System.out.println("You Purchased " + (inv.get(i - 1)));
+                                                player.getInventory().add(inv.take(i - 1));
+                                            } else
+                                                System.out.println("Not enough gold!");
+                                        }
+                                        break;
+                                    } else if (marketChoice == 2)
+                                    {
+                                        System.out.println("\t\t****INVENTORY****\n#\tName\t\t\t\t\tGold\n" + "0\tNothing");
+                                        Inventory inv = player.getInventory();
+                                        for (int i = 0; i < inv.size(); i++) {
+                                            pause(WAITTIME / 2);
+                                            System.out.printf("%d\t%-20s\t%d\n", i + 1, inv.get(i).getName(), (int) (Math.floor(inv.get(i).getLevel() * 10)));
+                                        }
+                                        System.out.print("\nYour Gold:\t\t\t\t\t" + player.getGold() + "\nWould you like to sell anything?");
+                                        int i = integerInput(0, (player.getInventory().size()));
+                                        if (i != 0) {
+                                            player.addGold(player.getInventory().get(i-1).getLevel() * 10);
+                                            System.out.println("You Sold " + (inv.get(i-1)));
+                                            player.getInventory().remove(i-1);
+                                        }
+                                        break;
                                     }
-                                    System.out.print("\nYour Gold:\t\t\t\t\t" + player.getGold() + "\nWould you like to purchase anything?");
-                                    int i = integerInput(0, ((Town) loc).getMerchant().size());
-                                    if (i != 0) {
-                                        if (player.getGold() >= inv.get(i - 1).getLevel() * 15) {
-                                            System.out.println("You Purchased " + (inv.get(i - 1)));
-                                            player.getInventory().add(inv.take(i - 1));
-                                        } else
-                                            System.out.println("Not enough gold!");
-                                    }
-                                    break;
                                 case 3: //Guild Hall
                                     System.out.println("There is nothing here yet");
                                     break;
