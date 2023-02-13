@@ -6,7 +6,6 @@ abstract class Item {
         this.name = name;
         this.id = id;
     }
-
     public String toString(){return name;}
     public String getName() {
         return name;
@@ -14,6 +13,7 @@ abstract class Item {
 
     public int getId() {return id;}
     public int getLevel() {return level;}
+    public int getCost() {return level*10;}
 
     public void setLevel(int level) {this.level = level;}
     public void setName(String name) {

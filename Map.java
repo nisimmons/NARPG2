@@ -33,7 +33,7 @@ public class Map {
                     d.setLevel(50);
                     d.setFaction(Faction.FINALDUNGEON);
                     ArrayList<Enemy> e = new ArrayList<>();
-                    e.add(DataAccess.getEnemy(66));
+                    e.add(DataAccess.getEnemy("Demon-King"));
                     d.addBattle(e);
                     this.setLocation(c, r, d); //final dungeon
                 }
@@ -65,82 +65,6 @@ public class Map {
                         Wilderness w = new Wilderness();
                         w.setLevel((int) Math.floor((distance-1)*12.5));
                         w.setFaction(PlayController.randomFaction());
-                        /*ArrayList<Enemy> enemies = DataAccess.produceFaction(w.getFaction());
-                        //get enemies of this faction within 5 levels of the area level
-                        if (enemies != null && !enemies.isEmpty()){
-                            int areaLevel = w.getLevel(); //find proportion of level(max 50) compared to distance(max 5), 50/5=10
-                            int k = rand.nextInt(100);
-                            if (k < 25){
-                                //mini boss
-
-                                //remove enemies outside bounds
-                                for (int i = 0; i < enemies.size(); i++) {
-                                    int level = enemies.get(i).getStats().getLevel();
-                                    if (level < areaLevel-7 || level > areaLevel+10-rand.nextInt(10))
-                                        enemies.remove(i--);
-                                }
-
-                                //find the strongest enemy remaining
-                                Enemy e = enemies.get(0);
-                                for (Enemy enemy : enemies)
-                                    if (enemy.getStats().getLevel() > e.getStats().getLevel())
-                                        e = enemy;
-                                w.addEnemy(e);
-
-                            }
-                            else if (k < 70){
-                                //two enemies
-
-                                //remove enemies outside bounds
-                                for (int i = 0; i < enemies.size(); i++) {
-                                    int level = enemies.get(i).getStats().getLevel();
-                                    if ((level < areaLevel-10-rand.nextInt(5) || level > areaLevel+10+rand.nextInt(5)))
-                                        enemies.remove(i--);
-                                }
-                                double totalLevel = (areaLevel * 2.2)+7;
-
-                                //add three enemies
-                                int count = 0;
-                                for (int i = 0; i < 10; i++) {
-                                    int ran = rand.nextInt(enemies.size()); //TODO elusive bug here
-                                    int level = enemies.get(ran).getStats().getLevel();
-                                    if (level <= totalLevel) {
-                                        w.addEnemy(enemies.get(ran));
-                                        totalLevel -= level;
-                                        count++;
-                                        if (count > 1)
-                                            break;
-                                    }
-                                }
-
-                            }
-                            else {
-                                //three small enemies
-
-                                //remove enemies outside bounds
-                                for (int i = 0; i < enemies.size(); i++) {
-                                    int level = enemies.get(i).getStats().getLevel();
-                                    if (level < areaLevel-30 || level > areaLevel+8 || (areaLevel > 10 && level > areaLevel-5) || (areaLevel > 25 && (level < areaLevel-20 || level > areaLevel-15)))
-                                        enemies.remove(i--);
-                                }
-                                double totalLevel = (areaLevel * 2.5)+7;
-
-                                //add three enemies
-                                int count = 0;
-                                for (int i = 0; i < 10; i++) {
-                                    int ran = rand.nextInt(enemies.size()); //TODO bug
-                                    int level = enemies.get(ran).getStats().getLevel();
-                                    if (level <= totalLevel) {
-                                        w.addEnemy(enemies.get(ran));
-                                        totalLevel -= level;
-                                        count++;
-                                        if (count > 2)
-                                            break;
-                                    }
-                                }
-
-                            }
-                        }*/
                         this.setLocation(c, r, w); //set enemy encounter
                     } else {
                         Wilderness w = new Wilderness("Wilderness");

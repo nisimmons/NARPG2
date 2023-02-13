@@ -88,5 +88,8 @@ public class Player extends Character{
     }
     public int getGold() {return gold;}
     public void setGold(int gold) {this.gold = gold;}
-    public void addGold(int gold) {this.gold += gold;}
+    public String addGold(int gold) {
+        this.gold += gold;
+        return "You gained " + gold + " gold.";
+    }
 }
