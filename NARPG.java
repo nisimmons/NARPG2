@@ -15,7 +15,7 @@ public class NARPG {
      * Main function which allows the player to log in or create new,
      * play the game, save and quit
      */
-    public void mainLoop() {
+    public void mainMenu() {
         String s;
         while(true) {
             player = null;
@@ -69,7 +69,7 @@ public class NARPG {
         //interact with user and call pc to do stuff
         while(true) { //main play loop
             Location loc = map.getLocation(player.getPosition());
-            switch(loc.getFaction()) { //TODO improve location message. Put this switch in location and make it more specific
+            switch(loc.getFaction()) {
                 case TOWN:
                     System.out.println("There is a town nearby");
                     break;
@@ -116,7 +116,7 @@ public class NARPG {
                                 case 2:
                                     System.out.println("You Won!");
                                     System.out.println(player.addExp(b.getExpReward()));
-                                    player.addGold(b.getExpReward()/3);
+                                    player.addGold(b.getExpReward()/2);
 
                                     Item reward = battleRewards(loc.getLevel(), loc.getFaction());
                                     if (reward != null) {
@@ -141,21 +141,22 @@ public class NARPG {
                                     break;
                                 case 2: //Market
                                     int marketChoice = integerInput(1, 2, "1. Buying\n2. Selling\n");
-
+                                    Inventory merchantInventory = (((Town) loc).getMerchant());
+                                    Inventory playerInventory = player.getInventory();
                                     if (marketChoice == 1) {
                                         System.out.println("\t\t*****MARKET*****\n#\tName\t\t\t\t\tGold\n" + "0\tNothing");
-                                        Inventory inv = (((Town) loc).getMerchant());
-                                        inv.remove(player.getInventory());
-                                        for (int i = 0; i < inv.size(); i++) {
+                                        merchantInventory.remove(playerInventory);
+                                        for (int i = 0; i < merchantInventory.size(); i++) {
                                             pause(WAITTIME / 2);
-                                            System.out.printf("%d\t%-20s\t%d\n", i + 1, inv.get(i).getName(), (int) (Math.floor(inv.get(i).getLevel() * 15)));
+                                            System.out.printf("%d\t%-20s\t%d\n", i + 1, merchantInventory.get(i).getName(), (int) (Math.floor(merchantInventory.get(i).getCost())));
                                         }
                                         System.out.print("\nYour Gold:\t\t\t\t\t" + player.getGold() + "\nWould you like to purchase anything?");
                                         int i = integerInput(0, ((Town) loc).getMerchant().size());
                                         if (i != 0) {
-                                            if (player.getGold() >= inv.get(i - 1).getLevel() * 15) {
-                                                System.out.println("You Purchased " + (inv.get(i - 1)));
-                                                player.getInventory().add(inv.take(i - 1));
+                                            if (player.getGold() >= merchantInventory.get(i - 1).getCost()) {
+                                                System.out.println("You Purchased " + (merchantInventory.get(i - 1)));
+                                                playerInventory.add(merchantInventory.take(i - 1));
+                                                player.setGold(player.getGold()-merchantInventory.get(i - 1).getCost());
                                             } else
                                                 System.out.println("Not enough gold!");
                                         }
@@ -163,17 +164,17 @@ public class NARPG {
                                     } else if (marketChoice == 2)
                                     {
                                         System.out.println("\t\t****INVENTORY****\n#\tName\t\t\t\t\tGold\n" + "0\tNothing");
-                                        Inventory inv = player.getInventory();
-                                        for (int i = 0; i < inv.size(); i++) {
+                                        for (int i = 0; i < playerInventory.size(); i++) {
                                             pause(WAITTIME / 2);
-                                            System.out.printf("%d\t%-20s\t%d\n", i + 1, inv.get(i).getName(), (int) (Math.floor(inv.get(i).getLevel() * 10)));
+                                            System.out.printf("%d\t%-20s\t%d\n", i + 1, playerInventory.get(i).getName(), (int) (Math.floor(playerInventory.get(i).getCost()*.6)));
                                         }
                                         System.out.print("\nYour Gold:\t\t\t\t\t" + player.getGold() + "\nWould you like to sell anything?");
-                                        int i = integerInput(0, (player.getInventory().size()));
+                                        int i = integerInput(0, (playerInventory.size()));
                                         if (i != 0) {
-                                            player.addGold(player.getInventory().get(i-1).getLevel() * 10);
-                                            System.out.println("You Sold " + (inv.get(i-1)));
-                                            player.getInventory().remove(i-1);
+                                            player.addGold((int) (playerInventory.get(i-1).getCost()*.6));
+                                            System.out.println("You Sold " + (playerInventory.get(i-1)));
+                                            merchantInventory.add(playerInventory.take(i-1));
+                                            //player.getInventory().remove(i-1);
                                         }
                                         break;
                                     }
@@ -203,7 +204,7 @@ public class NARPG {
                                             Thread.sleep(WAITTIME);
                                         } catch (InterruptedException ignored) {}
                                         System.out.println(player.addExp(b.getExpReward()));
-                                        player.addGold(b.getExpReward()/2);
+                                        System.out.println(player.addGold(b.getExpReward()/2));
                                         break; //continue playing
                                     case 3:
                                         System.out.println("You ran away...");
@@ -218,8 +219,6 @@ public class NARPG {
                                     Thread.sleep(WAITTIME);
                                 } catch (InterruptedException ignored) {}
                                 ((Dungeon) loc).cleanUp();
-                                //TODO Make sure battles are cleaned up
-
                                 Item reward = battleRewards(loc.getLevel(), Faction.DUNGEON);
                                 System.out.println("You received a " + reward.getName() + "!");
                                 player.getInventory().add(reward);
@@ -236,15 +235,35 @@ public class NARPG {
                     System.out.println("**** Player Status ****");
                     System.out.println(player);
                     System.out.println();
-                    System.out.println("  **** Inventory ****");
-                    for (String s : player.getInventory().toString().split("\n")) {
-                        System.out.println(s);
-                        pause(WAITTIME/2);
+                    System.out.println("  **** Inventory ****\n");
+                    //allow the user to equip items from their inventory
+                    for (int i = 0; i < player.getInventory().size(); i++) {
+                        pause(WAITTIME / 2);
+                        System.out.printf("%d\t%-20s\t%d\n", i + 1, player.getInventory().get(i).getName(), player.getInventory().get(i).getLevel());
                     }
-                    //TODO ask user to equip items
+                    System.out.print("\nEnter number to equip item or 0 to go back");
+                    int i = integerInput(0, (player.getInventory().size()));
+                    if (i != 0) {
+                        Item item = player.getInventory().get(i-1);
+                        if(item instanceof Armor){
+                            Armor oldArmor = player.getArmor();
+                            player.setArmor((Armor) item);
+                            player.getInventory().remove(i-1);
+                            player.getInventory().add(oldArmor);
+                        }
+                        else if(item instanceof Weapon){
+                            Weapon oldWeapon = player.getWeapon();
+                            player.setWeapon((Weapon) item);
+                            player.getInventory().remove(i-1);
+                            player.getInventory().add(oldWeapon);
+                        }
+                        else{
+                            System.out.println("Cannot equip");
+                        }
+                    }
                     System.out.println();
                     break;
-                case 4:
+                case 4: //print the map
                     System.out.println(map);
                     break;
                 default:
@@ -360,21 +379,8 @@ public class NARPG {
         Item itemReward = null;
         int modifier = 0;
 
-        switch (faction)
-        {
-            case DUNGEON:
-            {
-                modifier = 5;
-                break;
-            }
-            /*
-            case FINALDUNGEON:
-            {
-                // TODO: figure out if there are even items 10 levels above final boss level
-                modifier = 10;
-                break;
-            }
-            */
+        if (faction == Faction.DUNGEON) {
+            modifier = 5;
         }
 
         int low = level + modifier;
@@ -388,85 +394,51 @@ public class NARPG {
         int rand = (int) (random.nextInt(10)) + 1;
 
         // Make separate item type arrays
-        ArrayList<Item> weapon = new ArrayList<>();
-        ArrayList<Item> armor = new ArrayList<>();
-        ArrayList<Item> spell = new ArrayList<>();
+        ArrayList<Item> weaponArr = new ArrayList<>();
+        ArrayList<Item> armorArr = new ArrayList<>();
+        ArrayList<Item> spellArr = new ArrayList<>();
 
         // Fill arrays
-        for (int j =0; j < arr.size(); j++)
-        {
-            if (arr.get(j) instanceof Weapon)
-            {
-                weapon.add(arr.get(j));
-            }
-            else if (arr.get(j) instanceof Armor)
-            {
-                armor.add(arr.get(j));
-            }
-            else if (arr.get(j) instanceof Spell)
-            {
-                spell.add(arr.get(j));
+        if(arr != null) {
+            for (Item item : arr) {
+                if (item instanceof Weapon) {
+                    weaponArr.add(item);
+                } else if (item instanceof Armor) {
+                    armorArr.add(item);
+                } else if (item instanceof Spell) {
+                    spellArr.add(item);
+                }
             }
         }
-
-        if (faction != Faction.DUNGEON) // Faction is overworld
+        if (faction != Faction.DUNGEON && faction != Faction.FINALDUNGEON) // Faction is overworld
         {
-            switch (rand)
-            {
-                case 5:
-                case 6:
-                {
-                    rand = (int) (Math.random() * weapon.size());
-                    itemReward = weapon.get(rand);
-                    break;
-                }
-                case 7:
-                case 8:
-                {
-                    rand = (int) (Math.random() * armor.size());
-                    itemReward = armor.get(rand);
-                    break;
-                }
-                case 9:
-                case 10:
-                {
-                    rand = (int) (Math.random() * spell.size());
-                    itemReward = spell.get(rand);
-                    break;
-                }
+            if(rand >= 5 && rand <= 6 && !weaponArr.isEmpty()){
+                rand = (int) (Math.random() * weaponArr.size());
+                itemReward = weaponArr.get(rand);
+            }
+            if(rand >= 7 && rand <= 8 && !armorArr.isEmpty()) {
+                rand = (int) (Math.random() * armorArr.size());
+                itemReward = armorArr.get(rand);
+            }
+            if(rand >= 9 && !spellArr.isEmpty()) {
+                rand = (int) (Math.random() * spellArr.size());
+                itemReward = spellArr.get(rand);
             }
         }
         else // Faction is dungeon or final dungeon
         {
-            switch (rand)   //TODO switch to if else
-            {
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                {
-                    rand = (int) (Math.random() * weapon.size());
-                    itemReward = weapon.get(rand);
-                    break;
-                }
-                case 5:
-                case 6:
-                case 7:
-                {
-                    rand = (int) (Math.random() * armor.size());
-                    itemReward = armor.get(rand);
-                    break;
-                }
-                case 8:
-                case 9:
-                case 10:
-                {
-                    rand = (int) (Math.random() * spell.size());
-                    itemReward = spell.get(rand);
-                    break;
-                }
+            if(rand <= 4 && !weaponArr.isEmpty()) {
+                rand = (int) (Math.random() * weaponArr.size());
+                itemReward = weaponArr.get(rand);
             }
-
+            else if(rand <= 7 && !armorArr.isEmpty()){
+                rand = (int) (Math.random() * armorArr.size());
+                itemReward = armorArr.get(rand);
+            }
+            else if(!spellArr.isEmpty()){
+                rand = (int) (Math.random() * spellArr.size());
+                itemReward = spellArr.get(rand);
+            }
         }
 
         return itemReward;
@@ -503,5 +475,5 @@ public class NARPG {
         LoadSaveController.saveMap(map);
     }
     public void pause(){pause(WAITTIME);}
-    public void pause(int time){try {Thread.sleep(time);} catch (InterruptedException ignored) {}}
+    public void pause(int milliseconds){try {Thread.sleep(milliseconds);} catch (InterruptedException ignored) {}}
 }
