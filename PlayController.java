@@ -29,7 +29,7 @@ public class PlayController {
         if(map.getLocation(c,r) instanceof Town) {
             //set town
             Town t = (Town) map.getLocation(c,r);
-            ArrayList<Item> arr = DataAccess.produceItemList(t.getLevel() - 10, t.getLevel() + 5);
+            ArrayList<Item> arr = DataAccess.produceItemList(t.getLevel() - 10, t.getLevel() + 10);
             if (arr != null)
                 t.setMerchant(new Inventory(arr));
             else
@@ -37,7 +37,7 @@ public class PlayController {
         }
         else if(map.getLocation(c,r) instanceof Dungeon && map.getLocation(c,r).getFaction() != Faction.FINALDUNGEON) {
             //set dungeon
-            ArrayList<Enemy> enemies = DataAccess.produceFaction(Faction.RUINS); //TODO add dungeon enemies
+            ArrayList<Enemy> enemies = DataAccess.produceFaction(Faction.DUNGEON);
 
             Dungeon d = (Dungeon) map.getLocation(c,r);
             int areaLevel = d.getLevel();
@@ -54,7 +54,7 @@ public class PlayController {
                 //add two enemies
                 int count = 0;
                 for (int i = 0; i < 10; i++) {
-                    int ran = rand.nextInt(enemies.size()); //TODO elusive bug here
+                    int ran = rand.nextInt(enemies.size());
                     int level = enemies.get(ran).getStats().getLevel();
                     if (level <= totalLevel) {
                         e.add(enemies.get(ran));
@@ -68,7 +68,7 @@ public class PlayController {
             d.addBattle(e);
 
             ArrayList<Enemy> e2 = new ArrayList<>();
-            enemies = DataAccess.produceFaction(Faction.RUINS);
+            enemies = DataAccess.produceFaction(d.getFaction());
             //remove enemies outside bounds
             for (int i = 0; i < enemies.size(); i++) {
                 int level = enemies.get(i).getStats().getLevel();
@@ -110,6 +110,8 @@ public class PlayController {
 
                         //remove enemies outside bounds
                         for (int i = 0; i < enemies.size(); i++) {
+                            if(enemies.size() < 2)
+                                break;
                             int level = enemies.get(i).getStats().getLevel();
                             if (level < areaLevel-7 || level > areaLevel+10-rand.nextInt(10))
                                 enemies.remove(i--);
@@ -128,6 +130,8 @@ public class PlayController {
 
                         //remove enemies outside bounds
                         for (int i = 0; i < enemies.size(); i++) {
+                            if(enemies.size() < 3)
+                                break;
                             int level = enemies.get(i).getStats().getLevel();
                             if ((level < areaLevel-10-rand.nextInt(5) || level > areaLevel+10+rand.nextInt(5)))
                                 enemies.remove(i--);
@@ -137,7 +141,7 @@ public class PlayController {
                         //add two enemies
                         int count = 0;
                         for (int i = 0; i < 10; i++) {
-                            int ran = rand.nextInt(enemies.size()); //TODO elusive bug here
+                            int ran = rand.nextInt(enemies.size());
                             int level = enemies.get(ran).getStats().getLevel();
                             if (level <= totalLevel) {
                                 w.addEnemy(enemies.get(ran));
@@ -154,6 +158,8 @@ public class PlayController {
 
                         //remove enemies outside bounds
                         for (int i = 0; i < enemies.size(); i++) {
+                            if(enemies.size() < 4)
+                                break;
                             int level = enemies.get(i).getStats().getLevel();
                             if (level < areaLevel-30 || level > areaLevel+8 || (areaLevel > 10 && level > areaLevel-5) || (areaLevel > 25 && (level < areaLevel-20 || level > areaLevel-15)))
                                 enemies.remove(i--);
