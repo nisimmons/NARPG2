@@ -318,6 +318,8 @@ public class DataAccess {
         } catch (FileNotFoundException e) {
             return null;
         }
+        scr.nextLine();
+        scr.nextLine();
         String i = scr.nextLine();
         //find the correct enemy
         while (id.compareTo(i) != 0) {
@@ -327,12 +329,13 @@ public class DataAccess {
                 return null;
             i = scr.nextLine();
         }
-        scr.nextLine();
-        String name = scr.nextLine();
-        Stats stats = new Stats(scr.nextLine().split("/"));
+//        scr.nextLine();
+//        String name = scr.nextLine();
+        String [] s = scr.nextLine().split("/");
+        Stats stats = new Stats(new String[]{s[0], "0", s[1], s[1],s[2],s[2]});
         int damage = Integer.parseInt(scr.nextLine());
         int armor = Integer.parseInt(scr.nextLine());
-        return new Enemy(name,stats,armor,damage);
+        return new Enemy(i,stats,armor,damage);
     }
 
 
