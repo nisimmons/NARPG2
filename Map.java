@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.TreeMap;
 
 public class Map {
     private String name;
@@ -8,17 +10,19 @@ public class Map {
     Map(String name){
         this(name,5,5);
     }
+
     Map(String name, int r, int c){
         map = new Location[r][c];
         this.name = name;
     }
+
     public void randomize(){
         this.setId(name);
         Random rand = new Random();
+        List<List<java.lang.Character>> baseMap = procedurallyGeneratedMap();
         for(int r = 0; r < this.getMap().length; r++){
             for (int c = 0; c < this.getMap()[0].length; c++){
                 double distance = Math.sqrt(Math.pow(Math.abs(PlayController.spawn.getY()-r),2) + Math.pow(Math.abs(PlayController.spawn.getX()-c),2));
-
                 if (r == 0 && c == 0) {
                     //set spawn
                     Wilderness w = new Wilderness("Spawn");
@@ -64,7 +68,29 @@ public class Map {
                     if (rand.nextInt(100) < PlayController.encounters) {
                         Wilderness w = new Wilderness();
                         w.setLevel((int) Math.floor((distance-1)*12.5));
-                        w.setFaction(PlayController.randomFaction());
+
+                        switch(baseMap.get(r).get(c).toString().charAt(0)){
+                            case 'F':
+                                w.setFaction(Faction.FOREST);
+                                break;
+                            case 'R':
+                                w.setFaction(Faction.RUINS);
+                                break;
+                            case 'B':
+                                w.setFaction(Faction.BEACH);
+                                break;
+                            case 'D':
+                                w.setFaction(Faction.DESERT);
+                                break;
+                            case 'P':
+                                w.setFaction(Faction.PLAINS);
+                                break;
+                            case 'M':
+                                w.setFaction(Faction.MOUNTAIN);
+                                break;
+                        }
+
+
                         this.setLocation(c, r, w); //set enemy encounter
                     } else {
                         Wilderness w = new Wilderness("Wilderness");
@@ -75,10 +101,159 @@ public class Map {
             }
         }
     }
+    public static List<List<java.lang.Character>> procedurallyGeneratedMap() {
+        List<List<java.lang.Character>> map = new ArrayList<>();
+        Random random = new Random();
+        char[] letters = {'F', 'R', 'B', 'D', 'P', 'M'};
+
+        // Create a 2D array with 5 rows and 5 columns
+        for (int i = 0; i < 5; i++) {
+            List<java.lang.Character> row = new ArrayList<>();
+            for (int j = 0; j < 5; j++) {
+                row.add('x');
+            }
+            map.add(row);
+        }
+
+        //fill array with x
+        for(java.lang.Character c: letters){
+            while(true) {
+                int row = random.nextInt(map.size());
+                int col = random.nextInt(map.get(0).size());
+                if (map.get(row).get(col) == 'x') {
+                    map.get(row).set(col, c);
+                    break;
+                }
+            }
+        }
+
+        //expand each letter until there are no more x's
+        boolean hasX = true;
+        while(hasX){
+            hasX = false;
+
+            for(java.lang.Character c: letters){
+                boolean expanded = false;
+                for (int i = 0; i < 5; i++) {
+                    List<java.lang.Character> row = map.get(i);
+                    for (int j = 0; j < 5; j++) {
+                        char curr = row.get(j);
+                        if(curr == c){
+                            //check up
+                            if (i > 0 && map.get(i-1).get(j) == 'x') {
+                                map.get(i - 1).set(j, map.get(i).get(j));
+                                expanded = true;
+                                break;
+                            }
+                            //check down
+                            if (i < 4 && map.get(i+1).get(j) == 'x') {
+                                map.get(i + 1).set(j, map.get(i).get(j));
+                                expanded = true;
+                                break;
+                            }
+                            //check left
+                            if (j > 0 && map.get(i).get(j-1) == 'x') {
+                                map.get(i).set(j-1, map.get(i).get(j));
+                                expanded = true;
+                                break;
+                            }
+                            //check right
+                            if (j < 4 && map.get(i).get(j + 1) == 'x') {
+                                map.get(i).set(j + 1, map.get(i).get(j));
+                                expanded = true;
+                                break;
+                            }
+                        }
+
+                    }
+                    if(expanded)
+                        break;
+                }
+
+            }
+
+            for (int i = 0; i < 5; i++) {
+                List<java.lang.Character> row = map.get(i);
+                for (int j = 0; j < 5; j++) {
+                    if (row.get(j) == 'x') {
+                        hasX = true;
+                        break;
+                    }
+                }
+                if(hasX)
+                    break;
+            }
+        }
+
+
+        //count up each letter
+        TreeMap<java.lang.Character, Integer> hash = new TreeMap<>();
+        for (int i = 0; i < 5; i++) {
+            List<java.lang.Character> row = map.get(i);
+            for (int j = 0; j < 5; j++) {
+                char c = row.get(j);
+                if (!hash.containsKey(c))
+                    hash.put(c, 1);
+                else
+                    hash.put(c, hash.get(c) + 1);
+            }
+        }
+
+        //attempt to expand letters with lower count at the expense of letters with higher count
+        for (int i = 0; i < 5; i++) {
+            List<java.lang.Character> row = map.get(i);
+            for (int j = 0; j < 5; j++) {
+                char c = row.get(j);
+                if(hash.get(c) < 4){
+                    //check up
+                    if (i > 0 && hash.get(map.get(i-1).get(j)) > 4) {
+                        hash.put(map.get(i-1).get(j), hash.get(map.get(i-1).get(j))-1);
+                        map.get(i - 1).set(j, map.get(i).get(j));
+                        hash.put(c,hash.get(c)+1);
+                        break;
+                    }
+                    //check down
+                    if (i < 4 && hash.get(map.get(i+1).get(j)) > 4) {
+                        hash.put(map.get(i+1).get(j), hash.get(map.get(i+1).get(j))-1);
+                        map.get(i + 1).set(j, map.get(i).get(j));
+                        hash.put(c,hash.get(c)+1);
+                        break;
+                    }
+                    //check left
+                    if (j > 0 && hash.get(map.get(i).get(j-1)) > 4) {
+                        hash.put(map.get(i).get(j-1), hash.get(map.get(i).get(j-1))-1);
+                        map.get(i).set(j-1, map.get(i).get(j));
+                        hash.put(c,hash.get(c)+1);
+                        break;
+                    }
+                    //check right
+                    if (j < 4 && hash.get(map.get(i).get(j + 1)) > 4) {
+                        hash.put(map.get(i).get(j + 1), hash.get(map.get(i).get(j + 1))-1);
+                        map.get(i).set(j + 1, map.get(i).get(j));
+                        hash.put(c,hash.get(c)+1);
+                        break;
+                    }
+
+
+                }
+
+            }
+        }
+        /*
+        //debug print the map
+        System.out.println(hash);
+        for(List<java.lang.Character> a: map){
+            System.out.println(a);
+        }
+        */
+
+
+
+        return map;
+    }
     public Location[][] getMap() {
         return map;
     }
-
     public String toData(){
         StringBuilder s = new StringBuilder();
         s.append(id).append("\n");
