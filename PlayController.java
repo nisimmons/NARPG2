@@ -5,10 +5,9 @@ public class PlayController {
     private final Player player;
     private final Map map;
     public static final Position spawn = new Position(0,0);
-    public static final int difficulty = 50;
-    public static final int towns = 80 - difficulty;
-    public static final int dungeons = difficulty - 20;
-    public static final int encounters = (difficulty/5) + 80;
+    public static final int towns = 10;     //percentage spawn rates
+    public static final int dungeons = 10;
+    public static final int encounters = 95;
     public PlayController(Player p, Map m){
         this.player = p;
         this.map = m;
