@@ -16,6 +16,7 @@ public class Map {
         this.name = name;
     }
 
+
     public void randomize(){
         this.setId(name);
         Random rand = new Random();
@@ -28,14 +29,14 @@ public class Map {
                     Wilderness w = new Wilderness("Spawn");
                     w.setLevel(0);
                     w.setRevealed(true);
-                    w.setFaction(Faction.SPAWN);
+                    w.setFaction(Faction.Spawn);
                     this.setLocation(c, r, w);
                 }
                 else if (r == this.getMap().length-1 && c == this.getMap()[0].length-1) {
                     //set end
                     Dungeon d = new Dungeon("Demon King's Fortress");
                     d.setLevel(50);
-                    d.setFaction(Faction.FINALDUNGEON);
+                    d.setFaction(Faction.FinalDungeon);
                     ArrayList<Enemy> e = new ArrayList<>();
                     e.add(DataAccess.getEnemy("Demon-King"));
                     d.addBattle(e);
@@ -45,14 +46,14 @@ public class Map {
                     //set town
                     Town t = new Town();
                     t.setLevel((int) Math.floor((distance-1)*12.5));
-                    t.setFaction(Faction.TOWN);
+                    t.setFaction(Faction.Town);
                     this.setLocation(c, r, t);
                 }
                 else if(rand.nextInt(100) < PlayController.dungeons) {
                     //set dungeon
                     Dungeon d = new Dungeon("Dungeon");
                     d.setLevel((int) Math.floor((distance-1)*12.5));
-                    d.setFaction(Faction.DUNGEON);
+                    d.setFaction(Faction.Dungeon);
                     /*ArrayList<Enemy> e = new ArrayList<>();
                     e.add(DataAccess.getEnemy(0));
                     e.add(DataAccess.getEnemy(0));
@@ -71,22 +72,22 @@ public class Map {
 
                         switch(baseMap.get(r).get(c).toString().charAt(0)){
                             case 'F':
-                                w.setFaction(Faction.FOREST);
+                                w.setFaction(Faction.Forest);
                                 break;
                             case 'R':
-                                w.setFaction(Faction.RUINS);
+                                w.setFaction(Faction.Ruins);
                                 break;
                             case 'B':
-                                w.setFaction(Faction.BEACH);
+                                w.setFaction(Faction.Beach);
                                 break;
                             case 'D':
-                                w.setFaction(Faction.DESERT);
+                                w.setFaction(Faction.Desert);
                                 break;
                             case 'P':
-                                w.setFaction(Faction.PLAINS);
+                                w.setFaction(Faction.Plains);
                                 break;
                             case 'M':
-                                w.setFaction(Faction.MOUNTAIN);
+                                w.setFaction(Faction.Mountain);
                                 break;
                         }
 
@@ -94,7 +95,7 @@ public class Map {
                         this.setLocation(c, r, w); //set enemy encounter
                     } else {
                         Wilderness w = new Wilderness("Wilderness");
-                        w.setFaction(Faction.WILDERNESS);
+                        w.setFaction(Faction.Wilderness);
                         this.setLocation(c, r, w); //set non enemy encounter
                     }
                 }
@@ -314,5 +315,12 @@ public class Map {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int rows() {
+        return map.length;
+    }
+    public int cols() {
+        return map[0].length;
     }
 }
