@@ -9,6 +9,11 @@ public class NARPG {
     Map map;
     Player player;
 
+    public static void main(String[] args) {
+        NARPG narpg = new NARPG();
+        narpg.mainMenu();
+    }
+
     public NARPG(){}
 
     /**
@@ -20,7 +25,7 @@ public class NARPG {
         while(true) {
             player = null;
             switch (integerInput(1, 3, "1. New game\n2. Load save\n3. Quit")) {//new game
-                case 1:
+                case 1://new game
                     System.out.println("Enter Playername: ");
                     s = scr.nextLine();
 
@@ -36,8 +41,7 @@ public class NARPG {
                     if(playGame(pc) == 0)
                         save();
                     break;
-                case 2:
-                    //find and load the player and map
+                case 2: //load game
                     do {
                         System.out.println("Enter playername (or * to return): ");
                         s = scr.nextLine();
@@ -51,12 +55,13 @@ public class NARPG {
                     if (playGame(new PlayController(player, map)) == 0)
                         save();
                     break;
-                case 3:
-                    //quit
+                case 3://quit
                     System.exit(0);
             }
         }
     }
+
+
 
     /**
      * Function for the gameplay loop. Lets the player choose what
@@ -66,17 +71,16 @@ public class NARPG {
      * @return 1 if lost, 0 to save and return to main
      */
     public int playGame(PlayController pc){
-        //interact with user and call pc to do stuff
         while(true) { //main play loop
             Location loc = map.getLocation(player.getPosition());
             switch(loc.getFaction()) {
-                case TOWN:
+                case Town:
                     System.out.println("There is a town nearby");
                     break;
-                case DUNGEON:
+                case Dungeon:
                     System.out.println("There is a Dungeon nearby");
                     break;
-                case FINALDUNGEON:
+                case FinalDungeon:
                     System.out.println("The Demon King's Castle is nearby");
                     break;
                 default:
@@ -219,7 +223,7 @@ public class NARPG {
                                     Thread.sleep(WAITTIME);
                                 } catch (InterruptedException ignored) {}
                                 ((Dungeon) loc).cleanUp();
-                                Item reward = battleRewards(loc.getLevel(), Faction.DUNGEON);
+                                Item reward = battleRewards(loc.getLevel(), Faction.Dungeon);
                                 System.out.println("You received a " + reward.getName() + "!");
                                 player.getInventory().add(reward);
 
@@ -379,7 +383,7 @@ public class NARPG {
         Item itemReward = null;
         int modifier = 0;
 
-        if (faction == Faction.DUNGEON) {
+        if (faction == Faction.Dungeon) {
             modifier = 5;
         }
 
@@ -410,7 +414,7 @@ public class NARPG {
                 }
             }
         }
-        if (faction != Faction.DUNGEON && faction != Faction.FINALDUNGEON) // Faction is overworld
+        if (faction != Faction.Dungeon && faction != Faction.FinalDungeon) // Faction is overworld
         {
             if(rand >= 5 && rand <= 6 && !weaponArr.isEmpty()){
                 rand = (int) (Math.random() * weaponArr.size());
