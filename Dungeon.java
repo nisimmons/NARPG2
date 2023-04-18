@@ -77,6 +77,6 @@ public class Dungeon extends Location {
     }
 
     public String toString(){
-        return "D";
+        return "Dungeon";
     }
 }

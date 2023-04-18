@@ -10,7 +10,7 @@ abstract class Location {
     }
 
     public String toString(){
-        return name;
+        return faction.toString();
     }
 
     public abstract String toData();

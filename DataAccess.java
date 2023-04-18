@@ -239,7 +239,7 @@ public class DataAccess {
         String username = scr.nextLine();
         //find the correct player
         while (id.compareTo(username) != 0) {
-            for(int i = 0; i < 5; i++) //skip one player
+            for(int i = 0; i < 6; i++) //skip one player
                 scr.nextLine();
             if (!scr.hasNext())
                 return null;
@@ -355,12 +355,14 @@ public class DataAccess {
         }
         while (scr.hasNext()) {
             scr.nextLine();
+            scr.nextLine();
             Faction f = Faction.valueOf(scr.nextLine());
             while (faction != f) {
                 for (int j = 0; j < 4; j++) //skip one enemy
                     scr.nextLine();
                 if (!scr.hasNext())
                     return enemies;
+                scr.nextLine();
                 scr.nextLine();
                 f = Faction.valueOf(scr.nextLine());
             }

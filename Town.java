@@ -6,7 +6,7 @@ public class Town extends Location{
     public Town(String s){
         super(s);
         merchant = new Inventory();
-        setFaction(Faction.TOWN);
+        setFaction(Faction.Town);
     }
 
     /**
@@ -30,13 +30,15 @@ public class Town extends Location{
         if (scr.nextInt() == 1)
             setRevealed(true);
         setLevel(Integer.parseInt(scr.next()));
-        String[]arr = scr.next().split("/");
-        for (String st : arr)
-            getMerchant().add(DataAccess.getItem(Integer.parseInt(st)));
+        if(scr.hasNext()) {
+            String[] arr = scr.next().split("/");
+            for (String st : arr)
+                getMerchant().add(DataAccess.getItem(Integer.parseInt(st)));
+        }
     }
 
     public String toString(){
-        return "T";
+        return "Town";
     }
     public Inventory getMerchant() {
         return merchant;
