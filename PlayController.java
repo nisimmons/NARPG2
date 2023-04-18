@@ -2,8 +2,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class PlayController {
-    private final Player player;
-    private final Map map;
+    public Player player;
+    public Map map;
     public static final Position spawn = new Position(0,0);
     public static final int towns = 10;     //percentage spawn rates
     public static final int dungeons = 10;
@@ -34,9 +34,9 @@ public class PlayController {
             else
                 t.setMerchant(new Inventory());
         }
-        else if(map.getLocation(c,r) instanceof Dungeon && map.getLocation(c,r).getFaction() != Faction.FINALDUNGEON) {
+        else if(map.getLocation(c,r) instanceof Dungeon && map.getLocation(c,r).getFaction() != Faction.FinalDungeon) {
             //set dungeon
-            ArrayList<Enemy> enemies = DataAccess.produceFaction(Faction.DUNGEON);
+            ArrayList<Enemy> enemies = DataAccess.produceFaction(Faction.Dungeon);
 
             Dungeon d = (Dungeon) map.getLocation(c,r);
             int areaLevel = d.getLevel();
@@ -95,8 +95,8 @@ public class PlayController {
         }
         else {
             //set wilderness
-            if (map.getLocation(c,r).getFaction() != Faction.WILDERNESS && map.getLocation(c,r).getFaction() != Faction.FINALDUNGEON
-                    && map.getLocation(c,r).getFaction() != Faction.SPAWN) {
+            if (map.getLocation(c,r).getFaction() != Faction.Wilderness && map.getLocation(c,r).getFaction() != Faction.FinalDungeon
+                    && map.getLocation(c,r).getFaction() != Faction.Spawn) {
                 Wilderness w = (Wilderness) map.getLocation(c,r);
                 w.resetBattles();
                 ArrayList<Enemy> enemies = DataAccess.produceFaction(w.getFaction());
@@ -230,19 +230,19 @@ public class PlayController {
         Random rand = new Random();
         switch(rand.nextInt(6)){
             case 0:
-                return Faction.FOREST;
+                return Faction.Forest;
             case 1:
-                return Faction.DESERT;
+                return Faction.Desert;
             case 2:
-                return Faction.PLAINS;
+                return Faction.Plains;
             case 3:
-                return Faction.BEACH;
+                return Faction.Beach;
             case 4:
-                return Faction.RUINS;
+                return Faction.Ruins;
             case 5:
-                return Faction.MOUNTAIN;
+                return Faction.Mountain;
             default:
-                return Faction.WILDERNESS;
+                return Faction.Wilderness;
         }
     }
 }
